@@ -1,0 +1,4 @@
+@charset "utf-8";
+/* CSS Document */
+div.block{border-bottom:1px solid #C9E0ED; border-left:3px solid #C9E0ED; padding-bottom:2px; padding-left:1px;}
+div.block-back{text-align:right; float:right;}

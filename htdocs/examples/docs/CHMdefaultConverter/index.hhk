@@ -1,0 +1,302 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="phpDocumentor 1.4.3 http://www.phpdoc.org">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Files">
+		<param name="Local" value="sample\_sample3.php.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="sample2.php">
+		<param name="Local" value="sample\_sample2.php.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="sample3.php">
+		<param name="Local" value="sample\_sample3.php.html">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="sample1.php">
+		<param name="Local" value="default\_sample1.php.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Constants">
+		<param name="Local" value="sample\_sample2.php.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="testing">
+		<param name="Local" value="default\_sample1.php.html#definetesting">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="anotherconstant">
+		<param name="Local" value="sample\_sample2.php.html#defineanotherconstant">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="testing">
+		<param name="Local" value="sample\_sample2.php.html#definetesting">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="anotherconstant">
+		<param name="Local" value="default\_sample1.php.html#defineanotherconstant">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="testing">
+		<param name="Local" value="default\_sample1.php.html#definetesting">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Functions">
+		<param name="Local" value="sample\_sample3.php.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="firstFunc">
+		<param name="Local" value="sample\_sample2.php.html#functionfirstFunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="testit">
+		<param name="Local" value="sample\_sample3.php.html#functiontestit">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="firstFunc">
+		<param name="Local" value="default\_sample1.php.html#functionfirstFunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Include_once">
+		<param name="Local" value="sample\_sample2.php.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="'sample3.php'">
+		<param name="Local" value="sample\_sample2.php.html">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="'sample2.php'">
+		<param name="Local" value="default\_sample1.php.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Classes">
+		<param name="Local" value="sample\classes\myclass.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass">
+		<param name="Local" value="default\myclass.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass">
+		<param name="Local" value="sample1\babyclass.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass">
+		<param name="Local" value="sample\classes\myclass.html">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass">
+		<param name="Local" value="default\babyclass.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass Properties">
+		<param name="Local" value="sample1\babyclass.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$thirdvar">
+		<param name="Local" value="default\babyclass.html#var$thirdvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$secondvar">
+		<param name="Local" value="sample1\babyclass.html#var$secondvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$thirdvar">
+		<param name="Local" value="sample1\babyclass.html#var$thirdvar">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$secondvar">
+		<param name="Local" value="default\babyclass.html#var$secondvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$thirdvar">
+		<param name="Local" value="default\babyclass.html#var$thirdvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass Methods">
+		<param name="Local" value="sample1\babyclass.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="default\babyclass.html#methodparentfunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass">
+		<param name="Local" value="sample1\babyclass.html#methodbabyclass">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="sample1\babyclass.html#methodparentfunc">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass">
+		<param name="Local" value="default\babyclass.html#methodbabyclass">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="default\babyclass.html#methodparentfunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass">
+		<param name="Local" value="default\myclass.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass Properties">
+		<param name="Local" value="sample\classes\myclass.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$secondvar">
+		<param name="Local" value="default\myclass.html#var$secondvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$secondvar">
+		<param name="Local" value="sample\classes\myclass.html#var$secondvar">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$firstvar">
+		<param name="Local" value="default\myclass.html#var$firstvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$secondvar">
+		<param name="Local" value="default\myclass.html#var$secondvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass Methods">
+		<param name="Local" value="sample\classes\myclass.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="default\myclass.html#methodparentfunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass">
+		<param name="Local" value="sample\classes\myclass.html#methodmyclass">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="sample\classes\myclass.html#methodparentfunc">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass">
+		<param name="Local" value="default\myclass.html#methodmyclass">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="default\myclass.html#methodparentfunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="sample2.php">
+		<param name="Local" value="sample\_sample2.php.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="anotherconstant">
+		<param name="Local" value="sample\_sample2.php.html#defineanotherconstant">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="testing">
+		<param name="Local" value="sample\_sample2.php.html#definetesting">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="firstFunc">
+		<param name="Local" value="sample\_sample2.php.html#functionfirstFunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Global Variables">
+		<param name="Local" value="sample\_sample3.php.html">
+		</OBJECT>
+	<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$GLOBALS['_myvar']">
+		<param name="Local" value="sample\_sample3.php.html#global$GLOBALS['_myvar']">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$turkify">
+		<param name="Local" value="sample\_sample3.php.html#global$turkify">
+		</OBJECT>
+		
+</UL>	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$_myvar">
+		<param name="Local" value="sample\_sample2.php.html#global$_myvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="'sample3.php'">
+		<param name="Local" value="sample\_sample2.php.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass">
+		<param name="Local" value="sample1\babyclass.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$secondvar">
+		<param name="Local" value="sample1\babyclass.html#var$secondvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$thirdvar">
+		<param name="Local" value="sample1\babyclass.html#var$thirdvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="babyclass">
+		<param name="Local" value="sample1\babyclass.html#methodbabyclass">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="sample1\babyclass.html#methodparentfunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass">
+		<param name="Local" value="sample\classes\myclass.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$secondvar">
+		<param name="Local" value="sample\classes\myclass.html#var$secondvar">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="myclass">
+		<param name="Local" value="sample\classes\myclass.html#methodmyclass">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="parentfunc">
+		<param name="Local" value="sample\classes\myclass.html#methodparentfunc">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="sample3.php">
+		<param name="Local" value="sample\_sample3.php.html">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="testit">
+		<param name="Local" value="sample\_sample3.php.html#functiontestit">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$GLOBALS['_myvar']">
+		<param name="Local" value="sample\_sample3.php.html#global$GLOBALS['_myvar']">
+		</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="$turkify">
+		<param name="Local" value="sample\_sample3.php.html#global$turkify">
+		</OBJECT>
+		
+</UL>
+</BODY></HTML>

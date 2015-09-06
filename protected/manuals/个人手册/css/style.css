@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+
+body, div, span, p, input, code{
+    font-family: Verdana, sans-serif, Arial;
+    font-size: 10pt;
+    color: #111;
+}
+pre{
+	background-color:#EFEFEF; 
+	padding:0.6em 1.2em; 
+}
+code{
+	font-family:"Courier New", Courier, monospace;
+	font-size:12px;
+}

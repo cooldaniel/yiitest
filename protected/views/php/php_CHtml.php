@@ -1,0 +1,10 @@
+<?php
+$this->renderPartial('/layouts/block_items',array('back'=>$this->createUrl('php/index'),'title'=>'CHtml','items'=>array(
+	'php_CHtml_checkBoxList',
+	'php_CHtml_activeCheckBoxList',
+	'php_CHtml_radioButtonList',
+	'php_CHtml_dropDownList',
+	'php_CHtml_activeDropDownList',
+	'php_CHtml_link',
+)));
+?>

@@ -1,0 +1,30 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=documentation.chm
+Contents file=contents.hhc
+Default topic=index.html
+Display compile progress=No
+Index file=Index.hhk
+Language=0x409 English (United States)
+Title=Generated Documentation
+
+[FILES]
+default\elementindex_default.html
+sample\elementindex_sample.html
+sample1\elementindex_sample1.html
+elementindex.html
+blank.html
+classtrees_default.html
+classtrees_sample.html
+classtrees_sample1.html
+default\babyclass.html
+default\myclass.html
+default\_sample1.php.html
+sample1\babyclass.html
+sample\classes\myclass.html
+sample\_sample2.php.html
+sample\_sample3.php.html
+errors.html
+
+[INFOTYPES]
+
