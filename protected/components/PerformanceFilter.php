@@ -12,7 +12,7 @@ class PerformanceFilter extends CFilter
 	/**
 	 * 重载CFilter::prefilter().
 	 */
-	public function prefilter()
+	public function prefilter($filterChain)
 	{
 		echo 'pre-filter of PerformanceFilter class<br/>';
 		echo 'some vars of PerformanceFilter set by CControler::filters(): ' . $this->hello . '<br/><br/>';
@@ -22,7 +22,7 @@ class PerformanceFilter extends CFilter
 	/**
 	 * 重载CFilter::postfilter().
 	 */
-	public function postfilter()
+	public function postfilter($filterChain)
 	{
 		echo 'post-filter of PerformanceFilter class<br/><br/>';
 	}
