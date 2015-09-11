@@ -185,4 +185,29 @@ class SplitYears
 		
 		return $data;
 	}
+	
+	/**
+	 * 获取两个时间之间的年份.
+	 * @param string $start 开始时间字符串.
+	 * @param string $end 结束时间字符串.
+	 * @return array 返回两个时间之间的年份数组.
+	 */
+	public function parse_year($start, $end)
+	{
+		$years = array();
+		
+		$start_info = getdate(strtotime($start));
+		$end_info = getdate(strtotime($end));
+		
+		$length = $end_info['year'] - $start_info['year'];
+		$year = $start_info['year'];
+		while ($length >= 0)
+		{
+			$years[] = $year;
+			$year ++;
+			$length --;
+		}
+		
+		return $years;
+	}
 }
