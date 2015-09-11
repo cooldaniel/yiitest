@@ -210,4 +210,17 @@ class SplitYears
 		
 		return $years;
 	}
+	
+	/**
+	 * 判断两个时间段是否重叠.
+	 * @param string $start 第一个时间段的开始时间字符串.
+	 * @param string $end 第一个时间段的结束时间字符串.
+	 * @param string $start_2 第二个时间段的开始时间字符串.
+	 * @param string $end_2 第二个时间段的结束时间字符串.
+	 * @return boolean 返回true表示重叠，false表示不重叠.
+	 */
+	public function is_overlap_time($start, $end, $start_2, $end_2)
+	{
+		return !((strtotime($start_2) >= strtotime($end)) || strtotime($start) >= strtotime($end_2));
+	}
 }
