@@ -82,7 +82,7 @@ return array(
         ),
 		'log'=>array(
 			'class'=>'CLogRouter',
-			'enabled'=>false,
+			//'enabled'=>false,
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
@@ -91,7 +91,7 @@ return array(
 					//'filter'=>'CLogFilter',
 				),
 				// uncomment the following to show log messages on web pages
-				array(
+				/*array(
 					'class'=>'CWebLogRoute',
 					'levels'=>'trace, error, warning, info',
 					// 方便查看每次请求的上下文环境
@@ -103,7 +103,7 @@ return array(
 					//'report'=>'callstack',
 					// filter选项对此route无效
 					'filter'=>'CLogFilter',
-				),
+				),*/
 			),
 		),
 	),
