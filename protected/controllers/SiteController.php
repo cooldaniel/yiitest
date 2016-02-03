@@ -33,6 +33,12 @@ class SiteController extends Controller
 		// 测试行为和事件机制
 		// new BehaviorHost;
 		// new Event;
+		
+		//throw new CHttpException('test http', 403);
+		//throw new Exception('test');
+		//D::pd($d);
+		//require __DIR__ . 'daniel.txt';
+		
 		$this->render('index');
 	}
 
