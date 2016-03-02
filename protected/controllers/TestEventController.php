@@ -13,7 +13,7 @@ class TestEventController extends Controller
     {
         parent::init();
         
-        // 第3步：绑定事件
+        // 第3步：绑定事件和事件处理器
         $this->attachEventHandler('onBeginController', array($this, 'previousProcess'));
         $this->attachEventHandler('onAfterController', array($this, 'afteringProcess'));
         $this->attachEventHandler('onAfterController', array(__CLASS__, 'afteringProcessTwo'));
@@ -29,6 +29,10 @@ class TestEventController extends Controller
             $this->onBeginController(new CEvent($this, array('foo'=>'123', 'bar'=>'abc')));
         if ($this->hasEventHandler('onAfterController'))
             $this->onAfterController(new CEvent($this, array('min'=>'789', 'max'=>'xyz')));
+        
+        // 事件处理后依然可以查看绑定的事件处理器序列表 - 消息队列
+        D::pd($this->getEventHandlers('onBeginController')->toArray());
+        D::pd($this->getEventHandlers('onAfterController')->toArray());
     }
     
     // 第1步：定义事件（内部触发事件的自动执行）
