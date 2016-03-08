@@ -36,7 +36,8 @@
 				array('label'=>Yii::t('app', 'Contact'), 'url'=>array('/site/contact')),
 				array('label'=>Yii::t('app', 'Login'), 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>Yii::t('app', 'Logout') . ' ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'YiiLogTest', 'url'=>array('/site/yiiLogTest'))
+				array('label'=>'YiiLogTest', 'url'=>array('/site/yiiLogTest')),
+				array('label'=>'code', 'url'=>array('/site/code')),
 			),
 		)); ?>
 	</div><!-- mainmenu -->
@@ -58,7 +59,7 @@
 
 </div><!-- page -->
 
-<!-- Piwik -->
+<!-- Piwik
 <script type="text/javascript">
   var _paq = _paq || [];
   _paq.push(['trackPageView']);
@@ -72,6 +73,6 @@
   })();
 </script>
 <noscript><p><img src="//www.piwik12.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
+ --><!-- End Piwik Code -->
 </body>
 </html>
