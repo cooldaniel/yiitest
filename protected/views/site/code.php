@@ -11,6 +11,8 @@ $this->breadcrumbs=array(
 
 <h1><?php echo Yii::t('app', 'Card Code'); ?></h1>
 
+<div style="position:absolute; top:160px; left:49%; color:red;" id="operationSucceeded"><?php echo $operationSucceeded; ?></div>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -57,3 +59,13 @@ $this->breadcrumbs=array(
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<script>
+$(function(){
+	var obj = $('#operationSucceeded');
+	if (obj.length){
+		setTimeout(function(){
+			obj.fadeOut('slow');
+		}, 800);
+	}
+});
+</script>

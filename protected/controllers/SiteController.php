@@ -186,6 +186,7 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 	public function actionCode()
 	{
 		$model=new CodeForm;
+		$operationSucceeded = '';
 		
 		$user = Yii::app()->user;
 		if ($user->hasState('cardNumList'))
@@ -204,6 +205,10 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 		{
 			$model->codeErrors = $user->getState('codeErrors');
 		}
+		if ($user->hasFlash('operationSucceeded'))
+		{
+			$operationSucceeded = $user->getFlash('operationSucceeded');
+		}
 		
 		if(isset($_POST['CodeForm']))
 		{
@@ -218,11 +223,12 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 					$user->setState('codeList', $res['codeList']);
 					$user->setState('codeListWithCard', $res['codeListWithCard']);
 					$user->setState('codeErrors', $res['codeErrors']);
+					$user->setFlash('operationSucceeded', 'Operation Succeeded');
 					$this->refresh();
 				}
 			}
 		}
-		$this->render('code',array('model'=>$model));
+		$this->render('code',array('model'=>$model, 'operationSucceeded'=>$operationSucceeded));
 	}
 	
 	private function generateCardValidateCodeList($cardNumList)
