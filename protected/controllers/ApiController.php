@@ -551,4 +551,3 @@ class ApiController extends TController
 		$this->render('self');
 	}
 }
-?>

@@ -38,8 +38,14 @@ class SiteController extends Controller
 		//throw new Exception('test');
 		//D::pd($d);
 		//require __DIR__ . 'daniel.txt';
-		
-		$this->render('index');
+
+		session_start();
+		$_SESSION['token'] = rand();
+		D::log($_SESSION);
+
+		$this->render('index', array(
+			'token'=>$_SESSION['token'],
+		));
 	}
 
 	/**
@@ -286,4 +292,218 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 		$pre_code = $pre_code_list[$last_one];
 		return substr((fmod(fmod($card_num, 100000) * 6390, $pre_code) + $pre_code), -4);
 	}
+	
+	public function getUser()
+	{
+		return array(
+			'id'=>'100',
+			'username'=>'13425163196',
+			'password'=>md5(123456),
+		);
+	}
+	
+	public function actionLoginFirst()
+	{
+		$password = '123456';
+		$username = '13425163196';
+		$rememberMe = true;
+		
+		$user = $this->getUser();
+		$login = (md5($password) == $user['password']) && ($username == $user['username']);
+		if ($login)
+		{
+			setcookie();
+		}
+	}
+	
+	public function actionAutoLogin()
+	{
+		$salt = 'abc123';
+		
+		$username = '13425163196';
+		$password_hash = md5($password);
+		$password_hash_part = substr($password_hash, 0, 6);
+		
+		$uid = md5('my id');
+		$value = $username;
+		$value = time() + 3600;
+		
+		$value = hash('ripemd160', $username . $expires . $password_hash_part . $salt);
+	}
+	
+	// 生成API中心随机账号
+	public function actionApicenterAccount()
+	{
+		$string = md5(mt_rand() . md5(mt_rand() . microtime()));
+		$appid = 'ac' . substr($string, 0, 18);
+		$appsecret = md5($string . mt_rand());
+		D::pd(array('appid'=>$appid, 'appsecret'=>$appsecret));
+	}
+	
+	public function actionBrowser()
+	{
+		D::pd($this->getBrowser());
+		D::pd($this->getBrowserVer());
+		D::pd($_SERVER["HTTP_USER_AGENT"]);
+	}
+	
+	
+	public function getBrowser(){
+		$agent=$_SERVER["HTTP_USER_AGENT"];
+		if(strpos($agent,'MSIE')!==false || strpos($agent,'rv:11.0')) //ie11判断
+		return "ie";
+		else if(strpos($agent,'Firefox')!==false)
+		return "firefox";
+		else if(strpos($agent,'Chrome')!==false)
+		return "chrome";
+		else if(strpos($agent,'Opera')!==false)
+		return 'opera';
+		else if((strpos($agent,'Chrome')==false)&&strpos($agent,'Safari')!==false)
+		return 'safari';
+		else
+		return 'unknown';
+	}
+	 
+	public function getBrowserVer(){
+		if (empty($_SERVER['HTTP_USER_AGENT'])){    //当浏览器没有发送访问者的信息的时候
+			return 'unknow';
+		}
+		$agent= $_SERVER['HTTP_USER_AGENT'];   
+		if (preg_match('/MSIE\s(\d+)\..*/i', $agent, $regs))
+			return $regs[1];
+		elseif (preg_match('/FireFox\/(\d+)\..*/i', $agent, $regs))
+			return $regs[1];
+		elseif (preg_match('/Opera[\s|\/](\d+)\..*/i', $agent, $regs))
+			return $regs[1];
+		elseif (preg_match('/Chrome\/(\d+)\..*/i', $agent, $regs))
+			return $regs[1];
+		elseif ((strpos($agent,'Chrome')==false)&&preg_match('/Safari\/(\d+)\..*$/i', $agent, $regs))
+			return $regs[1];
+		else
+			return 'unknow';
+	}
+
+	public function actionXdebug()
+	{
+		$t = xdebug_time_index();
+		D::fp();
+
+		$string = 'ccc';
+
+		$d = array('aaa');
+		for ($i=0; $i<10; $i++)
+		{
+			$d = array_merge($d, $d);
+			D::pd($d);
+		}
+
+		//$this->test($d);
+
+		D::fp();
+		D::pd(xdebug_call_class());
+	}
+
+	// 超过最大内存时直接空白，register_shutdown_function()注册的函数也不会被调用
+	public function actionUsage()
+	{
+		@ini_set('memory_limit', '200M');
+		$table = 'goods';
+
+		D::usage();
+
+		$sql = "SELECT * FROM " . $table;
+		$d = Yii::app()->db->createCommand($sql)->queryAll();
+		for ($i=0; $i<13; $i++)
+			$d = array_merge($d, $d);
+
+		D::usage();
+
+		$sql = "SELECT COUNT(*) FROM " . $table;
+		D::pd(Yii::app()->db->createCommand($sql)->queryColumn(), count($d));
+
+
+		D::bk();
+
+
+		$rows = $d;
+
+		$objPHPExcel = new PHPExcel();
+
+		// 列宽
+		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(40);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(40);
+
+		$objPHPExcel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(20);
+
+		// 取第一个工作表
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		// 表头
+		$objPHPExcel->getActiveSheet()
+					->setCellValue('A1', 'one')
+					->setCellValue('B1', 'two')
+					->setCellValue('C1', 'three');
+		// 表头样式
+		$objPHPExcel->getActiveSheet()->getStyle('A1:C1')->applyFromArray(array(
+			'font' => array(
+				'bold' => true,
+			),
+			'alignment' => array(
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+			),
+		));
+
+		// 内容
+		for ($i = 0, $len = count($rows); $i < $len; $i++) {
+			$row_num = ($i + 2);
+			$objPHPExcel->getActiveSheet()->setCellValue('A' . $row_num, $rows[$i]['gName']);
+			$objPHPExcel->getActiveSheet()->setCellValue('B' . $row_num, $rows[$i]['gKeywords']);
+			$objPHPExcel->getActiveSheet()->setCellValue('C' . $row_num, $rows[$i]['gDesc']);
+		}
+		// 内容样式
+		$objPHPExcel->getActiveSheet()->getStyle('B2:C'.($len + 1))->applyFromArray(array(
+			'alignment' => array(
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+			),
+		));
+
+		// 表名
+		$objPHPExcel->getActiveSheet()->setTitle('一级机构统计总表');
+
+		D::usage();
+
+		D::bk();
+
+		// 输出
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="一级机构统计总表' . date('YmdHis') . '.xls"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

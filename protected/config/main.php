@@ -21,6 +21,8 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'application.helpers.*',
+		'application.vendors.*',
+		'application.vendors.PHPExcel.Classes.*',
 	),
 
 	'modules'=>array(
@@ -86,24 +88,29 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
+					'enabled'=>!YII_DEBUG,
 					'levels'=>'error, warning',
 					// 方便查看每次请求的上下文环境
 					//'filter'=>'CLogFilter',
 				),
-				// uncomment the following to show log messages on web pages
-				/*array(
+				array(
 					'class'=>'CWebLogRoute',
+					'enabled'=>false,
 					'levels'=>'trace, error, warning, info',
 					// 方便查看每次请求的上下文环境
-					'filter'=>'CLogFilter',
+					//'filter'=>'CLogFilter',
 				),
 				array(
 					'class'=>'CProfileLogRoute',
-					// 输出结果展示方式
-					//'report'=>'callstack',
+					'enabled'=>false,
+				),
+				array(
+					'class'=>'CProfileLogRoute',
+					'enabled'=>false,
+					'report'=>'callstack',
 					// filter选项对此route无效
-					'filter'=>'CLogFilter',
-				),*/
+					//'filter'=>'CLogFilter',
+				),
 			),
 		),
 	),

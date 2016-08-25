@@ -12,4 +12,3 @@ class CssController extends Controller
 		$this->render('css_table');
 	}
 }
-?>

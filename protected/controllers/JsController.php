@@ -53,4 +53,3 @@ class JsController extends Controller
 		echo $this->render('fragements/list_1');
 	}
 }
-?>

@@ -37,4 +37,3 @@ class PhpController extends Controller
 		$this->render('php_blank');
 	}
 }
-?>

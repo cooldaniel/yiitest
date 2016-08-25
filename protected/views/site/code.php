@@ -17,7 +17,7 @@ $this->breadcrumbs=array(
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'contact-form',
-	'enableClientValidation'=>true,
+	//'enableClientValidation'=>true,
 	'clientOptions'=>array(
 		'validateOnSubmit'=>true,
 	),

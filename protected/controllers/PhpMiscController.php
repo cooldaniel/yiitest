@@ -33,4 +33,3 @@ class PhpMiscController extends Controller
 		$this->render('form');
 	}
 }
-?>

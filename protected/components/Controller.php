@@ -25,6 +25,10 @@ class Controller extends CController
 	public function init()
 	{
 		parent::init();
+
+		// 设置字符集
+		header("Content-type: text/html; charset=utf-8");
+
 		$this->changeLanguage();
 	}
 	

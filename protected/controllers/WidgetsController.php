@@ -96,4 +96,3 @@ class WidgetsController extends Controller
 		$this->render('statefulForm');
 	}
 }
-?>
