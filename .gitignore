@@ -2,3 +2,4 @@
 assets
 /protected/runtime/application.log
 /.idea
+/htdocs/DumperLogFile.txt
