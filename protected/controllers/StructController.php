@@ -47,4 +47,84 @@ class StructController extends Controller
             return -1;
         }
     }
+
+    public function actionAckermann()
+    {
+        $max = 6;
+        for ($x=0; $x<=$max; $x++)
+        {
+            echo str_repeat($x, 50) . "\n";
+            for ($y=0; $y<=$max; $y++)
+            {
+                $this->ackermann($x, $y);
+                echo "\n";
+            }
+        }
+
+        /*
+        // 数据增长如下所示（左为x轴，上为y轴）
+        // 以x轴为基点，做y轴变换
+        x\y:0 1 2 3 4 5 6
+         0: 0 2 4 6 8 10 12
+         1: 0 2 4 8 16 32 64
+         2: 0 2 4 16 65536 (A 1 65536) (A 1 (A 1 65536))
+         3: 0 2 4 65536 (A 2 65536) (A 2 (A 2 65536)) (A 2 (A 2 (A 2 65536)))
+         4: 0 2 4 (A 2 65536) (A 3 (A 2 65536)) (A 3 (A 3 (A 2 65536))) (A 3 (A 3 (A 3 (A 2 65536))))
+         5: 0 2 4 (A 3 (A 2 65536)) (A 4 (A 3 (A 2 65536))) (A 4 (A 4 (A 3 (A 2 65536)))) (A 4 (A 4 (A 4 (A 3 (A 2 65536)))))
+         6: 0 2 4 (A 4 (A 3 (A 2 65536))) (A 5 (A 4 (A 3 (A 2 65536)))) (A 5 (A 5 (A 4 (A 3 (A 2 65536))))) (A 5 (A 5 (A 5 (A 4 (A 3 (A 2 65536))))))
+        */
+    }
+
+    public function ackermann($x, $y, $prefix='', $suffix='', $first=true)
+    {
+        // 初始运算时打印计算式
+        if ($first)
+        {
+            echo "(A $x $y)\n";
+            $first = false;
+        }
+
+        $end = false;
+        if ($y == 0)
+        {
+            $num = 0;
+            $end = true;
+        }
+        elseif ($y == 1)
+        {
+            $num = 2;
+            $end = true;
+        }
+        elseif ($x == 0)
+        {
+            $num = 2 * $y;
+            $end = true;
+        }
+
+        if ($end)
+        {
+            // 停止展开
+            $str = $prefix . $num . $suffix . "\n";
+            echo $str;
+            return $num;
+        }
+        else
+        {
+            // 继续展开
+            $x_next = $x - 1;
+            $y_next = $y - 1;
+            $prefix_new = $prefix . "(A {$x_next} ";
+            $suffix_new = $suffix . ")";
+            $str = $prefix_new . "(A {$x} {$y_next})" . $suffix_new . "\n";
+            echo $str;
+
+            // 调试：为了防止因为运行资源错误导致无法取得完整输出，对大于2^16的y不做递归.需要进一步测试时可删除该调试条件.
+            if ($y > 65535)
+            {
+                return;
+            }
+
+            return $this->ackermann($x_next, $this->ackermann($x, $y_next, $prefix_new, $suffix_new, $first), $prefix, $suffix, $first);
+        }
+    }
 }
