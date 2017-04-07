@@ -1,14 +1,24 @@
 <?php
 
-$path = Yii::app()->getBasePath() . '/components';
-include $path . '/psr3log/LogLevel.php';
-include $path . '/psr3log/LoggerAwareInterface.php';
-include $path . '/psr3log/LoggerInterface.php';
-include $path . '/psr3log/Logger.php';
+$path = Yii::app()->getBasePath() . '/vendors/psrlog/Psr/Log';
+include $path . '/LoggerAwareInterface.php';
+include $path . '/LoggerInterface.php';
+include $path . '/AbstractLogger.php';
+include $path . '/InvalidArgumentException.php';
+include $path . '/LoggerAwareTrait.php';
+include $path . '/LoggerTrait.php';
+include $path . '/LogLevel.php';
+include $path . '/NullLogger.php';
+include $path . '/Logger.php';
 
-use Psr\Log\LogLevel;
-use Psr\Log\LogAwareInterface;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\AbstractLogger;
+use Psr\Log\InvalidArgumentException;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerTrait;
+use Psr\Log\LogLevel;
+use Psr\Log\NullLogger;
 use Psr\Log\Logger;
 
 /**
@@ -70,7 +80,14 @@ class LogController extends Controller
 
 	public function actionPsr3()
     {
-        $logger = new Logger();
-        \D::ref($logger);
+        $logger = new Logger;
+
+        $message = "User {username} created";
+        $context = array('username' => 'bolivar');
+        $logger->notice($message, $context);
+
+        $message = "User {username} created";
+        $context = array('username' => 'jone');
+        $logger->debug($message, $context);
     }
 }
