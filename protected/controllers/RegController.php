@@ -78,4 +78,54 @@ class RegController extends Controller
         }
         return '';
     }
+
+    /**
+     * 执行正则验证.
+     * @param $title 给个标题说明这次验证的主题.
+     * @param $pattern 正则.
+     * @param $list 待验证的字符串数组.
+     */
+    public function pregList($title, $pattern, $list)
+    {
+        $res = ['title'=>$title, 'pattern'=>$pattern];
+        foreach ($list as $str){
+            $d = preg_match($pattern, $str, $m);
+            $res['test'][$str] = ['matchArray'=>$m, 'matchNumber'=>$d];
+        }
+        D::pd($res);
+    }
+
+    /**
+     * 具体的正则验证例子.
+     */
+    public function actionString()
+    {
+        $title = '验证款号';
+        $pattern = '/^[a-zA-Z0-9]+(?:-)?[a-zA-Z0-9]+$/';
+        $list = [
+            'asdf23re34', // 正确：数字和字母
+            'asdjk-12839', // 正确：中间含短横线
+            'A789ASDFk', // 正确：大小写字母
+            '', // 错误：空字符串
+            '_re34', // 错误：下划线
+            '&*9asdf&*', // 错误：其它特殊字符
+            '-asdjfk23', // 错误：短横线在开头
+            'asasdfj234-', // 错误：短横线在结尾
+        ];
+        $this->pregList($title, $pattern, $list);
+
+        $title = '验证数字长度';
+        $pattern = '/^[\d]{1,32}$/';
+        $list = [
+            '123', // 正确
+            '1234841531231231231', // 正确
+            '123484153123123123123123121231213212131', // 错误：超过32位
+            '', // 错误：空
+            'asjdkf7098790', // 错误：含有非数字
+            '%&^*)(&*()7098790', // 错误：含有非数字
+        ];
+        $this->pregList($title, $pattern, $list);
+    }
+
+
 }

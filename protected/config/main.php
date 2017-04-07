@@ -22,7 +22,7 @@ return array(
 		'application.components.*',
 		'application.helpers.*',
 		'application.vendors.*',
-		'application.vendors.PHPExcel.Classes.*',
+        'application.vendors.phpexcel.PHPExcel',
 	),
 
 	'modules'=>array(

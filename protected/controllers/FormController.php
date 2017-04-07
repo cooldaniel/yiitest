@@ -6,5 +6,39 @@ class FormController extends Controller
 		D::pds($_POST);
 		
 		$this->render('index');
-	}
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

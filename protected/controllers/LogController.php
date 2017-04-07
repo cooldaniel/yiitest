@@ -1,4 +1,16 @@
 <?php
+
+$path = Yii::app()->getBasePath() . '/components';
+include $path . '/psr3log/LogLevel.php';
+include $path . '/psr3log/LoggerAwareInterface.php';
+include $path . '/psr3log/LoggerInterface.php';
+include $path . '/psr3log/Logger.php';
+
+use Psr\Log\LogLevel;
+use Psr\Log\LogAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\Logger;
+
 /**
  * 测试Yii的logging包使用
  * @copyright lsx 2012/10/24
@@ -55,4 +67,10 @@ class LogController extends Controller
 		
 		$this->render('index');
 	}
+
+	public function actionPsr3()
+    {
+        $logger = new Logger();
+        \D::ref($logger);
+    }
 }
