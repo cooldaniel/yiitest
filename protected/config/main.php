@@ -88,25 +88,26 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'enabled'=>!YII_DEBUG,
-					'levels'=>'error, warning',
+					//'enabled'=>!YII_DEBUG,
+                    'enabled'=>!false,
+					'levels'=>'error, warning, trace,info, profile',
 					// 方便查看每次请求的上下文环境
 					//'filter'=>'CLogFilter',
 				),
 				array(
 					'class'=>'CWebLogRoute',
-					'enabled'=>false,
+					'enabled'=>!false,
 					'levels'=>'trace, error, warning, info',
 					// 方便查看每次请求的上下文环境
 					//'filter'=>'CLogFilter',
 				),
 				array(
 					'class'=>'CProfileLogRoute',
-					'enabled'=>false,
+					'enabled'=>!false,
 				),
 				array(
 					'class'=>'CProfileLogRoute',
-					'enabled'=>false,
+					'enabled'=>!false,
 					'report'=>'callstack',
 					// filter选项对此route无效
 					//'filter'=>'CLogFilter',

@@ -8,6 +8,9 @@ class TestController extends Controller
 {
     public function actionIndex()
     {
+        $one = Goods::model();
+
+
         session_start();
         D::post();
         D::session();
@@ -62,5 +65,18 @@ class TestController extends Controller
         }
         socket_shutdown($socket);
         socket_close($socket);
+    }
+
+    public function actionRedis()
+    {
+        $redis = new Redis();
+        $redis->connect('127.0.0.1', '7379');
+        $key = 'yiitest';
+        $set = $redis->set($key, 'test');
+        $get = $redis->get($key);
+        if (isset($_GET['del'])){
+            $redis->del($key);
+        }
+        \D::pd($redis, $set, $get);
     }
 }

@@ -1,10 +1,9 @@
 <?php
 class FormController extends Controller
 {
-	public function actionIndex()
-	{
-		D::pds($_POST);
-		
+    public function actionIndex()
+    {
+        $this->withCoreJquery = true;
 		$this->render('index');
     }
 }

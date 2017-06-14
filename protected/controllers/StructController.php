@@ -127,4 +127,45 @@ class StructController extends Controller
             return $this->ackermann($x_next, $this->ackermann($x, $y_next, $prefix_new, $suffix_new, $first), $prefix, $suffix, $first);
         }
     }
+
+    /**
+     * 数组map/walk等测试.
+     */
+    public function actionMap()
+    {
+        // filter
+        $data = range(1, 10);
+        $filter = array_filter($data, function ($value){
+            return ($value % 2) == 0;
+        });
+        D::pd($filter);
+
+        // map - 平行应用于多个数组
+        $data = range(1, 10);
+        $map = array_map(function ($a, $b, $c){
+            return $a + $b + $c;
+        }, $data, $data, $data);
+        D::pd($map);
+
+        // map - 创建数组的数组
+        $a = array(1, 2, 3, 4, 5);
+        $b = array("one", "two", "three", "four", "five");
+        $c = array("uno", "dos", "tres", "cuatro", "cinco");
+        $d = array_map(null, $a, $b, $c);
+        D::pd($d);
+
+        // walk
+        $data = range(1, 10);
+        $walk = array_walk($data, function (&$value, $index, $factor){
+            $value *= $factor;
+        }, 3);
+        D::pd($walk, $data);
+
+        // walk recursive
+        $data = [range(1, 10), [range(2, 5), [range(2, 5), 5]], 9];
+        $walk = array_walk_recursive($data, function (&$value, $index, $factor){
+            $value *= $factor;
+        }, 3);
+        D::pd($walk, $data);
+    }
 }

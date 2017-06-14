@@ -26,4 +26,9 @@ class ImageController extends Controller
 		}
 
 	}
+
+	public function actionOnError()
+    {
+        $this->render('onError');
+    }
 }

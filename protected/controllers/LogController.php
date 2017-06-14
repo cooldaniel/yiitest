@@ -71,9 +71,9 @@ class LogController extends Controller
 		
 		// 数据库操作，配置文件中开启CDbConnection::enableProfiling，所以会记录到profiling记录中
 		$db=Yii::app()->db;
-		$db->createCommand('select * from user')->queryAll();
+		//$db->createCommand('select * from user')->queryAll();
 		$db->createCommand('select * from goods')->queryAll();
-		$db->createCommand('select * from infomation')->queryAll();
+		//$db->createCommand('select * from infomation')->queryAll();
 		
 		$this->render('index');
 	}

@@ -21,6 +21,12 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+
+    /**
+     * 不使用Yii自带的Jquery.
+     * @var bool
+     */
+    public $withCoreJquery = false;
 	
 	public function init()
 	{
