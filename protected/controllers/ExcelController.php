@@ -18,9 +18,9 @@ class ExcelController extends Controller
     public function actionLoadDataInFile()
     {
         // 必须转义路径分隔符
-        $path = str_replace('\\', '/', realpath(Yii::app()->getBasePath() . '/../htdocs'));
-
+        $path = str_replace('\\', '/', realpath(Yii::app()->getRuntimePath()));
         $file = $path . '/load_data_infile.txt';
+
         if (file_exists($file)){
             $sql = "load data infile '{$file}' ignore into table load_data_infile character set utf8 fields 
                     terminated by ',' enclosed by '\"' lines terminated by '\n' (`name`,`content`);";
