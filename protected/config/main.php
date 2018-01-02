@@ -27,14 +27,14 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		/*
+
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'Enter Your Password Here',
+			'password'=>'123456',
 		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
-		*/
+
 		'admin'=>array(
 			'class'=>'application.modules.admin.AdminModule',
 		),
@@ -66,6 +66,8 @@ return array(
 		
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=yiitest',
+//			'connectionString' => 'mysql:host=localhost;dbname=ismonb2b',
+//			'connectionString' => 'mysql:host=localhost;dbname=platform',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '123456',
@@ -96,18 +98,18 @@ return array(
 				),
 				array(
 					'class'=>'CWebLogRoute',
-					'enabled'=>!false,
+					'enabled'=>false,
 					'levels'=>'trace, error, warning, info',
 					// 方便查看每次请求的上下文环境
 					//'filter'=>'CLogFilter',
 				),
 				array(
 					'class'=>'CProfileLogRoute',
-					'enabled'=>!false,
+					'enabled'=>false,
 				),
 				array(
 					'class'=>'CProfileLogRoute',
-					'enabled'=>!false,
+					'enabled'=>false,
 					'report'=>'callstack',
 					// filter选项对此route无效
 					//'filter'=>'CLogFilter',

@@ -90,4 +90,22 @@ class LogController extends Controller
         $context = array('username' => 'jone');
         $logger->debug($message, $context);
     }
+
+    /**
+     * 分析带trace的日志代码如何组织.
+     */
+    public function actionTrace()
+    {
+        $data = [];
+
+        if (!isset($data['foo'])){
+            Yii::log('接口数据必须提供foo字段', CLogger::LEVEL_ERROR, 'application.product.sync');
+        }
+
+
+        // 错误的数据库请求
+        $db=Yii::app()->db;
+		//$db->createCommand('select * from user')->queryAll();
+		$db->createCommand('select * from table_not_exists')->queryAll();
+    }
 }

@@ -32,10 +32,10 @@ class SiteController extends Controller
 	{
         //xdebug_start_trace();
 
-        foreach (range('a', 'z') as $char)
-        {
-            echo ($char);
-        }
+//        foreach (range('a', 'z') as $char)
+//        {
+//            echo ($char);
+//        }
 
         //xdebug_stop_trace();
 
@@ -56,13 +56,13 @@ class SiteController extends Controller
 //
 //        xdebug_stop_code_coverage();
 
-        D::cookie();
-
-
-
-        D::fp();
-
-        D::bk();
+//        D::cookie();
+//
+//
+//
+//        D::fp();
+//
+//        D::bk();
 
 
 
@@ -519,6 +519,55 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save('php://output');
 	}
+
+	public function actionTmp()
+    {
+        $this->render('tmp');
+    }
+    
+    public function actionCache()
+    {
+        $disable = getQuery('disable');
+
+        $fresh = false;
+        if ($fresh){
+            $content = json_encode(['rand'=>rand(), JSON_UNESCAPED_UNICODE]);
+        }else{
+            $content = 'ddd';
+        }
+        $etag = md5($content);
+
+        if ($disable){
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Pragma: no-cache");
+        }else{
+            $last = strtotime('2017-12-15');
+            $interval = 30 * 24 * 60 * 60;
+            header ("Last-Modified: " . gmdate ('r', $last));
+            header ("Expires: " . gmdate ("r", ($last + $interval)));
+            header ("Cache-Control: max-age=$interval");
+            header ("Pragma: max-age=$interval");
+            header ("Etag: {$etag}");
+        }
+
+        $http_equiv = [
+            ["Last-Modified", gmdate ('r', $last)],
+            ["Expires", gmdate ("r", ($last + $interval))],
+            ["Cache-Control", "max-age=$interval"],
+            ["Pragma", "max-age=$interval"],
+            ["Etag", $etag],
+        ];
+
+        $html = '';
+        foreach ($http_equiv as $row){
+            $html .= '<meta http_equiv="'.$row[0].'" content="'.$row[1].'">'."\n";
+        }
+        echo $html;
+
+        echo $content;
+    }
 }
 
 

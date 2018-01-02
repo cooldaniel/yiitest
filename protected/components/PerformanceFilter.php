@@ -7,15 +7,28 @@
 
 class PerformanceFilter extends CFilter
 {
-	public $hello;
-	
-	/**
+	public $saySomething;
+
+    public function __construct()
+    {
+        echo '<div>进入自定义过滤类</div>';
+    }
+
+    /**
 	 * 重载CFilter::prefilter().
 	 */
 	public function prefilter($filterChain)
 	{
-		echo 'pre-filter of PerformanceFilter class<br/>';
-		echo 'some vars of PerformanceFilter set by CControler::filters(): ' . $this->hello . '<br/><br/>';
+		echo '<div>调用'.__CLASS__. '::' . __FUNCTION__ . '</div>';
+		echo '<div>通过CControler::filters()给'.__CLASS__.'设置的属性：' . $this->saySomething . '</div>';
+
+
+        // 这里可以获取控制器和action的名字判断是否允许访问
+        $controllerName = Yii::app()->controller->id;
+        $actionName = Yii::app()->controller->action->id;
+        \D::pd($controllerName, $actionName);
+
+        // 这里返回true表示允许后续执行，返回false表示不往下执行，也就实现了防止访问的功能（权限过滤）
 		return true;
 	}
 	
@@ -24,7 +37,7 @@ class PerformanceFilter extends CFilter
 	 */
 	public function postfilter($filterChain)
 	{
-		echo 'post-filter of PerformanceFilter class<br/><br/>';
+		echo '<div>调用'.__CLASS__. '::' . __FUNCTION__ . '</div>';
 	}
 }
 

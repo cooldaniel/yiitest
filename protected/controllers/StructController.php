@@ -151,8 +151,8 @@ class StructController extends Controller
         $a = array(1, 2, 3, 4, 5);
         $b = array("one", "two", "three", "four", "five");
         $c = array("uno", "dos", "tres", "cuatro", "cinco");
-        $d = array_map(null, $a, $b, $c);
-        D::pd($d);
+        $map = array_map(null, $a, $b, $c);
+        D::pd($map);
 
         // walk
         $data = range(1, 10);
@@ -167,5 +167,50 @@ class StructController extends Controller
             $value *= $factor;
         }, 3);
         D::pd($walk, $data);
+    }
+
+    public function actionArray()
+    {
+        // array column
+        $data = [
+            ['name'=>'material', 'value'=>'111'],
+            ['name'=>'size', 'value'=>'222'],
+        ];
+        \D::pd(array_column($data, 'name'));
+        \D::pd(array_column($data, 'value', 'name'));
+        \D::pd(array_column($data, null, 'name'));
+    }
+
+    public function actionBigRequest()
+    {
+        $max = 100 * 10000;
+
+        \D::beginProfile('100');
+        $data = [
+            ['name'=>'daniel', 'age'=>111],
+            ['name'=>'tom', 'age'=>222],
+        ];
+        for ($i=0; $i<$max; $i++) {
+            $this->bigRequestCall($data);
+            //call_user_func([$this, 'bigRequestCall'], ['data'=>$data]);
+        }
+        \D::endProfile('100');
+    }
+
+    public function bigRequestCall($data)
+    {
+//        $names = ['name', 'age'];
+//        foreach ($data as $index => $row){
+////            $name = $row['name'];
+////            $row['name'] = $name;
+////            $age = $row['age'];
+////            $row['age'] = $age;
+//            foreach ($names as $name) {
+//                $row[$name] = $row[$name];
+//            }
+//
+//
+//            $data[$index] = $row;
+//        }
     }
 }
