@@ -17,6 +17,81 @@ class TestController extends Controller
         D::pd(Yii::getVersion());
     }
 
+    public function actionP()
+    {
+        ini_set("max_execution_time", 0);
+
+        $this->time('one');
+        //$this->readfile();
+        $this->time('one');
+
+
+        $this->time('one');
+        //$this->querydb();
+        $this->time('one');
+
+        $this->time('one');
+        $this->bignum();
+        $this->time('one');
+    }
+
+    public function bignum()
+    {
+        // 对于耗时功能，由于调用方未必会调用后又主动提出请求终止运算，
+        // 因此应该总是设置超时检测，避免因为用户调用导致系统资源耗尽.
+        // 用户和功能在耗时方面应该总是有一定的约定.
+        // 例如，假设一个批量导入程序在数据量10万的情况下耗时大约5分钟，则应该提醒用户需要这样的时间，由用户决定是否执行.
+        // 当用户确定执行时，该功能实现应该设置该最大执行时间，超过则终止程序报系统错误.
+        // 实际测试预留的时间要足够长，例如测试大约需要2分钟的，可以设置功能最大时间在5分钟.
+        $max_time = 10;
+        $start = time();
+
+        $max = 1000 * 1000 * 1000;
+        while ($max){
+            $c = 1024.01*1024.02*1024.0345;
+            $c = $c*$c;
+            $max--;
+
+            if (time() - $start > $max_time){
+                \D::pds('exclude max excute time');
+                break;
+            }
+        }
+    }
+
+    public function querydb()
+    {
+        $max = 100000;
+        while ($max){
+            $sql = "SELECT * FROM users";
+            $c = Yii::app()->db->createCommand($sql);
+            $res = $c->queryAll();
+            $max--;
+        }
+    }
+
+    public function readfile()
+    {
+        $file = Yii::app()->getRuntimePath() . '/in.txt';
+        $max = 100000;
+        while ($max){
+            file_get_contents($file);
+            $max--;
+        }
+    }
+
+    private $times = [];
+    public function time($name)
+    {
+        $time = microtime(true);
+        if (!isset($this->times[$name])){
+            $this->times[$name] = $time;
+        }else{
+            \D::pd($time - $this->times[$name]);
+            unset($this->times[$name]);
+        }
+    }
+
     public function actionPage()
     {
         $this->render('page');

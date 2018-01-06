@@ -5,6 +5,36 @@ $yii=dirname(__FILE__).'/../framework/yii.php';
 $config=dirname(__FILE__).'/../protected/config/main.php';
 require_once(dirname(__FILE__).'/../../../projects/D/autoload.php');
 
+
+//function get_data(){
+//    $d = [
+//        ['name'=>'dd', 'age'=>30],
+//        ['name'=>'aa', 'age'=>80],
+//        ['name'=>'bb', 'age'=>99],
+//    ];
+//    return $d;
+//}
+//
+//$d = get_data();
+//\D::pd($d);
+//
+//// get some field value
+//array_walk($d, function(&$v, $k, $code){
+//    $v = $v[$code];
+//}, 'name');
+//\D::pd($d);
+//
+//$d = get_data();
+//\D::pd($d);
+//
+//// map two field
+//array_walk($d, function(&$v, $k, $params){
+//    $v = [$v[$params[0]]=>$v[$params[1]]];
+//}, ['name', 'age']);
+//\D::pd($d);
+//
+//\D::pde($d);
+
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 // specify how many levels of call stack should be shown in each log message
