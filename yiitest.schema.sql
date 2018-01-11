@@ -1,6 +1,6 @@
 /*
 SQLyog 企业版 - MySQL GUI v8.14 
-MySQL - 5.1.50-community : Database - yiitest
+MySQL - 5.5.5-10.1.16-MariaDB : Database - yiitest
 *********************************************************************
 */
 
@@ -15,6 +15,21 @@ MySQL - 5.1.50-community : Database - yiitest
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`yiitest` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `yiitest`;
+
+/*Table structure for table `country` */
+
+DROP TABLE IF EXISTS `country`;
+
+CREATE TABLE `country` (
+  `code` char(2) NOT NULL,
+  `name` char(52) NOT NULL,
+  `population` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `country` */
+
+insert  into `country`(`code`,`name`,`population`) values ('aa','aa',50),('bb','bb',0),('cc','cc',0),('cn','cn',5000),('dd','dd',0),('ee','ee',0),('en','en',1000),('ff','ff',0),('gg','gg',0),('hh','hh',0),('ii','ii',0),('jj','jj',0),('kk','kk',0),('ll','ll',0);
 
 /*Table structure for table `goods` */
 
