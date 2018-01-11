@@ -21,6 +21,7 @@ class CodeForm extends CFormModel
 	{
 		return array(
 			array('cardNumList', 'required'),
+			array('codeList, codeListWithCard', 'safe'),
 		);
 	}
 
@@ -32,10 +33,9 @@ class CodeForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'cardNumList'=>Yii::t('code', 'cardNumList'),
-			'codeList'=>Yii::t('code', 'codeList'),
-			'codeListWithCard'=>Yii::t('code', 'codeListWithCard'),
-			'codeErrors'=>Yii::t('code', 'codeErrors'),
+			'cardNumList'=>Yii::t('code', 'Card Num List'),
+			'codeList'=>Yii::t('code', 'Code List'),
+			'codeListWithCard'=>Yii::t('code', 'Code List With Card'),
 		);
 	}
 }

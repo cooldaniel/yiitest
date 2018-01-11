@@ -43,8 +43,6 @@
 				array('label'=>Yii::t('app', 'Contact'), 'url'=>array('/site/contact')),
 				array('label'=>Yii::t('app', 'Login'), 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>Yii::t('app', 'Logout') . ' ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'YiiLogTest', 'url'=>array('/site/yiiLogTest')),
-				array('label'=>'code', 'url'=>array('/site/code')),
 			),
 		)); ?>
 	</div><!-- mainmenu -->
