@@ -2,8 +2,6 @@
 
 /**
  * ContactForm class.
- * ContactForm is the data structure for keeping
- * contact form data. It is used by the 'contact' action of 'SiteController'.
  * 
  * @package application.models
  */
@@ -14,7 +12,6 @@ class ConvertForm extends CFormModel
 	public $likearray;
 	public $postman;
     public $choice;
-	public $convertErrors;
 
 	/**
 	 * Declares the validation rules.
@@ -71,7 +68,6 @@ class ConvertForm extends CFormModel
 			'likearray'=>Yii::t('code', 'Like Array'),
 			'postman'=>Yii::t('code', 'Postman'),
 			'choice'=>Yii::t('code', 'Choice'),
-			'convertErrors'=>Yii::t('code', 'convertErrors'),
 		);
 	}
 }

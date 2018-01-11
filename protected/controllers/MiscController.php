@@ -89,4 +89,58 @@ class MiscController extends Controller
 		$is_overlap_time = $split_years->is_overlap_time($start, $end, $start_2, $end_2);
 		D::pd($is_overlap_time);
     }
+
+
+    public function actionXdebug()
+    {
+        \D::bk();
+
+        xdebug_start_trace();
+
+        foreach (range('a', 'z') as $char)
+        {
+            echo ($char);
+        }
+
+        xdebug_stop_trace();
+        xdebug_start_code_coverage();
+
+        function a($a) {
+            echo $a * 2.5;
+        }
+        function b($count) {
+            for ($i = 0; $i < $count; $i++) {
+                a($i + 0.17);
+            }
+        }
+        b(6);
+        b(10);
+        var_dump(xdebug_get_code_coverage());
+        D::pds(xdebug_get_profiler_filename());
+
+        xdebug_stop_code_coverage();
+
+        D::cookie();
+        D::fp();
+        D::bk();
+    }
+
+    public function actionBehavior()
+    {
+        // 测试行为和事件机制
+		// new BehaviorHost;
+		// new Event;
+
+		//throw new CHttpException('test http', 403);
+		//throw new Exception('test');
+		//D::pd($d);
+		//require __DIR__ . 'daniel.txt';
+    }
+
+    public function actionSession()
+    {
+        session_start();
+		$_SESSION['token'] = rand();
+		D::log($_SESSION);
+    }
 }
