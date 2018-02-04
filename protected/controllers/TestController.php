@@ -6,8 +6,202 @@
  */
 class TestController extends Controller
 {
+    // Found all f(s) of the key
+    // 在自身串中找前后缀（f(s)） - 目的是为了得到查找算法的实现
+    public function foundAllFsOfKey($text)
+    {
+        // Length
+        $n = strlen($text);
+
+        // Make state list
+        $sText = [];
+        for ($i=0; $i<$n; $i++) {
+            $sText[$i+1] = $text[$i];
+        }
+
+        // Init the found state result and the pointer
+        $fs = [1=>0];
+        $t = 0;
+
+        // Same as above which keeps the found sub string using char appending joining
+        $fsText = [0=>'', 1=>''];
+        $tText = '';
+
+        for ($s=1; $s<$n; $s++) {
+
+            // When a different char is occurred, reset the pointer to f(s) as well as the found sub string
+            while ($t>0 && $sText[$s+1] != $sText[$t+1]) {
+                $t = $fs[$t];
+
+                $tText = $fsText[$t];
+            }
+
+            // Step into when found or end with null
+            if ($sText[$s+1] == $sText[$t+1]) {
+                $t = $t + 1;
+                $fs[$s+1] = $t;
+
+                $tText = $tText . $sText[$t];
+                $fsText[$s+1] = $tText;
+            } else {
+                $fs[$s+1] = 0;
+
+                $tText = '';
+                $fsText[$s+1] = $tText;
+            }
+        }
+
+        \D::pd(array($n, $fs, $fsText));
+    }
+
+    // Found key from string
+    // 在给定串中找目标串 - 目的是将查找（f(s)）的算法应用到单个关键词查找中
+    public function foundKeyFromString($text, $string)
+    {
+        $m = strlen($string);
+        $n = strlen($text);
+
+        $iText = [];
+        for ($i=0; $i<$m; $i++) {
+            $iText[$i+1] = $string[$i];
+        }
+
+        $sTextList = [];
+        for ($i=0; $i<$n; $i++) {
+            $sTextList[$i+1] = $text[$i];
+        }
+
+        //\D::pde($iText, $sTextList);
+
+        /*
+        s = 0;
+        for (i=1; i<=m; i++) {
+            while (s>0 && ai !=bs+1)
+                s = f(s);
+
+            if (ai == bs+1)
+                s = s + 1;
+
+            if (s == n )
+                return 'yes';
+        }
+        return 'no';
+        */
+
+        $fs = [1=>0];
+        $s = 0;
+
+        $fsText = [0=>'', 1=>''];
+        $sText = '';
+
+        $found = false;
+
+        for ($i=1; $i<=$m; $i++) {
+
+            while ($s>0 && $iText[$i] != $sTextList[$s+1]) {
+                $s = $fs[$s];
+
+                $sText = $fsText[$s];
+            }
+
+            $mark = 'mark'.'-'.$i.'-'.$iText[$i].'-'.$s.'-'.$sTextList[$s+1].'-';
+
+            if ($iText[$i] != $sTextList[$s+1]) {
+                $mark .= 'unmatched';
+            }
+
+            if ($iText[$i] == $sTextList[$s+1]) {
+                $s = $s + 1;
+                $fs[$s+1] = $s;
+
+                $sText = $sText . $sTextList[$s];
+                $fsText[$s+1] = $sText;
+
+                $mark .= 'matched';
+            }
+
+            \D::pd($mark);
+
+            if ($s == $n) {
+                $found = true;
+                \D::pd('breaked at '.$i);
+                break;
+            }
+        }
+
+        \D::pd($found);
+        \D::pd(array($n, $fs, $fsText));
+    }
+
+    // 扩展目标串查找算法，使得可以同时查找多个目标串
+    public function foundMultiKeysFromString()
+    {
+        
+    }
+
     public function actionIndex()
     {
+        /* test foundAllFsOfKey */
+
+        $text = 'abbaabbaabb';
+        $fs = $this->foundAllFsOfKey($text);
+
+        $text = 'aaaaaaaaaaa';
+        $fs = $this->foundAllFsOfKey($text);
+
+        $text = 'ababababab';
+        $fs = $this->foundAllFsOfKey($text);
+
+        $text = 'abbaabbaabb';
+        $fs = $this->foundAllFsOfKey($text);
+
+        $text = 'ababaa';
+        $fs = $this->foundAllFsOfKey($text);
+
+
+        /* test foundKeyFromString */
+
+        \D::fp();
+
+        // There is an 'act' before in the middle
+        $string = 'abc act bbb';
+        $keys = 'act';
+        $fs = $this->foundKeyFromString($keys, $string);
+
+        // There is an 'act' before in the middle and also an 'action' at the end
+        $string = 'abc act bbb action';
+        $keys = 'action';
+        $fs = $this->foundKeyFromString($keys, $string);
+
+        // None and more than it
+        $string = 'bbbbbbbbbb';
+        $keys = 'action';
+        $fs = $this->foundKeyFromString($keys, $string);
+
+        // None and less than it
+        $string = 'bbb';
+        $keys = 'action';
+        $fs = $this->foundKeyFromString($keys, $string);
+
+        // Only has the first char in the middle
+        // It will be matched, but the entire entry is missed
+        $string = 'bbbbabbbbb';
+        $keys = 'action';
+        $fs = $this->foundKeyFromString($keys, $string);
+
+        // Only has the second char in the middle
+        $string = 'bbbbcbbbbb';
+        $keys = 'action';
+        $fs = $this->foundKeyFromString($keys, $string);
+
+
+        /* test foundMultiKeysFromString */
+
+        \D::fp();
+
+        \D::bk();
+
+
         $one = Goods::model();
 
 
