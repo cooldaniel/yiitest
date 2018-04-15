@@ -81,5 +81,21 @@
 </script>
 <noscript><p><img src="//www.piwik12.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
  --><!-- End Piwik Code -->
+
+<?php if (Yii::app()->user->hasFlash('operationSucceeded')): ?>
+<!-- operation successded alert -->
+<div style="position:absolute; top:160px; left:49%; color:red;" id="operationSucceeded"><?php echo Yii::app()->user->getFlash('operationSucceeded'); ?></div>
+<script>
+$(function(){
+	var obj = $('#operationSucceeded');
+	if (obj.length){
+		setTimeout(function(){
+			obj.fadeOut('slow');
+		}, 800);
+	}
+});
+</script>
+<?php endif ?>
+
 </body>
 </html>

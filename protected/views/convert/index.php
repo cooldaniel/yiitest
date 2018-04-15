@@ -11,10 +11,6 @@ $this->breadcrumbs=array(
 
 <h1><?php echo Yii::t('app', 'Convert'); ?></h1>
 
-<?php if (Yii::app()->user->hasFlash('operationSucceeded')): ?>
-<div style="position:absolute; top:160px; left:49%; color:red;" id="operationSucceeded"><?php echo Yii::app()->user->getFlash('operationSucceeded'); ?></div>
-<?php endif ?>
-
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -68,13 +64,6 @@ $this->breadcrumbs=array(
 		); ?>
 		<?php echo $form->error($model,'choice'); ?>
 	</div>
-    
-    <?php if ($model->convertErrors) : ?>
-    <div class="row">
-    	<?php echo $form->labelEx($model,'convertErrors'); ?>
-    	<p><?php echo $model->convertErrors; ?></p>
-    </div>
-    <?php endif ?>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
@@ -83,13 +72,3 @@ $this->breadcrumbs=array(
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-<script>
-$(function(){
-	var obj = $('#operationSucceeded');
-	if (obj.length){
-		setTimeout(function(){
-			obj.fadeOut('slow');
-		}, 800);
-	}
-});
-</script>

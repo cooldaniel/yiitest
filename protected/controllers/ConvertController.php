@@ -32,6 +32,7 @@ class ConvertController extends Controller
             // Make sure that validating the format before using
 			if($model->validate()) {
 
+                // Convert
                 $res = $this->getConvertHelper()->convert($_POST['ConvertForm']);
 
                 // Keep the result prompt and data for the next request showing.

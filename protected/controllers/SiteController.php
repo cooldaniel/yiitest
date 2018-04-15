@@ -30,57 +30,14 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-        //xdebug_start_trace();
 
-//        foreach (range('a', 'z') as $char)
-//        {
-//            echo ($char);
-//        }
-
-        //xdebug_stop_trace();
-
-//        xdebug_start_code_coverage();
-//
-//        function a($a) {
-//            echo $a * 2.5;
-//        }
-//        function b($count) {
-//            for ($i = 0; $i < $count; $i++) {
-//                a($i + 0.17);
-//            }
-//        }
-//        b(6);
-//        b(10);
-//        var_dump(xdebug_get_code_coverage());
-//        D::pds(xdebug_get_profiler_filename());
-//
-//        xdebug_stop_code_coverage();
-
-//        D::cookie();
-//
-//
-//
-//        D::fp();
-//
-//        D::bk();
-
-
-
-		// 测试行为和事件机制
-		// new BehaviorHost;
-		// new Event;
-		
-		//throw new CHttpException('test http', 403);
-		//throw new Exception('test');
-		//D::pd($d);
-		//require __DIR__ . 'daniel.txt';
-
-		session_start();
-		$_SESSION['token'] = rand();
-		D::log($_SESSION);
+        $data = [
+            ['text'=>'Convert', 'url'=>'/convert'],
+            ['text'=>'Join', 'url'=>'/join'],
+        ];
 
 		$this->render('index', array(
-			'token'=>$_SESSION['token'],
+			'data'=>$data
 		));
 	}
 
