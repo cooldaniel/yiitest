@@ -8,6 +8,38 @@ class TestController extends Controller
 {
     public function actionIndex()
     {
+
+        $a = 10000;
+        $b = 0.1;
+
+        $data = [];
+
+        $i = 1;
+        while ($a > 0) {
+
+            $row = [];
+            $row['i'] = $i;
+            $row['a'] = $a;
+
+            $a = $a * (1-$b);
+            $row['b'] = $a;
+
+            $data[] = $row;
+
+            if ($i > 150) {
+                break;
+            }
+
+            $i++;
+        }
+
+        $this->view($data);
+
+
+
+        \D::bk();
+
+
         $one = Goods::model();
 
 
@@ -15,6 +47,29 @@ class TestController extends Controller
         D::post();
         D::session();
         D::pd(Yii::getVersion());
+    }
+
+    private function view($data)
+    {
+        echo '<style>table{width:100%;}</style>';
+
+        $pagination = new CPagination();
+        $pagination->setPageSize(10000);
+
+        $dataProvider = new CArrayDataProvider($data);
+        $dataProvider->keyField = 'a';
+        $dataProvider->setPagination($pagination);
+        $this->widget('zii.widgets.grid.CGridView', [
+            'dataProvider'=>$dataProvider,
+            'enablePagination'=>false,
+//            'columns'=>array_merge([
+//                    [
+//                        'name'=>'Row ID',
+//                        'value'=>'$row+1',
+//                    ]
+//                ], array_keys(reset($data))
+//            ),
+        ]);
     }
 
     public function actionP()
