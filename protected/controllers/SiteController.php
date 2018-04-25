@@ -36,6 +36,7 @@ class SiteController extends Controller
             ['text'=>'Join', 'url'=>$this->createUrl('join/index')],
             ['text'=>'Data Builder', 'url'=>$this->createUrl('dataBuilder/index')],
             ['text'=>'Code', 'url'=>$this->createUrl('code/index')],
+            ['text'=>'Extractphar', 'url'=>$this->createUrl('site/extractphar', ['phar'=>'', 'saveto'=>'', 'overwrite'=>''])],
         ];
 
 		$this->render('index', array(
@@ -419,6 +420,46 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
         echo $html;
 
         echo $content;
+    }
+
+    public function actionExtractphar()
+    {
+        $phar = Yii::app()->request->getQuery('phar');
+        $saveto = Yii::app()->request->getQuery('saveto');
+        $overwrite = (bool)Yii::app()->request->getQuery('overwrite');
+
+        if (empty($phar) || empty($saveto)) {
+            echo '必须指定phar和saveto参数';
+            exit();
+        }
+
+        if (!file_exists($phar)) {
+            echo "phar文件 {$phar} 不存在";
+            exit();
+        }
+
+        if (!file_exists($saveto)) {
+            echo "保存目录 {$saveto} 不存在";
+            exit();
+        }
+
+        if (!is_dir($saveto)) {
+            echo "保存目录 {$saveto} 不是一个目录";
+            exit;
+        }
+
+        if (!is_writeable($saveto)) {
+            echo "保存目录 {$saveto} 没有写权限";
+            exit;
+        }
+
+        echo 'Starting to extract the phar file: '.$phar;
+
+        $phar = new Phar($phar);
+        $phar->extractTo($saveto, null, $overwrite);
+
+        echo '<br/>';
+        echo 'Done!';
     }
 }
 
