@@ -52,4 +52,9 @@ class JsController extends Controller
 	{
 		echo $this->render('fragements/list_1');
 	}
+
+	public function actionBlockAndSeries()
+    {
+        $this->render('js_block_and_series');
+    }
 }

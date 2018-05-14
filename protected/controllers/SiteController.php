@@ -37,6 +37,7 @@ class SiteController extends Controller
             ['text'=>'Data Builder', 'url'=>$this->createUrl('dataBuilder/index')],
             ['text'=>'Code', 'url'=>$this->createUrl('code/index')],
             ['text'=>'Extractphar', 'url'=>$this->createUrl('site/extractphar', ['phar'=>'', 'saveto'=>'', 'overwrite'=>''])],
+            ['text'=>'Js', 'url'=>$this->createUrl('js/index')],
         ];
 
 		$this->render('index', array(

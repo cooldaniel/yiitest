@@ -858,4 +858,20 @@ e7a4b53a063f4343b6cfbe3edcf1c063
         }
         \D::pd($duplicate);
     }
+
+    public function actionCircle()
+    {
+//        $r = 100;
+//        $middle_point = [300,300];
+//
+//        $point_list = [];
+//        foreach (range(0, 359) as $angle) {
+//            $point_list[] = [$r * sin($angle), $r * cos($angle)];
+//        }
+//
+//        \D::pd($point_list);
+//
+//        \D::pd(cos(1));
+        $this->render('circle');
+    }
 }

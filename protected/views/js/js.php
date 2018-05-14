@@ -5,5 +5,6 @@ $this->renderPartial('/layouts/block_list',array('title'=>'JavaScript 测试','i
 	array('jquery_plugin',$this->createUrl('js/jqueryPlugin')),
 	//array('jquery_slide',$this->createUrl('js/jquerySlide')),
 	array('module',$this->createUrl('js/module')),
+	array('block_and_series',$this->createUrl('js/blockAndSeries')),
 )));
 ?>
