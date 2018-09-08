@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\databuilder;
+//namespace app\components\databuilder;
 
 /**
  * Class ArrayBuilder

@@ -1,6 +1,6 @@
 <?php
 
-use app\components\databuilder\ArrayBuilder;
+//use app\components\databuilder\ArrayBuilder;
 
 class MiscController extends Controller
 {
@@ -97,7 +97,7 @@ class MiscController extends Controller
     {
         \D::bk();
 
-        xdebug_start_trace();
+        //xdebug_start_trace();
 
         foreach (range('a', 'z') as $char)
         {
@@ -202,28 +202,76 @@ class MiscController extends Controller
 
         // 构造多维数组
         $tpl = [
-            ['name'=>'title', 'type'=>'string'],
-            ['name'=>'status', 'type'=>'enum', 'value'=>'1,2,3'],
-
-            ['name'=>'sub', 'type'=>'array', 'return_type'=>'json', 'tpl'=>[
-                ['name'=>'title', 'type'=>'string'],
-                ['name'=>'status', 'type'=>'enum', 'value'=>'1,2,3'],
-
-                ['name'=>'sub', 'type'=>'array', 'tpl'=>[
-                    ['name'=>'title', 'type'=>'string'],
-                    ['name'=>'status', 'type'=>'enum', 'value'=>'1,2,3'],
-
-                    ['name'=>'sub', 'type'=>'array', 'tpl'=>[
-                        ['name'=>'title', 'type'=>'string'],
-                        ['name'=>'status', 'type'=>'enum', 'value'=>'1,2,3'],
-
-                        ['name'=>'sub', 'type'=>'array', 'tpl'=>[
-                            ['name'=>'title', 'type'=>'string'],
-                            ['name'=>'status', 'type'=>'enum', 'value'=>'1,2,3'],
-                        ]],
-                    ]],
-                ]],
-            ]],
+            [
+                'name'=>'title',
+                'type'=>'string'
+            ],
+            [
+                'name'=>'status',
+                'type'=>'enum',
+                'value'=>'1,2,3'
+            ],
+            [
+                'name'=>'sub',
+                'type'=>'array',
+                'return_type'=>'json',
+                'tpl'=>[
+                    [
+                        'name'=>'title',
+                        'type'=>'string'
+                    ],
+                    [
+                        'name'=>'status',
+                        'type'=>'enum',
+                        'value'=>'1,2,3'
+                    ],
+                    [
+                        'name'=>'sub',
+                        'type'=>'array',
+                        'tpl'=>[
+                            [
+                                'name'=>'title',
+                                'type'=>'string'
+                            ],
+                            [
+                                'name'=>'status',
+                                'type'=>'enum',
+                                'value'=>'1,2,3'
+                            ],
+                            [
+                                'name'=>'sub',
+                                'type'=>'array',
+                                'tpl'=>[
+                                    [
+                                        'name'=>'title',
+                                        'type'=>'string'
+                                    ],
+                                    [
+                                        'name'=>'status',
+                                        'type'=>'enum',
+                                        'value'=>'1,2,3'
+                                    ],
+                                    [
+                                        'name'=>'sub',
+                                        'type'=>'array',
+                                        'tpl'=>[
+                                            [
+                                                'name'=>'title',
+                                                'type'=>'string'
+                                            ],
+                                            [
+                                                'name'=>'status',
+                                                'type'=>'enum',
+                                                'value'=>'1,2,3'
+                                            ],
+                                        ]
+                                    ],
+                                ]
+                            ],
+                        ]
+                    ],
+                ]
+            ],
         ];
 
         $builder = new ArrayBuilder();
@@ -248,3 +296,4 @@ class MiscController extends Controller
         }, ['rand'=>rand()]);
         \D::pd($data);
     }
+}

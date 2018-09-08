@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\databuilder\dataschema;
+//namespace app\components\databuilder\dataschema;
 
 class Column
 {

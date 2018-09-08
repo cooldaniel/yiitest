@@ -20,6 +20,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.components.databuilder.*',
+		'application.components.databuilder.dataschema.*',
 		'application.helpers.*',
 		'application.vendors.*',
         'application.vendors.phpexcel.PHPExcel',
