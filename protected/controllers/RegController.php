@@ -36,6 +36,11 @@ class RegController extends Controller
         $img = $this->getPageString($html, $pattern);
         $pattern = $this->createUnitPattern('input', 'comment', 'value');
         $img = $this->getPageString($html, $pattern);
+
+        // 替换(?,?,?)为()
+        $s = "select `id`, `name` from `brands` where `id` in (?, ?, ?, ?, ?, ?) and `brands`.`deleted_at` is null";
+        $s = preg_replace('/\(.*\)/', '()', $s);
+        \D::pd($s);
     }
 
     /**

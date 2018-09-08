@@ -23,8 +23,9 @@ $this->breadcrumbs=array(
 	<?php if ($model->output != ''):  ?>
 	<p>
 		<span><b><?php echo $model->getAttributeLabel('totalCount') ?></b>: <span class="required"><i><?php echo $model->totalCount; ?><i></span></span>
-		<span><b><?php echo $model->getAttributeLabel('activeCount') ?></b>: <span class="required"><i><?php echo $model->activeCount; ?><i></span></span>
 		<span><b><?php echo $model->getAttributeLabel('emptyCount') ?></b>: <span class="required"><i><?php echo $model->emptyCount; ?><i></span></span>
+		<span><b><?php echo $model->getAttributeLabel('repeatCount') ?></b>: <span class="required"><i><?php echo $model->repeatCount; ?><i></span></span>
+		<span><b><?php echo $model->getAttributeLabel('activeCount') ?></b>: <span class="required"><i><?php echo $model->activeCount; ?><i></span></span>
 	</p>
 	<?php endif  ?>
 

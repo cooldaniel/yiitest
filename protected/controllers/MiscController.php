@@ -1,5 +1,7 @@
 <?php
 
+use app\components\databuilder\ArrayBuilder;
+
 class MiscController extends Controller
 {
 	/**

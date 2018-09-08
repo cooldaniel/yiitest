@@ -12,6 +12,7 @@ class JoinForm extends CFormModel
     public $totalCount;
     public $activeCount;
     public $emptyCount;
+    public $repeatCount;
 
 	/**
 	 * Declares the validation rules.
@@ -20,7 +21,7 @@ class JoinForm extends CFormModel
 	{
 		return array(
 			array('list', 'required'),
-			array('output, totalCount, activeCount, emptyCount', 'safe'),
+			array('output, totalCount, activeCount, emptyCount, repeatCount', 'safe'),
 		);
 	}
 
@@ -37,6 +38,7 @@ class JoinForm extends CFormModel
 			'totalCount'=>Yii::t('code', 'Total Count'),
 			'activeCount'=>Yii::t('code', 'Active Count'),
 			'emptyCount'=>Yii::t('code', 'Empty Count'),
+			'repeatCount'=>Yii::t('code', 'Repeat Count'),
 		);
 	}
 }

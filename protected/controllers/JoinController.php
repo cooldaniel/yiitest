@@ -47,20 +47,37 @@ class JoinController extends Controller
         // make output
         $lines = explode("\r\n", trim($data));
         $totalCount = count($lines);
+        $emptyCount = 0;
         foreach ($lines as $index => $line) {
 
             // filter empty item
             $line = trim($line);
             $line = trim($line, ",");
             if ($line == '') {
+                $emptyCount++;
                 unset($lines[$index]);
                 continue;
             }
 
             $lines[$index] = $line;
         }
+
+        // 包含重复项时的数量
+        $repeatableCount = count($lines);
+
+        // 去重
+        $lines = array_unique($lines);
+
+        // 去重后数量
         $activeCount = count($lines);
-        $emptyCount = $totalCount - $activeCount;
+
+        // 空字符串数量
+        $emptyCount = $totalCount - $repeatableCount;
+
+        // 重复的数量
+        $repeatCount = $repeatableCount - $activeCount;
+
+        // 输出结果
         $output = "'" . implode("','", $lines) . "'";
 
         return [
@@ -69,6 +86,7 @@ class JoinController extends Controller
             'totalCount' => $totalCount,
             'activeCount' => $activeCount,
             'emptyCount' => $emptyCount,
+            'repeatCount' => $repeatCount,
         ];
     }
 }
