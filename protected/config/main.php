@@ -14,7 +14,7 @@ return array(
 	//'catchAllRequest'=>array('site/maintain'),
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('preLoadTest', 'log'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -119,6 +119,9 @@ return array(
 				),
 			),
 		),
+        'preLoadTest'=>array(
+            'class'=>'PreLoadTest',
+        ),
 	),
 
 	// application-level parameters that can be accessed
