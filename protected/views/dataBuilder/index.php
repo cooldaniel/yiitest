@@ -14,7 +14,11 @@ span.error{
 </style>
 
 <?php
-$dataProvider = new CArrayDataProvider($data);
+$dataProvider = new CArrayDataProvider($data, [
+    'pagination'=>[
+        'pageSize'=>2,
+    ],
+]);
 $dataProvider->keyField = 'code';
 $this->widget('zii.widgets.grid.CGridView', [
     'dataProvider'=>$dataProvider,

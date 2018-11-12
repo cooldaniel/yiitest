@@ -1,21 +1,14 @@
 <?php
 
-/**
- * This is the model class for table "country".
- *
- * The followings are the available columns in table 'country':
- * @property string $code
- * @property string $name
- * @property integer $population
- */
-class Country extends CActiveRecord
+class DuplicateRecord extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'country';
+		return 'duplicate_record';
+		return 'duplicate_record_unique';
 	}
 
 	/**
@@ -26,14 +19,12 @@ class Country extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, name', 'required'),
-			array('population', 'numerical', 'integerOnly'=>true, 'max'=>99999999999),
-			array('code', 'length', 'max'=>2, 'min'=>2),
-			array('name', 'length', 'max'=>52, 'min'=>2),
-			array('name', 'match', 'pattern'=>'/[\w\d]+/', 'message'=>'{attribute} can only contain letters or digits.'),
+			array('title,created', 'required'),
+			array('title', 'length', 'max'=>100, 'min'=>1),
+			array('remark,content', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('code, name, population', 'safe', 'on'=>'search'),
+			array('title,remark,content', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,14 +40,14 @@ class Country extends CActiveRecord
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
+	 * @return array customized attribute labels (title=>label)
 	 */
 	public function attributeLabels()
 	{
 		return array(
-			'code' => 'Code',
-			'name' => 'Name',
-			'population' => 'Population',
+			'title' => 'Title',
+			'remark' => 'Remark',
+			'content' => 'Content',
 		);
 	}
 
@@ -78,9 +69,9 @@ class Country extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('population',$this->population);
+		$criteria->compare('title',$this->title,true);
+		$criteria->compare('remark',$this->remark,true);
+		$criteria->compare('content',$this->content,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

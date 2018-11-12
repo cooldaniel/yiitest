@@ -25,21 +25,54 @@ class SiteController extends Controller
 	}
 
 	/**
-	 * This is the default 'index' action that is invoked
-	 * when an action is not explicitly requested by users.
+	 * 首页显示选中的站点url列表.完整的url列表见{@see actionSelect}方法，而且在这里可以修改选中的站点url列表.
 	 */
 	public function actionIndex()
 	{
+        // 获取数据
+        $siteListHelper = new SiteListHelper();
+        $checkedList = $siteListHelper->getCheckedList();
+        $data = $siteListHelper->getSiteUrlList($checkedList);
 
-        $data = [
-            ['text'=>'Convert', 'url'=>'/convert'],
-            ['text'=>'Join', 'url'=>'/join'],
-        ];
+        // 首页只显示选中项
+        $siteListHelper->filterUncheckedList($data);
 
-		$this->render('index', array(
-			'data'=>$data
-		));
+        $this->render('index', array(
+            'data'=>$data,
+            'showForm'=>false,
+        ));
 	}
+
+    /**
+     * 修改站点配置列表选中状态.
+     */
+    public function actionSelect()
+    {
+        // 获取数据
+        $siteListHelper = new SiteListHelper();
+        $checkedList = $siteListHelper->getCheckedList();
+        $data = $siteListHelper->getSiteUrlList($checkedList);
+
+        // 提交表单
+        $form = $_POST['form'] ?? null;
+        if ($form) {
+            $checkedList = $form['checked_list'] ?? null;
+            if ($checkedList) {
+
+                // 保存表单
+                $siteListHelper->saveCheckedList($checkedList);
+
+                // 跳转到首页，避免刷新时提示是否提交表单
+                $this->redirect($this->createUrl('site/index'));
+            }
+        }
+
+        // 选择页显示所有项目
+        $this->render('index', array(
+			'data'=>$data,
+            'showForm'=>true,
+		));
+    }
 
 	/**
 	 * This is the action to handle external exceptions.
@@ -179,113 +212,6 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 		D::pde($n);
 	}
 	
-	/**
-	 * 根据卡号生成卡号验证码.
-	 */
-	public function actionCode()
-	{
-		$model=new CodeForm;
-		$operationSucceeded = '';
-		
-		$user = Yii::app()->user;
-		if ($user->hasState('cardNumList'))
-		{
-			$model->cardNumList = $user->getState('cardNumList');
-		}
-		if ($user->hasState('codeList'))
-		{
-			$model->codeList = $user->getState('codeList');
-		}
-		if ($user->hasState('codeListWithCard'))
-		{
-			$model->codeListWithCard = $user->getState('codeListWithCard');
-		}
-		if ($user->hasState('codeErrors'))
-		{
-			$model->codeErrors = $user->getState('codeErrors');
-		}
-		if ($user->hasFlash('operationSucceeded'))
-		{
-			$operationSucceeded = $user->getFlash('operationSucceeded');
-		}
-		
-		if(isset($_POST['CodeForm']))
-		{
-			$model->attributes=$_POST['CodeForm'];
-			if($model->validate())
-			{
-				$cardNumList = trim($_POST['CodeForm']['cardNumList']);
-				if (trim($cardNumList) != '')
-				{
-					$res = $this->generateCardValidateCodeList($cardNumList);
-					$user->setState('cardNumList', $res['cardNumList']);
-					$user->setState('codeList', $res['codeList']);
-					$user->setState('codeListWithCard', $res['codeListWithCard']);
-					$user->setState('codeErrors', $res['codeErrors']);
-					$user->setFlash('operationSucceeded', 'Operation Succeeded');
-					$this->refresh();
-				}
-			}
-		}
-		$this->render('code',array('model'=>$model, 'operationSucceeded'=>$operationSucceeded));
-	}
-	
-	private function generateCardValidateCodeList($cardNumList)
-	{
-		$codeList = array();
-		$codeListWithCard = array();
-		$codeErrors = '';
-		
-		$cardNumList = explode("\n", $cardNumList);
-		foreach ($cardNumList as $index => $card_num)
-		{
-			$card_num = trim($card_num);
-			
-			// 卡号长度不对
-			if (strlen($card_num) != 11)
-			{
-				$codeErrors .= '第 ' . ($index + 1) . ' 行卡号 ' . $card_num . ' 长度不对<br/>';
-			}
-			
-			// 生成卡密
-			$code = $this->generateCardValidateCode($card_num);
-			$codeList[] = $code;
-			$codeListWithCard[] = $card_num . '    ' . $code;
-			$cardNumList[$index] = $card_num; // 去除卡两端空白
-		}
-		
-		return array(
-			'codeList' => implode("\n", $codeList),
-			'codeListWithCard' => implode("\n", $codeListWithCard),
-			'cardNumList' => implode("\n", $cardNumList),
-			'codeErrors' => $codeErrors,
-		);
-	}
-	
-	/**
-	 * 生成卡号验证码.
-	 * @param int $card_num 整数卡号
-	 * @return int 返回生成的4位卡号验证码数字.
-	 */
-	private function generateCardValidateCode($card_num)
-	{
-		$pre_code_list = array(
-			'0' => '3205',
-			'1' => '4369',
-			'2' => '7425',
-			'3' => '1753',
-			'4' => '2531',
-			'5' => '3812',
-			'6' => '5104',
-			'7' => '6239',
-			'8' => '2897',
-			'9' => '5372',
-		);
-		$last_one = substr($card_num, -1);
-		$pre_code = $pre_code_list[$last_one];
-		return substr((fmod(fmod($card_num, 100000) * 6390, $pre_code) + $pre_code), -4);
-	}
-	
 	public function getUser()
 	{
 		return array(
@@ -339,8 +265,7 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 		D::pd($this->getBrowserVer());
 		D::pd($_SERVER["HTTP_USER_AGENT"]);
 	}
-	
-	
+
 	public function getBrowser(){
 		$agent=$_SERVER["HTTP_USER_AGENT"];
 		if(strpos($agent,'MSIE')!==false || strpos($agent,'rv:11.0')) //ie11判断
@@ -525,27 +450,56 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 
         echo $content;
     }
+
+    public function actionExtractphar()
+    {
+        $phar = Yii::app()->request->getQuery('phar');
+        $saveto = Yii::app()->request->getQuery('saveto');
+        $overwrite = (bool)Yii::app()->request->getQuery('overwrite');
+
+        if (empty($phar) || empty($saveto)) {
+            echo '必须指定phar和saveto参数';
+            exit();
+        }
+
+        if (!file_exists($phar)) {
+            echo "phar文件 {$phar} 不存在";
+            exit();
+        }
+
+        if (!file_exists($saveto)) {
+            echo "保存目录 {$saveto} 不存在";
+            exit();
+        }
+
+        if (!is_dir($saveto)) {
+            echo "保存目录 {$saveto} 不是一个目录";
+            exit;
+        }
+
+        if (!is_writeable($saveto)) {
+            echo "保存目录 {$saveto} 没有写权限";
+            exit;
+        }
+
+        echo 'Starting to extract the phar file: '.$phar;
+
+        $phar = new Phar($phar);
+        $phar->extractTo($saveto, null, $overwrite);
+
+        echo '<br/>';
+        echo 'Done!';
+    }
+
+    public function actionUrlEncode()
+    {
+        $url = Yii::app()->request->getParam('url');
+        echo urlencode($url);
+    }
+
+    public function actionUrlDecode()
+    {
+        $url = Yii::app()->request->getParam('url');
+        echo urldecode($url);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

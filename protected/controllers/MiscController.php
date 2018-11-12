@@ -1,5 +1,7 @@
 <?php
 
+//use app\components\databuilder\ArrayBuilder;
+
 class MiscController extends Controller
 {
 	/**
@@ -95,7 +97,7 @@ class MiscController extends Controller
     {
         \D::bk();
 
-        xdebug_start_trace();
+        //xdebug_start_trace();
 
         foreach (range('a', 'z') as $char)
         {
@@ -142,5 +144,156 @@ class MiscController extends Controller
         session_start();
 		$_SESSION['token'] = rand();
 		D::log($_SESSION);
+    }
+    
+    public function actionD()
+    {
+        \D::fp();
+
+        // 数据类型及操作方式通用分析
+
+        /* 简单的数据访问方式 */
+
+        // 操作单元：基本表达式
+        $a = 1;
+        $b = 2;
+        $c = $a + $b;
+        \D::pd($a, $b, $c);
+
+        // 数组
+        $a = [1,2,3];
+        $b = $a[0];
+        $c = $a[1];
+        \D::pd($a, $b, $c);
+
+        // 关联数组
+        $a = ['one'=>1, 'two'=>2];
+        $b = $a['one'];
+        $c = $a['two'];
+        \D::pd($a, $b, $c);
+
+        // 对象
+        $a = new class{
+            public $one = 1;
+            public $two = 2;
+            public function three() {
+                echo 'three';
+            }
+        };
+        $b = $a->one;
+        $c = $a->two;
+        $a->three();
+        \D::pd($a, $b, $c);
+
+        /* 构造高级数据结构和访问方式 */
+    }
+    
+    public function actionDaemon()
+    {
+        // 入口脚本
+        // 解析环境数据，设定运行环境
+        // 解析url定位controller
+        // 接收和解析提交的参数，包括header，cookie，request等
+        // 数据处理
+        // 数据库操作
+        // 响应
+
+        /* 数组处理建模 */
+
+        // 构造多维数组
+        $tpl = [
+            [
+                'name'=>'title',
+                'type'=>'string'
+            ],
+            [
+                'name'=>'status',
+                'type'=>'enum',
+                'value'=>'1,2,3'
+            ],
+            [
+                'name'=>'sub',
+                'type'=>'array',
+                'return_type'=>'json',
+                'tpl'=>[
+                    [
+                        'name'=>'title',
+                        'type'=>'string'
+                    ],
+                    [
+                        'name'=>'status',
+                        'type'=>'enum',
+                        'value'=>'1,2,3'
+                    ],
+                    [
+                        'name'=>'sub',
+                        'type'=>'array',
+                        'tpl'=>[
+                            [
+                                'name'=>'title',
+                                'type'=>'string'
+                            ],
+                            [
+                                'name'=>'status',
+                                'type'=>'enum',
+                                'value'=>'1,2,3'
+                            ],
+                            [
+                                'name'=>'sub',
+                                'type'=>'array',
+                                'tpl'=>[
+                                    [
+                                        'name'=>'title',
+                                        'type'=>'string'
+                                    ],
+                                    [
+                                        'name'=>'status',
+                                        'type'=>'enum',
+                                        'value'=>'1,2,3'
+                                    ],
+                                    [
+                                        'name'=>'sub',
+                                        'type'=>'array',
+                                        'tpl'=>[
+                                            [
+                                                'name'=>'title',
+                                                'type'=>'string'
+                                            ],
+                                            [
+                                                'name'=>'status',
+                                                'type'=>'enum',
+                                                'value'=>'1,2,3'
+                                            ],
+                                        ]
+                                    ],
+                                ]
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+        ];
+
+        $builder = new ArrayBuilder();
+        $data = $builder->makeData($tpl, 10);
+        \D::pd($data);
+
+        // 一维数组处理
+
+        // 多维数组处理
+
+        // 多个数组处理（集合运算）
+
+        array_map(function ($value) {
+            \D::pd($value);
+        }, $data);
+
+        \D::fp();
+
+        // 递归遍历
+        array_walk_recursive($data, function (&$value, $index, $params=[]) {
+            $value .= ' - ' .rand() . ' - ' . $params['rand'];
+        }, ['rand'=>rand()]);
+        \D::pd($data);
     }
 }

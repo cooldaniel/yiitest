@@ -14,12 +14,14 @@ return array(
 	//'catchAllRequest'=>array('site/maintain'),
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('preLoadTest', 'log'),
 
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.components.databuilder.*',
+		'application.components.databuilder.dataschema.*',
 		'application.helpers.*',
 		'application.vendors.*',
         'application.vendors.phpexcel.PHPExcel',
@@ -92,7 +94,8 @@ return array(
 					'class'=>'CFileLogRoute',
 					//'enabled'=>!YII_DEBUG,
                     'enabled'=>!false,
-					'levels'=>'error, warning, trace,info, profile',
+					//'levels'=>'error, warning, trace,info, profile',
+                    'levels'=>'error, warning',
 					// 方便查看每次请求的上下文环境
 					//'filter'=>'CLogFilter',
 				),
@@ -116,6 +119,9 @@ return array(
 				),
 			),
 		),
+        'preLoadTest'=>array(
+            'class'=>'PreLoadTest',
+        ),
 	),
 
 	// application-level parameters that can be accessed

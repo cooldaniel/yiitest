@@ -4,6 +4,13 @@ class ExcelController extends Controller
 {
 	public function actionIndex()
 	{
+        // 使用YiiExcel
+        $excel = new YiiExcel();
+
+        \D::pd($excel);
+
+
+        // 使用原生PHPExcel组件
         $excel = new PHPExcel();
         $excel->setActiveSheetIndex(0);
         $sheet = $excel->getActiveSheet();
@@ -13,6 +20,8 @@ class ExcelController extends Controller
 
         $sheet->getColumnDimension('A')->setAutoSize(true);
         $sheet->getColumnDimension('A')->setWidth(30);
+
+        \D::pd($excel);
     }
 
     public function actionLoadDataInFile()
