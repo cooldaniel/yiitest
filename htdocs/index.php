@@ -3,7 +3,7 @@
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $config=dirname(__FILE__).'/../protected/config/main.php';
-require_once(dirname(__FILE__).'/../../../projects/D/autoload.php');
+require_once(dirname(__FILE__).'/../../D/autoload.php');
 
 
 //function get_data(){

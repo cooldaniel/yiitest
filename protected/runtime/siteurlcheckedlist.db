@@ -15,7 +15,8 @@
   13 => 'site/extractphar',
   14 => 'site/urlencode',
   15 => 'site/urldecode',
-  16 => 'tax/index',
-  17 => 'test/index',
-  18 => 'vue/index',
+  16 => 'site/hello',
+  17 => 'tax/index',
+  18 => 'test/index',
+  19 => 'vue/index',
 );

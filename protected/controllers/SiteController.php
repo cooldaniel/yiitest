@@ -502,4 +502,9 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
         $url = Yii::app()->request->getParam('url');
         echo urldecode($url);
     }
+    
+    public function actionHello()
+    {
+        echo "yiitest says hello-".rand();
+    }
 }
