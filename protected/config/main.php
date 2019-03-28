@@ -25,6 +25,7 @@ return array(
 		'application.helpers.*',
 		'application.vendors.*',
         'application.vendors.phpexcel.PHPExcel',
+        'application.traits.*',
 	),
 
 	'modules'=>array(
@@ -51,7 +52,7 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		
 		'urlManager'=>array(
-			//'urlFormat'=>'path',
+			'urlFormat'=>'path',
 			//'urlSuffix'=>'shtml',
 			'showScriptName'=>false,
 			'rules'=>array(
@@ -67,7 +68,7 @@ return array(
 		*/
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=192.168.3.42;dbname=yiitest',
+			'connectionString' => 'mysql:host=192.168.3.54;dbname=yiitest',
 //			'connectionString' => 'mysql:host=localhost;dbname=ismonb2b',
 //			'connectionString' => 'mysql:host=localhost;dbname=platform',
 			'emulatePrepare' => true,

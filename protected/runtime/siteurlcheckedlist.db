@@ -18,5 +18,11 @@
   16 => 'site/hello',
   17 => 'tax/index',
   18 => 'test/index',
-  19 => 'vue/index',
+  19 => 'tokenauth/authpage',
+  20 => 'tokenauth/auth',
+  21 => 'tokenauth/token',
+  22 => 'tokenauth/refreshtoken',
+  23 => 'tokenauth/checktoken',
+  24 => 'tokenauth/invalidrequestparams',
+  25 => 'vue/index',
 );
