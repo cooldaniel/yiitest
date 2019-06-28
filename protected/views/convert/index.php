@@ -5,7 +5,7 @@
 
 $this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'Convert');
 $this->breadcrumbs=array(
-	Yii::t('app', 'Convert'),
+    Yii::t('app', 'Convert'),
 );
 ?>
 
@@ -14,60 +14,67 @@ $this->breadcrumbs=array(
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'contact-form',
-	//'enableClientValidation'=>true,
-	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
-	),
+    'id'=>'contact-form',
+    //'enableClientValidation'=>true,
+    'clientOptions'=>array(
+        'validateOnSubmit'=>true,
+    ),
 )); ?>
 
-	<p class="note"><?php echo Yii::t('app', 'Fields with <span class="required">*</span> are required.'); ?></p>
+    <p class="note"><?php echo Yii::t('app', 'Fields with <span class="required">*</span> are required.'); ?></p>
 
-	<?php echo $form->errorSummary($model); ?>
+    <?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'json'); ?>
-		<?php echo $form->textArea($model,'json', array('cols'=>120, 'rows'=>25)); ?>
-		<?php echo $form->error($model,'json'); ?>
-	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'json'); ?>
+        <?php echo $form->textArea($model,'json', array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo $form->error($model,'json'); ?>
+    </div>
     
     <div class="row">
-		<?php echo $form->labelEx($model,'array'); ?>
-		<?php echo $form->textArea($model,'array', array('cols'=>120, 'rows'=>25)); ?>
-		<?php echo $form->error($model,'array'); ?>
-	</div>
+        <?php echo $form->labelEx($model,'array'); ?>
+        <?php echo $form->textArea($model,'array', array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo $form->error($model,'array'); ?>
+    </div>
 
     <div class="row">
-		<?php echo $form->labelEx($model,'likearray'); ?>
-		<?php echo $form->textArea($model,'likearray', array('cols'=>120, 'rows'=>25)); ?>
-		<?php echo $form->error($model,'likearray'); ?>
-	</div>
+        <?php echo $form->labelEx($model,'likearray'); ?>
+        <?php echo $form->textArea($model,'likearray', array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo $form->error($model,'likearray'); ?>
+    </div>
     
     <div class="row">
-		<?php echo $form->labelEx($model,'postman'); ?>
-		<?php echo $form->textArea($model,'postman', array('cols'=>120, 'rows'=>25)); ?>
-		<?php echo $form->error($model,'postman'); ?>
-	</div>
+        <?php echo $form->labelEx($model,'postman'); ?>
+        <?php echo $form->textArea($model,'postman', array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo $form->error($model,'postman'); ?>
+    </div>
 
     <div class="row">
-		<?php echo $form->labelEx($model,'choice'); ?>
-		<?php echo $form->radioButtonList($model,'choice',
-			[
-				ConvertHelper::CHOICE_JSON=>$model->attributeLabels()['json'],
-				ConvertHelper::CHOICE_ARRAY=>$model->attributeLabels()['array'],
-				ConvertHelper::CHOICE_LIKEARRAY=>$model->attributeLabels()['likearray'],
-				ConvertHelper::CHOICE_POSTMAN=>$model->attributeLabels()['postman'],
-			],
-			[
-				'separator'=>''
-			]
-		); ?>
-		<?php echo $form->error($model,'choice'); ?>
-	</div>
+        <?php echo $form->labelEx($model,'list'); ?>
+        <?php echo $form->textArea($model,'list', array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo $form->error($model,'list'); ?>
+    </div>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
-	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'choice'); ?>
+        <?php echo $form->radioButtonList($model,'choice',
+            [
+                ConvertHelper::CHOICE_JSON=>$model->attributeLabels()['json'],
+                ConvertHelper::CHOICE_ARRAY=>$model->attributeLabels()['array'],
+                ConvertHelper::CHOICE_LIKEARRAY=>$model->attributeLabels()['likearray'],
+                ConvertHelper::CHOICE_POSTMAN=>$model->attributeLabels()['postman'],
+                ConvertHelper::CHOICE_LIST=>$model->attributeLabels()['list'],
+            ],
+            [
+                'separator'=>''
+            ]
+        ); ?>
+        <?php echo $form->error($model,'choice'); ?>
+    </div>
+
+    <div class="row buttons">
+        <?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
+    </div>
 
 <?php $this->endWidget(); ?>
 

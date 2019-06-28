@@ -10,6 +10,7 @@ class ConvertHelper
     const CHOICE_ARRAY = 2;
     const CHOICE_LIKEARRAY = 3;
     const CHOICE_POSTMAN = 4;
+    const CHOICE_LIST = 5;
 
     /**
      * Conver the given data base on the choice.
@@ -19,28 +20,34 @@ class ConvertHelper
      * The order of the converting:
      *
      * json
-     *   ->array_data
      *   ->array
      *   ->likearray
      *   ->postman
+     *   ->list
      *
      * array
-     *   ->array_data
      *   ->json
      *   ->likearray
      *   ->postman
+     *   ->list
      *
      * likearray
-     *   ->array_data
      *   ->json
      *   ->array
      *   ->postman
+     *   ->list
      *
      * postman
-     *   ->array_data
      *   ->json
      *   ->array
      *   ->likearray
+     *   ->list
+     *
+     * list
+     *   ->json
+     *   ->array
+     *   ->likearray
+     *   ->postman
      *
      * @param $data
      * @return array
@@ -52,6 +59,7 @@ class ConvertHelper
         $array = trim($data['array']);
         $likearray = trim($data['likearray']);
         $postman = trim($data['postman']);
+        $list = trim($data['list']);
         $choice = $data['choice'];
 
         switch ($choice) {
@@ -60,30 +68,41 @@ class ConvertHelper
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
+                $list       = $this->arrayDataToList($array_data);
                 break;
             case self::CHOICE_ARRAY:
                 $array_data = $this->arrayToArrayData($array);
                 $json       = $this->arrayDataToJson($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
+                $list       = $this->arrayDataToList($array_data);
                 break;
             case self::CHOICE_LIKEARRAY:
                 $array_data = $this->likearrayToArrayData($likearray);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
+                $list       = $this->arrayDataToList($array_data);
                 break;
             case self::CHOICE_POSTMAN:
                 $array_data = $this->postmanToArrayData($postman);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
+                $list       = $this->arrayDataToList($array_data);
+                break;
+            case self::CHOICE_LIST:
+                $array_data = $this->listToArrayData($list);
+                $json       = $this->arrayDataToJson($array_data);
+                $array      = $this->arrayDataToArray($array_data);
+                $likearray  = $this->arrayDataToLikearray($array_data);
+                $postman    = $this->arrayDataToPostman($array_data);
                 break;
             default:
                 throw new Exception('Choice is not supprted.');
         }
 
-        return ['json'=>$json, 'array'=>$array, 'likearray'=>$likearray, 'postman'=>$postman, 'choice'=>$choice];
+        return ['json'=>$json, 'array'=>$array, 'likearray'=>$likearray, 'postman'=>$postman, 'list'=>$list, 'choice'=>$choice];
     }
 
     /**
@@ -127,6 +146,23 @@ class ConvertHelper
     {
         $data = [];
         \D::unpostman($string, $data);
+        return $data;
+    }
+
+    /**
+     * Convert a list string to an array.
+     * @param string $string
+     * @return array
+     */
+    public function listToArrayData($string)
+    {
+        $data = explode("\n", $string);
+
+        foreach ($data as &$item)
+        {
+            $item = trim($item);
+        }
+
         return $data;
     }
 
@@ -175,6 +211,18 @@ class ConvertHelper
     {
         $res = '';
         \D::postman($array_data, $res);
+        return $res;
+    }
+
+    /**
+     * Convert an array to a postman string.
+     * @param array $array_data
+     * @return string
+     */
+    public function arrayDataToList($array_data)
+    {
+        $res = '';
+        $res = implode("\n", $array_data);
         return $res;
     }
 }

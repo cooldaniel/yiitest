@@ -7,27 +7,29 @@
  */
 class ConvertForm extends CFormModel
 {
-	public $json;
-	public $array;
-	public $likearray;
-	public $postman;
+    public $json;
+    public $array;
+    public $likearray;
+    public $postman;
+    public $list;
     public $choice;
 
-	/**
-	 * Declares the validation rules.
-	 */
-	public function rules()
-	{
-		return array(
-			array('json', 'validateJson'),
-			array('array', 'validateArray'),
-			array('likearray', 'validateLikeArray'),
-			array('postman', 'validatePostman'),
+    /**
+     * Declares the validation rules.
+     */
+    public function rules()
+    {
+        return array(
+            array('json', 'validateJson'),
+            array('array', 'validateArray'),
+            array('likearray', 'validateLikeArray'),
+            array('postman', 'validatePostman'),
+            array('list', 'validateList'),
             array('choice', 'numerical'),
-		);
-	}
+        );
+    }
 
-	public function validateJson($attribute, $params)
+    public function validateJson($attribute, $params)
     {
         if ($this->choice == ConvertHelper::CHOICE_JSON && !is_array(json_decode($this->$attribute)) && !is_object(json_decode($this->$attribute))) {
             $this->addError($attribute, "The {$attribute} attribute is not a json string.");
@@ -55,19 +57,25 @@ class ConvertForm extends CFormModel
 //        }
     }
 
-	/**
-	 * Declares customized attribute labels.
-	 * If not declared here, an attribute would have a label that is
-	 * the same as its name with the first letter in upper case.
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'json'=>Yii::t('code', 'Json'),
-			'array'=>Yii::t('code', 'Array'),
-			'likearray'=>Yii::t('code', 'Like Array'),
-			'postman'=>Yii::t('code', 'Postman'),
-			'choice'=>Yii::t('code', 'Choice'),
-		);
-	}
+    public function validateList($attribute, $params)
+    {
+
+    }
+
+    /**
+     * Declares customized attribute labels.
+     * If not declared here, an attribute would have a label that is
+     * the same as its name with the first letter in upper case.
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'json'=>Yii::t('code', 'Json'),
+            'array'=>Yii::t('code', 'Array'),
+            'likearray'=>Yii::t('code', 'Like Array'),
+            'postman'=>Yii::t('code', 'Postman'),
+            'list'=>Yii::t('code', 'List'),
+            'choice'=>Yii::t('code', 'Choice'),
+        );
+    }
 }
