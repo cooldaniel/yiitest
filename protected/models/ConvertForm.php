@@ -13,6 +13,7 @@ class ConvertForm extends CFormModel
     public $postman;
     public $list;
     public $choice;
+    public $data_count;
 
     /**
      * Declares the validation rules.
@@ -26,6 +27,7 @@ class ConvertForm extends CFormModel
             array('postman', 'validatePostman'),
             array('list', 'validateList'),
             array('choice', 'numerical'),
+            array('data_count', 'numerical'),
         );
     }
 

@@ -65,6 +65,7 @@ class ConvertHelper
         switch ($choice) {
             case self::CHOICE_JSON:
                 $array_data = $this->jsonToArrayData($json);
+                $json       = $this->arrayDataToJson($array_data); // 美化json数据
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
@@ -102,7 +103,7 @@ class ConvertHelper
                 throw new Exception('Choice is not supprted.');
         }
 
-        return ['json'=>$json, 'array'=>$array, 'likearray'=>$likearray, 'postman'=>$postman, 'list'=>$list, 'choice'=>$choice];
+        return ['json'=>$json, 'array'=>$array, 'likearray'=>$likearray, 'postman'=>$postman, 'list'=>$list, 'choice'=>$choice, 'data_count'=>count($array_data)];
     }
 
     /**
@@ -173,7 +174,7 @@ class ConvertHelper
      */
     public function arrayDataToJson($array_data)
     {
-        return json_encode($array_data, JSON_UNESCAPED_UNICODE & JSON_UNESCAPED_SLASHES);
+        return json_encode($array_data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
     /**

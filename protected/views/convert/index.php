@@ -9,6 +9,14 @@ $this->breadcrumbs=array(
 );
 ?>
 
+<style>
+textarea {
+    /*font: normal 1em Arial,Helvetica,sans-serif;*/
+    /*border-radius: 3px;*/
+    /*padding: 0.5em;*/
+}
+</style>
+
 <h1><?php echo Yii::t('app', 'Convert'); ?></h1>
 
 <div class="form">
@@ -26,7 +34,7 @@ $this->breadcrumbs=array(
     <?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <?php echo $form->labelEx($model,'json'); ?>
+        <?php echo $form->labelEx($model,'json' . '&nbsp;&nbsp;(Data count: ' . $model->data_count .' )'); ?>
         <?php echo $form->textArea($model,'json', array('cols'=>120, 'rows'=>25)); ?>
         <?php echo $form->error($model,'json'); ?>
     </div>
@@ -55,25 +63,26 @@ $this->breadcrumbs=array(
         <?php echo $form->error($model,'list'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model,'choice'); ?>
-        <?php echo $form->radioButtonList($model,'choice',
-            [
-                ConvertHelper::CHOICE_JSON=>$model->attributeLabels()['json'],
-                ConvertHelper::CHOICE_ARRAY=>$model->attributeLabels()['array'],
-                ConvertHelper::CHOICE_LIKEARRAY=>$model->attributeLabels()['likearray'],
-                ConvertHelper::CHOICE_POSTMAN=>$model->attributeLabels()['postman'],
-                ConvertHelper::CHOICE_LIST=>$model->attributeLabels()['list'],
-            ],
-            [
-                'separator'=>''
-            ]
-        ); ?>
-        <?php echo $form->error($model,'choice'); ?>
-    </div>
+    <div style="position: fixed; right: 50px; top: 100px;">
 
-    <div class="row buttons">
-        <?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
+        <div class="row">
+            <?php echo $form->labelEx($model,'choice'); ?>
+            <?php echo $form->dropDownList($model,'choice',
+                [
+                    ConvertHelper::CHOICE_JSON=>$model->attributeLabels()['json'],
+                    ConvertHelper::CHOICE_ARRAY=>$model->attributeLabels()['array'],
+                    ConvertHelper::CHOICE_LIKEARRAY=>$model->attributeLabels()['likearray'],
+                    ConvertHelper::CHOICE_POSTMAN=>$model->attributeLabels()['postman'],
+                    ConvertHelper::CHOICE_LIST=>$model->attributeLabels()['list'],
+                ]
+            ); ?>
+            <?php echo $form->error($model,'choice'); ?>
+        </div>
+
+        <div class="row buttons">
+            <?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
+        </div>
+
     </div>
 
 <?php $this->endWidget(); ?>
