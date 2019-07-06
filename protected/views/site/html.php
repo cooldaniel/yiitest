@@ -48,7 +48,10 @@ textarea {
 
 <script>
 var viewHtmlUrl = '<?php echo $viewHtmlUrl; ?>';
+var viewHtml = <?php echo (int)$viewHtml; ?>;
 $(function () {
-    window.open(viewHtmlUrl);
+    if (viewHtml) {
+        window.open(viewHtmlUrl);
+    }
 })
 </script>
