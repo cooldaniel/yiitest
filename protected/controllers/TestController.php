@@ -395,7 +395,7 @@ class TestController extends Controller
     public function actionRedis()
     {
         $redis = new Redis();
-        $redis->connect('127.0.0.1', '7379');
+        $redis->connect('127.0.0.1', '6379');
         $key = 'yiitest';
         $set = $redis->set($key, 'test');
         $get = $redis->get($key);

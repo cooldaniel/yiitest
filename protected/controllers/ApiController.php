@@ -1,5 +1,5 @@
 <?php
-class ApiController extends TController
+class ApiController extends Controller
 {
 	public function actionIndex()
 	{

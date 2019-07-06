@@ -95,7 +95,7 @@ return array(
 					'class'=>'CFileLogRoute',
 					//'enabled'=>!YII_DEBUG,
                     'enabled'=>!false,
-					//'levels'=>'error, warning, trace,info, profile',
+					'levels'=>'error, warning, trace,info, profile',
                     'levels'=>'error, warning',
 					// 方便查看每次请求的上下文环境
 					//'filter'=>'CLogFilter',
