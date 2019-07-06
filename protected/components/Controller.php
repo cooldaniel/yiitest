@@ -4,7 +4,7 @@
  * All controller classes for this application should extend from this base class.
  * @package application.components
  */
-class Controller extends CController
+class Controller extends TController
 {
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
