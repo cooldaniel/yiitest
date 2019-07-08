@@ -222,8 +222,14 @@ class ConvertHelper
      */
     public function arrayDataToList($array_data)
     {
-        $res = '';
-        $res = implode("\n", $array_data);
-        return $res;
+        $data = [];
+        foreach ($array_data as $index => $item)
+        {
+            if (!is_array($item))
+            {
+                $data[$index] = $item;
+            }
+        }
+        return implode("\n", $data);
     }
 }
