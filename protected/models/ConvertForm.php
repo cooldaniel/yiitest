@@ -11,7 +11,19 @@ class ConvertForm extends CFormModel
     public $array;
     public $likearray;
     public $postman;
+
+    /**
+     * 用冒号分隔键值对
+     * @var string $list
+     */
     public $list;
+
+    /**
+     * 用空格分隔键值对，可以用来从fiddler复制表单项，转换到list，用于postman表单.
+     * @var string $listspace
+     */
+    public $listspace;
+
     public $choice;
     public $data_count;
 
@@ -26,6 +38,7 @@ class ConvertForm extends CFormModel
             array('likearray', 'validateLikeArray'),
             array('postman', 'validatePostman'),
             array('list', 'validateList'),
+            array('listspace', 'validateListSpace'),
             array('choice', 'numerical'),
             array('data_count', 'numerical'),
         );
@@ -64,6 +77,11 @@ class ConvertForm extends CFormModel
 
     }
 
+    public function validateListSpace($attribute, $params)
+    {
+
+    }
+
     /**
      * Declares customized attribute labels.
      * If not declared here, an attribute would have a label that is
@@ -77,6 +95,7 @@ class ConvertForm extends CFormModel
             'likearray'=>Yii::t('code', 'Like Array'),
             'postman'=>Yii::t('code', 'Postman'),
             'list'=>Yii::t('code', 'List'),
+            'listspace'=>Yii::t('code', 'ListSpace'),
             'choice'=>Yii::t('code', 'Choice'),
         );
     }

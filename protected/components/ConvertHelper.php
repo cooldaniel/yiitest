@@ -11,43 +11,12 @@ class ConvertHelper
     const CHOICE_LIKEARRAY = 3;
     const CHOICE_POSTMAN = 4;
     const CHOICE_LIST = 5;
+    const CHOICE_LISTSPACE = 6;
 
     /**
      * Conver the given data base on the choice.
      *
      * Always convert the given string to the array data to keep the converting process simple.
-     *
-     * The order of the converting:
-     *
-     * json
-     *   ->array
-     *   ->likearray
-     *   ->postman
-     *   ->list
-     *
-     * array
-     *   ->json
-     *   ->likearray
-     *   ->postman
-     *   ->list
-     *
-     * likearray
-     *   ->json
-     *   ->array
-     *   ->postman
-     *   ->list
-     *
-     * postman
-     *   ->json
-     *   ->array
-     *   ->likearray
-     *   ->list
-     *
-     * list
-     *   ->json
-     *   ->array
-     *   ->likearray
-     *   ->postman
      *
      * @param $data
      * @return array
@@ -60,6 +29,7 @@ class ConvertHelper
         $likearray = trim($data['likearray']);
         $postman = trim($data['postman']);
         $list = trim($data['list']);
+        $listspace = trim($data['listspace']);
         $choice = $data['choice'];
 
         switch ($choice) {
@@ -70,6 +40,7 @@ class ConvertHelper
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $list       = $this->arrayDataToList($array_data);
+                $listspace  = $this->arrayDataToListSpace($array_data);
                 break;
             case self::CHOICE_ARRAY:
                 $array_data = $this->arrayToArrayData($array);
@@ -77,6 +48,7 @@ class ConvertHelper
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $list       = $this->arrayDataToList($array_data);
+                $listspace  = $this->arrayDataToListSpace($array_data);
                 break;
             case self::CHOICE_LIKEARRAY:
                 $array_data = $this->likearrayToArrayData($likearray);
@@ -84,6 +56,7 @@ class ConvertHelper
                 $array      = $this->arrayDataToArray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $list       = $this->arrayDataToList($array_data);
+                $listspace  = $this->arrayDataToListSpace($array_data);
                 break;
             case self::CHOICE_POSTMAN:
                 $array_data = $this->postmanToArrayData($postman);
@@ -91,6 +64,7 @@ class ConvertHelper
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $list       = $this->arrayDataToList($array_data);
+                $listspace  = $this->arrayDataToListSpace($array_data);
                 break;
             case self::CHOICE_LIST:
                 $array_data = $this->listToArrayData($list);
@@ -98,12 +72,22 @@ class ConvertHelper
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
+                $listspace  = $this->arrayDataToListSpace($array_data);
+                break;
+            case self::CHOICE_LISTSPACE:
+                $array_data = $this->listspaceToArrayData($listspace);
+                $json       = $this->arrayDataToJson($array_data);
+                $array      = $this->arrayDataToArray($array_data);
+                $likearray  = $this->arrayDataToLikearray($array_data);
+                $postman    = $this->arrayDataToPostman($array_data);
+                $list       = $this->arrayDataToList($array_data);
+                $listspace  = $this->arrayDataToListSpace($array_data);
                 break;
             default:
                 throw new Exception('Choice is not supprted.');
         }
 
-        return ['json'=>$json, 'array'=>$array, 'likearray'=>$likearray, 'postman'=>$postman, 'list'=>$list, 'choice'=>$choice, 'data_count'=>count($array_data)];
+        return ['json'=>$json, 'array'=>$array, 'likearray'=>$likearray, 'postman'=>$postman, 'list'=>$list, 'listspace'=>$listspace, 'choice'=>$choice, 'data_count'=>count($array_data)];
     }
 
     /**
@@ -168,6 +152,46 @@ class ConvertHelper
     }
 
     /**
+     * Convert a listspace string to an array.
+     * @param string $string
+     * @return array
+     */
+    public function listspaceToArrayData($string)
+    {
+        $res = [];
+
+        $data = explode("\n", $string);
+
+        foreach ($data as $item)
+        {
+            $item = trim($item);
+
+            // 跳过空行
+            if ($item == '')
+            {
+                continue;
+            }
+
+            // 分隔符可能是空格或者tab
+            if (strpos($item, "\t") !== false)
+            {
+                $parts = explode("\t", $item);
+            }
+            else
+            {
+                $parts = explode(" ", $item);
+            }
+
+            $index = trim($parts[0]);
+            $value = trim($parts[1]);
+
+            $res[$index] = $value;
+        }
+
+        return $res;
+    }
+
+    /**
      * Convert an array to a json string.
      * @param array $array_data
      * @return string
@@ -216,7 +240,7 @@ class ConvertHelper
     }
 
     /**
-     * Convert an array to a postman string.
+     * Convert an array to a list string.
      * @param array $array_data
      * @return string
      */
@@ -231,5 +255,29 @@ class ConvertHelper
             }
         }
         return implode("\n", $data);
+    }
+
+    /**
+     * Convert an array to a listspace string.
+     * @param array $array_data
+     * @return string
+     */
+    public function arrayDataToListSpace($array_data)
+    {
+        $data = [];
+        foreach ($array_data as $index => $item)
+        {
+            if (!is_array($item))
+            {
+                $data[$index] = $item;
+            }
+        }
+
+        $res = '';
+        foreach ($data as $index => $item)
+        {
+            $res .= $index . ' '. $item . "\n";
+        }
+        return $res;
     }
 }

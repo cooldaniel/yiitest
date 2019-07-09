@@ -63,6 +63,12 @@ textarea {
         <?php echo $form->error($model,'list'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model,'listspace'); ?>
+        <?php echo $form->textArea($model,'listspace', array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo $form->error($model,'listspace'); ?>
+    </div>
+
     <div style="position: fixed; right: 50px; top: 100px;">
 
         <div class="row">
@@ -74,6 +80,7 @@ textarea {
                     ConvertHelper::CHOICE_LIKEARRAY=>$model->attributeLabels()['likearray'],
                     ConvertHelper::CHOICE_POSTMAN=>$model->attributeLabels()['postman'],
                     ConvertHelper::CHOICE_LIST=>$model->attributeLabels()['list'],
+                    ConvertHelper::CHOICE_LISTSPACE=>$model->attributeLabels()['listspace'],
                 ]
             ); ?>
             <?php echo $form->error($model,'choice'); ?>
