@@ -25,6 +25,9 @@ class ConvertForm extends CFormModel
     public $listspace;
 
     public $choice;
+    public $sort = false;
+    public $sortbykey;
+    public $sortbyrecurse;
     public $data_count;
 
     /**
@@ -40,6 +43,9 @@ class ConvertForm extends CFormModel
             array('list', 'validateList'),
             array('listspace', 'validateListSpace'),
             array('choice', 'numerical'),
+            array('sort', 'numerical'),
+            array('sortbykey', 'numerical'),
+            array('sortbyrecurse', 'numerical'),
             array('data_count', 'numerical'),
         );
     }
@@ -95,8 +101,11 @@ class ConvertForm extends CFormModel
             'likearray'=>Yii::t('code', 'Like Array'),
             'postman'=>Yii::t('code', 'Postman'),
             'list'=>Yii::t('code', 'List'),
-            'listspace'=>Yii::t('code', 'ListSpace'),
+            'listspace'=>Yii::t('code', 'List Space'),
             'choice'=>Yii::t('code', 'Choice'),
+            'sort'=>Yii::t('code', 'Sort'),
+            'sortbykey'=>Yii::t('code', 'Sort By Key'),
+            'sortbyrecurse'=>Yii::t('code', 'Sort By Recurse'),
         );
     }
 }

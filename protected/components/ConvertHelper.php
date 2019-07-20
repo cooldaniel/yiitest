@@ -13,6 +13,14 @@ class ConvertHelper
     const CHOICE_LIST = 5;
     const CHOICE_LISTSPACE = 6;
 
+    const SORT_ASC = 1;
+    const SORT_DESC = 2;
+
+    public static $sortList = [
+        self::SORT_ASC => 'asc',
+        self::SORT_DESC => 'desc',
+    ];
+
     /**
      * Conver the given data base on the choice.
      *
@@ -30,11 +38,15 @@ class ConvertHelper
         $postman = trim($data['postman']);
         $list = trim($data['list']);
         $listspace = trim($data['listspace']);
-        $choice = $data['choice'];
+        $choice = (int)$data['choice'];
+        $sort = (int)$data['sort'];
+        $sortByKey = (int)$data['sortbykey'];
+        $sortByRecurse = (int)$data['sortbyrecurse'];
 
         switch ($choice) {
             case self::CHOICE_JSON:
                 $array_data = $this->jsonToArrayData($json);
+                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
                 $json       = $this->arrayDataToJson($array_data); // 美化json数据
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
@@ -44,6 +56,7 @@ class ConvertHelper
                 break;
             case self::CHOICE_ARRAY:
                 $array_data = $this->arrayToArrayData($array);
+                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
                 $json       = $this->arrayDataToJson($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
@@ -52,6 +65,7 @@ class ConvertHelper
                 break;
             case self::CHOICE_LIKEARRAY:
                 $array_data = $this->likearrayToArrayData($likearray);
+                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
@@ -60,6 +74,7 @@ class ConvertHelper
                 break;
             case self::CHOICE_POSTMAN:
                 $array_data = $this->postmanToArrayData($postman);
+                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
@@ -68,6 +83,7 @@ class ConvertHelper
                 break;
             case self::CHOICE_LIST:
                 $array_data = $this->listToArrayData($list);
+                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
@@ -76,6 +92,7 @@ class ConvertHelper
                 break;
             case self::CHOICE_LISTSPACE:
                 $array_data = $this->listspaceToArrayData($listspace);
+                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
@@ -87,7 +104,67 @@ class ConvertHelper
                 throw new Exception('Choice is not supprted.');
         }
 
-        return ['json'=>$json, 'array'=>$array, 'likearray'=>$likearray, 'postman'=>$postman, 'list'=>$list, 'listspace'=>$listspace, 'choice'=>$choice, 'data_count'=>count($array_data)];
+        return [
+            'json'=>$json,
+            'array'=>$array,
+            'likearray'=>$likearray,
+            'postman'=>$postman,
+            'list'=>$list,
+            'listspace'=>$listspace,
+            'choice'=>$choice,
+            'sort'=>$sort,
+            'sortbykey'=>$sortByKey,
+            'sortbyrecurse'=>$sortByRecurse,
+            'data_count'=>count($array_data)
+        ];
+    }
+
+    /**
+     * Sort the array.
+     * @param $array
+     * @param $sort
+     * @param $sortByKey
+     * $param $sortByRecurse
+     */
+    public function sort(&$array, $sort, $sortByKey, $sortByRecurse)
+    {
+        // Sort by key or value
+        if ($sortByKey)
+        {
+            if ($sort == self::SORT_ASC)
+            {
+                ksort($array);
+            }
+            elseif ($sort == self::SORT_DESC)
+            {
+                krsort($array);
+            }
+        }
+        else
+        {
+            if ($sort == self::SORT_ASC)
+            {
+                sort($array);
+            }
+            elseif ($sort == self::SORT_DESC)
+            {
+                rsort($array);
+            }
+        }
+
+        // Sort by recurse
+        if ($sortByRecurse)
+        {
+            foreach ($array as &$item)
+            {
+                if (!is_array($item) || count($item) == 0)
+                {
+                    continue;
+                }
+
+                $this->sort($item, $sort, $sortByKey, $sortByRecurse);
+            }
+        }
     }
 
     /**

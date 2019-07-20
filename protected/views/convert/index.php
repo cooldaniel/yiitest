@@ -86,6 +86,24 @@ textarea {
             <?php echo $form->error($model,'choice'); ?>
         </div>
 
+        <div class="row">
+            <?php echo $form->labelEx($model,'sort'); ?>
+            <?php echo $form->radioButtonList($model,'sort',ConvertHelper::$sortList); ?>
+            <?php echo $form->error($model,'sort'); ?>
+        </div>
+
+        <div class="row">
+            <?php echo $form->labelEx($model,'sortbykey'); ?>
+            <?php echo $form->checkBox($model,'sortbykey'); ?>
+            <?php echo $form->error($model,'sortbykey'); ?>
+        </div>
+
+        <div class="row">
+            <?php echo $form->labelEx($model,'sortbyrecurse'); ?>
+            <?php echo $form->checkBox($model,'sortbyrecurse'); ?>
+            <?php echo $form->error($model,'sortbyrecurse'); ?>
+        </div>
+
         <div class="row buttons">
             <?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
         </div>
