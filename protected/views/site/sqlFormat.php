@@ -3,12 +3,10 @@
 /* @var $model ContactForm */
 /* @var $form CActiveForm */
 
-$this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'Html');
+$this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'Sql Format');
 $this->breadcrumbs=array(
-    Yii::t('app', 'Html'),
+    Yii::t('app', 'Sql Format'),
 );
-
-$viewHtmlUrl = Yii::app()->createUrl('site/viewHtml');
 ?>
 
 <style>
@@ -19,7 +17,7 @@ textarea {
 }
 </style>
 
-<h1><?php echo Yii::t('app', 'Html'); ?></h1>
+<h1><?php echo Yii::t('app', 'Sql Format'); ?></h1>
 
 <div class="form">
 
@@ -34,24 +32,18 @@ textarea {
     <p class="note"><?php echo Yii::t('app', 'Fields with <span class="required">*</span> are required.'); ?></p>
 
     <div class="row">
-        <?php echo CHtml::label('Html', 'html'); ?>
-        <?php echo CHtml::textArea('html', $html, array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo CHtml::label('Sql', 'sql'); ?>
+        <?php echo CHtml::textArea('sql', $data['sql'], array('cols'=>120, 'rows'=>25)); ?>
     </div>
 
     <div class="row buttons submit-button">
         <?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
     </div>
 
+    <div class="row">
+        <?php echo $data['sqlHighlight']; ?>
+    </div>
+
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-
-<script>
-var viewHtmlUrl = '<?php echo $viewHtmlUrl; ?>';
-var viewHtml = <?php echo (int)$viewHtml; ?>;
-$(function () {
-    if (viewHtml) {
-        window.open(viewHtmlUrl);
-    }
-})
-</script>

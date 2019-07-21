@@ -794,4 +794,191 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
 
         echo $html;
     }
+
+    public function actionSqlFormat()
+    {
+        $data = [];
+
+        $user = Yii::app()->user;
+
+        if(isset($_POST['sql'])) {
+
+            $sql = trim($_POST['sql']);
+
+            if ($sql !== '')
+            {
+                $data = [
+                    'sql'=>SqlFormatter::format($sql, false),
+                    'sqlHighlight'=>SqlFormatter::format($sql),
+                ];
+
+                $user->setState('data', $data);
+                $user->setFlash('operationSucceeded', 'Operation Succeeded');
+
+                // Refresh the page to discard the post operation
+                $this->refresh();
+            }
+        }
+
+        if (Yii::app()->request->getPost('json'))
+        {
+            echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $this->render('sqlFormat', [
+            'data'=>$user->getState('data'),
+        ]);
+    }
+
+    public function actionApi()
+    {
+        $type = Yii::app()->request->getParam('type');
+
+        if ($type == 1)
+        {
+            $data = [
+                range(1, 10),
+                range(1, 10),
+                range(1, 10),
+            ];
+        }
+        elseif ($type == 2)
+        {
+            $data = range(1, 10);
+        }
+        else
+        {
+            $data = [];
+        }
+
+        $this->response($data, $type);
+
+//        $this->responseData();
+//        $this->responseError();
+    }
+
+    public function actionErpUrl()
+    {
+        $month_list = [
+            7 => range(1, 31),
+            6 => range(1, 30),
+            5 => range(1, 31),
+            4 => range(1, 30),
+        ];
+
+        $url = "\n";
+
+        foreach ($month_list as $month => $day_list)
+        {
+            $day_list = array_reverse($day_list);
+
+            $max_day = count($day_list);
+
+            foreach ($day_list as $day)
+            {
+                $title = date('m-d', strtotime("2019-{$month}-{$day} 00:00:00"));
+
+                if ($month < 10)
+                {
+                    $month = '0' . (int)$month;
+                }
+
+                if ($day < 10)
+                {
+                    $day = '0' . $day;
+                }
+
+                $next_month = $month;
+                $next_day = $day + 1;
+
+                if ($day == $max_day)
+                {
+                    $next_day = 1;
+                    $next_month = $month + 1;
+                }
+
+                if ($next_day < 10)
+                {
+                    $next_day = '0' . $next_day;
+                }
+
+                if ($next_month < 10)
+                {
+                    $next_month = '0' . (int)$next_month;
+                }
+
+                $text = "
+{title}
+http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&startTime=2019-{month}-{day} 00:00:00&endTime=2019-{month}-{day} 06:00:00&multi=20
+http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&startTime=2019-{month}-{day} 06:00:00&endTime=2019-{month}-{day} 12:00:00&multi=20
+http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&startTime=2019-{month}-{day} 12:00:00&endTime=2019-{month}-{day} 18:00:00&multi=20
+http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&startTime=2019-{month}-{day} 18:00:00&endTime=2019-{next_month}-{next_day} 00:00:00&multi=20
+";
+
+                $url .= strtr($text, [
+                    '{title}'=>$title,
+                    '{month}'=>$month,
+                    '{day}'=>$day,
+                    '{next_day}'=>$next_day,
+                    '{next_month}'=>$next_month,
+                ]);
+            }
+        }
+
+        $url .= "\n\n\n";
+
+        \D::logc($url);
+        \D::done();
+    }
+
+    public function actionCronTaskLog()
+    {
+        $file = Yii::app()->getRuntimePath() . "/cron_task_log.csv";
+
+        $lines = file($file);
+
+        $time_list = [];
+
+        foreach ($lines as $item)
+        {
+            $item = json_decode($item, true);
+
+            $time_list[] = $item['item']['startTime'] . ' - ' . $item['item']['endTime'];
+        }
+
+        $time_list = array_unique($time_list);
+
+        foreach ($time_list as $item)
+        {
+            $parts = explode(' - ', $item);
+            $startTime = $parts[0];
+            $endTime = $parts[1];
+            echo "http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&startTime={$startTime}&endTime={$endTime}" . '<br/>';
+        }
+    }
+
+    public function actionFormat()
+    {
+        $string = <<<EOF
+{
+    "status": 0,
+    "errorMess":"Request Error:{\"error\":\"\\n<div style=\\\"border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;\\\">\\n\\n<h4>An uncaught Exception was encountered<\\/h4>\\n\\n<p>Type: Exception<\\/p>\\n<p>Message: \错\误\编\号\：8,\错\误\信\息\：Undefined index: order_id,\出\错\文\件\：D:\\\\code\\\\appdal\\\\end\\\\modules\\\\order\\\\models\\\\Order_list_model.php,\出\错\行\号\：475<\\/p>\\n<p>Filename: D:\\\\code\\\\appdal\\\\end\\\\helpers\\\\common_helper.php<\\/p>\\n<p>Line Number: 15<\\/p>\\n\\n\\n\\t<p>Backtrace:<\\/p>\\n\\t\\n\\t\\t\\n\\t\\t\\t<p style=\\\"margin-left:10px\\\">\\n\\t\\t\\tFile: D:\\\\code\\\\appdal\\\\end\\\\modules\\\\order\\\\models\\\\Order_list_model.php<br \\/>\\n\\t\\t\\tLine: 475<br \\/>\\n\\t\\t\\tFunction: _my_error_handler\\t\\t\\t<\\/p>\\n\\t\\t\\n\\t\\n\\t\\t\\n\\t\\t\\t<p style=\\\"margin-left:10px\\\">\\n\\t\\t\\tFile: D:\\\\code\\\\appdal\\\\end\\\\modules\\\\order\\\\models\\\\Order_list_model.php<br \\/>\\n\\t\\t\\tLine: 883<br \\/>\\n\\t\\t\\tFunction: get_order_email_by_order_id\\t\\t\\t<\\/p>\\n\\t\\t\\n\\t\\n\\t\\t\\n\\t\\t\\t<p style=\\\"margin-left:10px\\\">\\n\\t\\t\\tFile: D:\\\\code\\\\appdal\\\\end\\\\modules\\\\order\\\\models\\\\Order_list_model.php<br \\/>\\n\\t\\t\\tLine: 1042<br \\/>\\n\\t\\t\\tFunction: get_order_list_new_internal\\t\\t\\t<\\/p>\\n\\t\\t\\n\\t\\n\\t\\t\\n\\t\\t\\t<p style=\\\"margin-left:10px\\\">\\n\\t\\t\\tFile: D:\\\\code\\\\appdal\\\\end\\\\modules\\\\order\\\\models\\\\Order_list_model.php<br \\/>\\n\\t\\t\\tLine: 1075<br \\/>\\n\\t\\t\\tFunction: get_order_list_new\\t\\t\\t<\\/p>\\n\\t\\t\\n\\t\\n\\t\\t\\n\\t\\t\\t<p style=\\\"margin-left:10px\\\">\\n\\t\\t\\tFile: D:\\\\code\\\\appdal\\\\end\\\\modules\\\\order\\\\controllers\\\\Order_list.php<br \\/>\\n\\t\\t\\tLine: 35<br \\/>\\n\\t\\t\\tFunction: order_list\\t\\t\\t<\\/p>\\n\\t\\t\\n\\t\\n\\t\\t\\n\\t\\n\\t\\t\\n\\t\\t\\t<p style=\\\"margin-left:10px\\\">\\n\\t\\t\\tFile: D:\\\\code\\\\appdal\\\\index.php<br \\/>\\n\\t\\t\\tLine: 336<br \\/>\\n\\t\\t\\tFunction: require_once\\t\\t\\t<\\/p>\\n\\t\\t\\n\\t\\n\\n<\\/div><!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Database Error<\\/title>\\n<style type=\\\"text\\/css\\\">\\n\\n::selection { background-color: #E13300; color: white; }\\n::-moz-selection { background-color: #E13300; color: white; }\\n\\nbody {\\n\\tbackground-color: #fff;\\n\\tmargin: 40px;\\n\\tfont: 13px\\/20px normal Helvetica, Arial, sans-serif;\\n\\tcolor: #4F5155;\\n}\\n\\na {\\n\\tcolor: #003399;\\n\\tbackground-color: transparent;\\n\\tfont-weight: normal;\\n}\\n\\nh1 {\\n\\tcolor: #444;\\n\\tbackground-color: transparent;\\n\\tborder-bottom: 1px solid #D0D0D0;\\n\\tfont-size: 19px;\\n\\tfont-weight: normal;\\n\\tmargin: 0 0 14px 0;\\n\\tpadding: 14px 15px 10px 15px;\\n}\\n\\ncode {\\n\\tfont-family: Consolas, Monaco, Courier New, Courier, monospace;\\n\\tfont-size: 12px;\\n\\tbackground-color: #f9f9f9;\\n\\tborder: 1px solid #D0D0D0;\\n\\tcolor: #002166;\\n\\tdisplay: block;\\n\\tmargin: 14px 0 14px 0;\\n\\tpadding: 12px 10px 12px 10px;\\n}\\n\\n#container {\\n\\tmargin: 10px;\\n\\tborder: 1px solid #D0D0D0;\\n\\tbox-shadow: 0 0 8px #D0D0D0;\\n}\\n\\np {\\n\\tmargin: 12px 15px 12px 15px;\\n}\\n<\\/style>\\n<\\/head>\\n<body>\\n\\t<div id=\\\"container\\\">\\n\\t\\t<h1>A Database Error Occurred<\\/h1>\\n\\t\\t<p>Error Number: 1142<\\/p><p>INSERT command denied to user 'wurongchao'@'113.87.164.160' for table 'yibai_error_log_appdal_2019'<\\/p><p>INSERT INTO yibai_error_log_appdal_2019(ip, error_time, error_level, category, error_msg, call_stack) VALUES\\n('192.168.10.1|192.168.41.129|192.168.56.1', '2019-07-20 23:27:19', 1, 'system', 'Severity: error --> Exception: \错\误\编\号\：8,\错\误\信\息\：Undefined index: order_id,\出\错\文\件\：D:\\\\\\\\code\\\\\\\\appdal\\\\\\\\end\\\\\\\\modules\\\\\\\\order\\\\\\\\models\\\\\\\\Order_list_model.php,\出\错\行\号\：475 D:\\\\\\\\code\\\\\\\\appdal\\\\\\\\end\\\\\\\\helpers\\\\\\\\common_helper.php 15 \\n[]\\n', '');<\\/p><p>Filename: D:\\/code\\/appdal\\/sys\\/database\\/DB_driver.php<\\/p><p>Line Number: 691<\\/p>\\t<\\/div>\\n<\\/body>\\n<\\/html>\"}"
+}
+EOF;
+
+        $string = str_replace('\"', '', $string);
+        $string = str_replace('\\n', '', $string);
+
+        $string = str_replace('\t', '', $string);
+//        $string = str_replace('\"', '"', $string);
+        $string = str_replace("\\", '', $string);
+
+        //echo $string;
+
+        $data = json_decode($string, true);
+        \D::pds($data);
+
+
+    }
 }

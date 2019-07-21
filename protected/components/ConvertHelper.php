@@ -128,43 +128,7 @@ class ConvertHelper
      */
     public function sort(&$array, $sort, $sortByKey, $sortByRecurse)
     {
-        // Sort by key or value
-        if ($sortByKey)
-        {
-            if ($sort == self::SORT_ASC)
-            {
-                ksort($array);
-            }
-            elseif ($sort == self::SORT_DESC)
-            {
-                krsort($array);
-            }
-        }
-        else
-        {
-            if ($sort == self::SORT_ASC)
-            {
-                sort($array);
-            }
-            elseif ($sort == self::SORT_DESC)
-            {
-                rsort($array);
-            }
-        }
-
-        // Sort by recurse
-        if ($sortByRecurse)
-        {
-            foreach ($array as &$item)
-            {
-                if (!is_array($item) || count($item) == 0)
-                {
-                    continue;
-                }
-
-                $this->sort($item, $sort, $sortByKey, $sortByRecurse);
-            }
-        }
+        \D::sort($array, $sort, $sortByKey, $sortByRecurse);
     }
 
     /**
