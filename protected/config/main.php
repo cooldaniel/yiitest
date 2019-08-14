@@ -120,9 +120,9 @@ return array(
 				),
 			),
 		),
-        'preLoadTest'=>array(
-            'class'=>'PreLoadTest',
-        ),
+//        'preLoadTest'=>array(
+//            'class'=>'PreLoadTest',
+//        ),
 	),
 
 	// application-level parameters that can be accessed
