@@ -37,18 +37,15 @@ EOD;
         $this->outputTime($startTime, $endTime);
     }
 
-	public function actionApiSec3()
+	public function actionSleep()
     {
-        $this->sleepTest(3);
-    }
-
-    public function actionApiSec5()
-    {
-        $this->sleepTest(5);
-    }
-
-    public function actionApiSec10()
-    {
-        $this->sleepTest(10);
+        $time = (int)Yii::app()->request->getParam('time', 0);
+        $time = abs($time);
+        if ($time > 30)
+        {
+            echo 'time参数不能大于30';
+            exit;
+        }
+        $this->sleepTest($time);
     }
 }
