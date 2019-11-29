@@ -41,7 +41,7 @@ EOD;
     {
         $time = (int)Yii::app()->request->getParam('time', 0);
         $time = abs($time);
-        if ($time > 30)
+        if ($time > 300000)
         {
             echo 'time参数不能大于30';
             exit;

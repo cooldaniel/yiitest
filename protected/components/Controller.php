@@ -84,4 +84,65 @@ class Controller extends TController
 		array_unshift($params, Yii::app()->name);
 		$this->pageTitle = implode(' - ', $params);
 	}
+
+	public function responseError($code, $message)
+    {
+
+    }
+
+	public function response($data, $type=1)
+    {
+        if ($type == 1)
+        {
+            $code = 200;
+            $message = '操作成功';
+            $res = [
+                'code'=>$code,
+                'message'=>$message,
+                'data'=>[
+                    'title'=>$title_data,
+                    'value'=>$data,
+                    'total'=>$total,
+                    'page_total'=>$page_total,
+                    'page'=>$page,
+                    'page_size'=>$page_size,
+                    'params'=>$params,
+                    'sql'=>$sql,
+                ],
+                'encrypt_type'=>'',
+                'expired_date'=>'',
+            ];
+        }
+        elseif ($type ==2)
+        {
+            $code = 200;
+            $message = '操作成功';
+            $res = [
+                'code'=>$code,
+                'message'=>$message,
+                'data'=>[
+                    'title'=>$title_data,
+                    'value'=>$data,
+                    'params'=>$params,
+                    'sql'=>$sql,
+                ],
+                'encrypt_type'=>'',
+                'expired_date'=>'',
+            ];
+        }
+        else
+        {
+            $code = 500;
+            $message = '操作失败';
+            $res = [
+                'code'=>$code,
+                'message'=>$message,
+                'data'=>$data,
+            ];
+        }
+
+        header('Content-Type:application/json; Charset=utf-8;');
+
+        echo json_encode($res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_UNICODE);
+    }
 }

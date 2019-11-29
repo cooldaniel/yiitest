@@ -68,21 +68,49 @@ return array(
 		*/
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=192.168.3.54;dbname=yiitest',
-//			'connectionString' => 'mysql:host=localhost;dbname=ismonb2b',
-//			'connectionString' => 'mysql:host=localhost;dbname=platform',
+			//'connectionString' => 'mysql:host=192.168.3.54;dbname=yiitest',
+            'connectionString' => 'mysql:host=localhost;dbname=yiitest',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'Mysql@123',
+			'password' => '123456',
 			'charset' => 'utf8',
+			'tablePrefix' => 'yii_',
 			// 开启Yii系统内置的数据库性能分析开关
 			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
 			'enableProfiling' => true,
 		),
+
+//        'db'=>array(
+//			'connectionString' => 'mysql:host=192.168.71.170;dbname=yibai_crm',
+////			'connectionString' => 'mysql:host=localhost;dbname=ismonb2b',
+////			'connectionString' => 'mysql:host=localhost;dbname=platform',
+//			'emulatePrepare' => true,
+//			'username' => 'wurongchao',
+//			'password' => 'wurC@2019',
+//			'charset' => 'utf8',
+//			// 开启Yii系统内置的数据库性能分析开关
+//			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
+//			'enableProfiling' => true,
+//		),
+
+//		'db'=>array(
+//			'connectionString' => 'mysql:host=localhost;dbname=yibai_crm',
+////			'connectionString' => 'mysql:host=localhost;dbname=ismonb2b',
+////			'connectionString' => 'mysql:host=localhost;dbname=platform',
+//			'emulatePrepare' => true,
+//			'username' => 'root',
+//			'password' => '123456',
+//			'charset' => 'utf8',
+//			// 开启Yii系统内置的数据库性能分析开关
+//			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
+//			'enableProfiling' => true,
+//            //'persistent' => true,
+//		),
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',
+			//'errorAction'=>'site/customError',
 			// 禁用该组件
 			//'enabled'=>false,
 			//'discardOutput'=>false,

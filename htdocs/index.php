@@ -1,12 +1,13 @@
 <?php
 
+//require 'D:\code\xhgui\external\header.php';
+
 require dirname(__FILE__).'/../protected/config/constans.php';
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $config=dirname(__FILE__).'/../protected/config/main.php';
 require_once(dirname(__FILE__).'/../../D/autoload.php');
-
 
 //function get_data(){
 //    $d = [
@@ -39,6 +40,7 @@ require_once(dirname(__FILE__).'/../../D/autoload.php');
 
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);
+//defined('YII_DEBUG') or define('YII_DEBUG',isset($_GET['debug']));
 // specify how many levels of call stack should be shown in each log message
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 
@@ -60,7 +62,7 @@ defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER'
 function handleError(){
 	restore_error_handler();
 	restore_exception_handler();
-	
+
 	echo 'error or warning for PHP exception';
 }
 
@@ -68,7 +70,7 @@ function handleError(){
 function handleException(){
 	restore_error_handler();
 	restore_exception_handler();
-	
+
 	echo 'exception uncaptured';
 }
 set_error_handler('handleError');

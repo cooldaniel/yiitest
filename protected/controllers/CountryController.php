@@ -122,10 +122,18 @@ class CountryController extends Controller
 	 */
 	public function actionIndex()
 	{
+	    $key = $this->id . '_' . $this->action->id . '_' . sprintf('%12s', rand());;
+
+	    \D::noclean();
+	    //\D::setLogFileName($key . '.txt');
+	    \D::profile($key);
+	    \D::log($key . '_start');
 		$dataProvider=new CActiveDataProvider('Country');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+		\D::log($key . '_end');
+		\D::profilee($key);
 	}
 
 	/**
@@ -156,18 +164,5 @@ class CountryController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
-	}
-
-	/**
-	 * Performs the AJAX validation.
-	 * @param Country $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='country-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
 	}
 }
