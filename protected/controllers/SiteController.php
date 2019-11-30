@@ -23338,15 +23338,27 @@ http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&start
 
     public function converData()
     {
+        $ip = Yii::app()->request->getPost('ip');
+        $port = Yii::app()->request->getPost('port', '3306');
+        $database = Yii::app()->request->getPost('database');
+        $username = Yii::app()->request->getPost('username');
+        $password = Yii::app()->request->getPost('password');
+
         $table = Yii::app()->request->getPost('table');
         $search_key = Yii::app()->request->getPost('search_key');
         $search_value = Yii::app()->request->getPost('search_value');
         $json = Yii::app()->request->getPost('json');
 
         // 数据库连接
-        $dsn = 'mysql:host=192.168.71.216;dbname=yb_datacenter';
-        $username = 'root';
-        $password = 'yibai123456';
+//        $dsn = 'mysql:host=192.168.71.216;dbname=yb_datacenter';
+//        $username = 'root';
+//        $password = 'yibai123456';
+//
+//        $dsn = 'mysql:host=192.168.71.6:3306;dbname=wms-test';
+//        $username = 'huangbiyu';
+//        $password = 'hby.123';
+
+        $dsn = "mysql:host={$ip}:{$port};dbname={$database}";
         $connection=new CDbConnection($dsn,$username,$password);
         $connection->active=true;
         $connection->emulatePrepare = true;

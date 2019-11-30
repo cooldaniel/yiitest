@@ -33,6 +33,31 @@ tr.even{
     <p class="note"><?php echo Yii::t('app', 'Fields with <span class="required">*</span> are required.'); ?></p>
 
     <div class="row">
+        <?php echo CHtml::label('IP', 'ip'); ?>
+        <?php echo CHtml::textField('ip', $data['ip']??'', array('cols'=>120, 'rows'=>25)); ?>
+    </div>
+
+    <div class="row">
+        <?php echo CHtml::label('端口', 'port'); ?>
+        <?php echo CHtml::textField('port', $data['port']??'3306', array('cols'=>120, 'rows'=>25)); ?>
+    </div>
+
+    <div class="row">
+        <?php echo CHtml::label('数据库', 'database'); ?>
+        <?php echo CHtml::textField('database', $data['database']??'', array('cols'=>120, 'rows'=>25)); ?>
+    </div>
+
+    <div class="row">
+        <?php echo CHtml::label('用户名', 'username'); ?>
+        <?php echo CHtml::textField('username', $data['username']??'', array('cols'=>120, 'rows'=>25)); ?>
+    </div>
+
+    <div class="row">
+        <?php echo CHtml::label('密码', 'password'); ?>
+        <?php echo CHtml::textField('password', $data['password']??'', array('cols'=>120, 'rows'=>25)); ?>
+    </div>
+
+    <div class="row">
         <?php echo CHtml::label('表名字', 'table'); ?>
         <?php echo CHtml::textField('table', $data['table']??'', array('cols'=>120, 'rows'=>25)); ?>
     </div>
