@@ -128,7 +128,10 @@ class ConvertHelper
      */
     public function sort(&$array, $sort, $sortByKey, $sortByRecurse)
     {
-        \D::sort($array, $sort, $sortByKey, $sortByRecurse);
+        if ($sort)
+        {
+            \D::sort($array, $sort, $sortByKey, $sortByRecurse);
+        }
     }
 
     /**
@@ -213,22 +216,13 @@ class ConvertHelper
                 continue;
             }
 
-            // 分隔符可能是空格或者tab
-            if (strpos($item, "\t") !== false)
-            {
-                $parts = explode("\t", $item);
-            }
-            else
-            {
-                $parts = explode(" ", $item);
-            }
+            $parts = preg_split('/\s+/', $item);
 
             $index = trim($parts[0]);
-            $value = trim($parts[1]);
+            $value = isset($parts[1]) ? trim($parts[1]) : '';
 
             $res[$index] = $value;
         }
-
         return $res;
     }
 
