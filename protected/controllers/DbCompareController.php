@@ -84,7 +84,7 @@ class DbCompareController extends Controller
             empty($source_search_key) ||
             empty($source_search_value))
         {
-            return [];
+            return false;
         }
 
         // sql查询
@@ -92,7 +92,7 @@ class DbCompareController extends Controller
         $sql = "SELECT * FROM `{$source_table}` WHERE `{$source_search_key}` = '{$source_search_value}'";
         $res = $source_connection->createCommand($sql)->queryRow();
 
-        return $res;
+        return empty($res) ? [] : $res;
     }
 
     public function getDataFromCompareDatabase()
@@ -116,7 +116,7 @@ class DbCompareController extends Controller
             empty($compare_search_key) ||
             empty($compare_search_value))
         {
-            return [];
+            return false;
         }
 
         // sql查询
@@ -124,7 +124,7 @@ class DbCompareController extends Controller
         $sql = "SELECT * FROM `{$compare_table}` WHERE `{$compare_search_key}` = '{$compare_search_value}'";
         $res = $compare_connection->createCommand($sql)->queryRow();
 
-        return $res;
+        return empty($res) ? [] : $res;
     }
 
     public function getDataFromMongodb()
@@ -148,7 +148,7 @@ class DbCompareController extends Controller
             empty($mongodb_search_key) ||
             empty($mongodb_search_value))
         {
-            return [];
+            return false;
         }
 
         // mongodb查询
@@ -168,7 +168,7 @@ class DbCompareController extends Controller
         ];
         $res = $mongo_db->where($where)->get($mongodb_table);
 
-        return empty($res) ? [] : json_decode((json_encode($res[0])), true);
+        return empty($res) ? [] : (array)json_decode((json_encode($res[0])), true);
     }
 
     public function compare()
@@ -199,62 +199,76 @@ class DbCompareController extends Controller
         }
 
         // 对比json
-        if (empty($json))
+        $json_no_data = true;
+        if (empty($json) || (trim($json) == '{}'))
         {
             $json_html = '没有输入json数据';
         }
         else
         {
-            $json_result = $this->compareDataWithJson($source_data, $json_data);
+            $json_result = $this->compareData($source_data, $json_data, true);
             $json_html = $this->renderCompareResult($json_result, '对比Json');
+            $json_no_data = false;
         }
 
         // 对比数据库
-        if (empty($compare_data))
+        $compare_no_data = true;
+        if ($compare_data === false)
         {
             $compare_html = '没有输入对比数据库连接';
         }
+        elseif (empty($compare_data))
+        {
+            $compare_html = '找不到对应的对比数据库记录';
+        }
         else
         {
-            $compare_result = $this->compareDataWithCompare($source_data, $compare_data);
+            $compare_result = $this->compareData($source_data, $compare_data);
             $compare_html = $this->renderCompareResult($compare_result, '对比数据库');
+            $compare_no_data = false;
         }
 
         // 对比mongodb
-        if (empty($mongodb_data))
+        $mongodb_no_data = true;
+        if ($mongodb_data === false)
         {
             $mongodb_html = '没有输入mongodb连接';
         }
+        elseif (empty($mongodb_data))
+        {
+            $mongodb_html = '找不到对应的mongodb记录';
+        }
         else
         {
-            $mongodb_result = $this->compareDataWithMongodb($source_data, $mongodb_data);
+            $mongodb_result = $this->compareData($source_data, $mongodb_data);
             $mongodb_html = $this->renderCompareResult($mongodb_result, '对比mongodb');
+            $mongodb_no_data = false;
         }
 
         return [
-            'json_html'=>$json_html,
-            'compare_html'=>$compare_html,
-            'mongodb_html'=>$mongodb_html,
+            'json_html'=>$json_no_data ? '<div class="nodata">'.$json_html.'</div>' : $json_html,
+            'compare_html'=>$compare_no_data ? '<div class="nodata">'.$compare_html.'</div>' : $compare_html,
+            'mongodb_html'=>$mongodb_no_data ? '<div class="nodata">'.$mongodb_html.'</div>' : $mongodb_html,
         ];
     }
 
-    protected function compareDataWithJson($source_data, $compare_data)
+    protected function compareData($source_data, $compare_data, $convertKey=false)
     {
         $data = [];
 
         foreach ($source_data as $key => $value)
         {
             // 转键名
-            $key_new = $this->convertKey($key);
+            $key_new = $convertKey ? $this->convertKey($key) : $key;
 
             // 是否存在字段
             $key_not_found = !array_key_exists($key_new, $compare_data);
 
             // 对比结果
-            $value_json = $key_not_found ? '<span style="color:red;">没有字段</span>' : $compare_data[$key_new];
-            $result_equal = ($value == $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-            $result_equal_strict = ($value === $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-            $result_equal_trim = (trim($value) == trim($value_json)) ? '相等' : '<span style="color:red;">不相等</span>';
+            $value_compare = $key_not_found ? '<span style="color:red;">没有字段</span>' : $compare_data[$key_new];
+            $result_equal = ($value == $value_compare) ? '相等' : '<span style="color:red;">不相等</span>';
+            $result_equal_strict = ($value === $value_compare) ? '相等' : '<span style="color:red;">不相等</span>';
+            $result_equal_trim = (trim($value) == trim($value_compare)) ? '相等' : '<span style="color:red;">不相等</span>';
 
             // json没有字段就不对比
             if ($key_not_found)
@@ -268,87 +282,7 @@ class DbCompareController extends Controller
                 'key'=>$key,
                 'key_new'=>$key_new,
                 'value'=>is_null($value) ? '<i>NULL</i>' : $value,
-                'value_json'=>is_null($value_json) ? '<i>NULL</i>' : $value_json,
-                'result_equal'=>$result_equal,
-                'result_equal_strict'=>$result_equal_strict,
-                'result_equal_trim'=>$result_equal_trim,
-            ];
-        }
-
-        return $data;
-    }
-
-    protected function compareDataWithCompare($source_data, $compare_data)
-    {
-        $data = [];
-
-        foreach ($source_data as $key => $value)
-        {
-            // 转键名
-            $key_new = $this->convertKey($key);
-
-            // 是否存在字段
-            $key_not_found = !array_key_exists($key, $compare_data);
-
-            // 对比结果
-            $value_json = $key_not_found ? '<span style="color:red;">没有字段</span>' : $compare_data[$key];
-            $result_equal = ($value == $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-            $result_equal_strict = ($value === $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-            $result_equal_trim = (trim($value) == trim($value_json)) ? '相等' : '<span style="color:red;">不相等</span>';
-
-            // json没有字段就不对比
-            if ($key_not_found)
-            {
-                $result_equal = '<span style="color:red;">-</span>';
-                $result_equal_strict = '<span style="color:red;">-</span>';
-                $result_equal_trim = '<span style="color:red;">-</span>';
-            }
-
-            $data[] = [
-                'key'=>$key,
-                'key_new'=>$key_new,
-                'value'=>is_null($value) ? '<i>NULL</i>' : $value,
-                'value_json'=>is_null($value_json) ? '<i>NULL</i>' : $value_json,
-                'result_equal'=>$result_equal,
-                'result_equal_strict'=>$result_equal_strict,
-                'result_equal_trim'=>$result_equal_trim,
-            ];
-        }
-
-        return $data;
-    }
-
-    protected function compareDataWithMongodb($source_data, $compare_data)
-    {
-        $data = [];
-
-        foreach ($source_data as $key => $value)
-        {
-            // 转键名
-            $key_new = $this->convertKey($key);
-
-            // 是否存在字段
-            $key_not_found = !array_key_exists($key, $compare_data);
-
-            // 对比结果
-            $value_json = $key_not_found ? '<span style="color:red;">没有字段</span>' : $compare_data[$key];
-            $result_equal = ($value == $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-            $result_equal_strict = ($value === $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-            $result_equal_trim = (trim($value) == trim($value_json)) ? '相等' : '<span style="color:red;">不相等</span>';
-
-            // json没有字段就不对比
-            if ($key_not_found)
-            {
-                $result_equal = '<span style="color:red;">-</span>';
-                $result_equal_strict = '<span style="color:red;">-</span>';
-                $result_equal_trim = '<span style="color:red;">-</span>';
-            }
-
-            $data[] = [
-                'key'=>$key,
-                'key_new'=>$key_new,
-                'value'=>is_null($value) ? '<i>NULL</i>' : $value,
-                'value_json'=>is_null($value_json) ? '<i>NULL</i>' : $value_json,
+                'value_json'=>is_null($value_compare) ? '<i>NULL</i>' : $value_compare,
                 'result_equal'=>$result_equal,
                 'result_equal_strict'=>$result_equal_strict,
                 'result_equal_trim'=>$result_equal_trim,

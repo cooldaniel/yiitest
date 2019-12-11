@@ -45,6 +45,11 @@ div.form div.rowcolumn{
 div.form div.rowheader{
     margin: 0 auto 10px;
 }
+div.nodata {
+    display: inline-block;
+    color: red;
+    margin-left: 10px;
+}
 
 /* tab */
 .rowcontent{
