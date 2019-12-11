@@ -8,8 +8,22 @@ class SqlBuilderController extends Controller
 {
     public function actionOrder()
     {
+        $copy = Yii::app()->request->getParam('copy');
+        $platform = Yii::app()->request->getParam('platform', 'ebay');
+
+        if ($copy)
+        {
+            $order_table = "yibai_order_{$platform}_copy";
+            $order_detail_table = "yibai_order_{$platform}_detail_copy";
+        }
+        else
+        {
+            $order_table = "yibai_order_{$platform}";
+            $order_detail_table = "yibai_order_detail_{$platform}";
+        }
+
         $id_list = '
-EB191104005391
+EB181229009105
         ';
 
         $id_list = trim($id_list);
@@ -31,12 +45,12 @@ EB191104005391
 
 # 订单
 SELECT `order_id`, `platform_code`, `platform_order_id`, `account_id`, `log_id`, `order_status`, `email`, `buyer_id`, `timestamp`, `created_time`, `last_update_time`, `paytime`, `ship_name`, `ship_street1`, `ship_street2`, `ship_zip`, `ship_city_name`, `ship_stateorprovince`, `ship_country`, `ship_country_name`, `ship_phone`, `print_remark`, `ship_cost`, `subtotal_price`, `total_price`, `currency`, `final_value_fee`, `count_final_value_fee`, `package_nums`, `repeat_nums`, `payment_status`, `ship_status`, `refund_status`, `ship_code`, `complete_status`, `opration_id`, `modify_time`, `opration_date`, `service_remark`, `is_lock`, `abnormal`, `abnormal_causes`, `order_check_status`, `is_multi_warehouse`, `insurance_amount`, `is_check`, `amazon_fulfill_channel`, `escrowFee`, `warehouse_id`, `order_profit_rate`, `calculate_profit_flag`, `parent_order_id`, `order_type`, `buyer_option_logistics`, `is_ebay_plus`, `upload_time`, `is_upload`, `company_ship_code`, `real_ship_code`, `track_number`, `payment_method`, `shipped_date`, `priority_satus`, `is_manual_order`, `order_is_dispose`
-FROM yibai_order.yibai_order_ebay 
+FROM yibai_order.{order_table} 
 WHERE order_id IN ({in});
 
 # 订单商品
 SELECT `id`, `platform_code`, `transaction_id`, `order_id`, `item_id`, `title`, `sku_old`, `quantity_old`, `sku`, `site`, `quantity`, `qs`, `sale_price`, `ship_price`, `total_price`, `currency`, `final_value_fee`, `opration_id`, `opration_date`, `status`, `pending_status`, `pending_check_time`, `is_lock`, `is_check`, `order_item_id`, `warehouse_id`, `is_adapter`, `detail_type`, `create_user_id`, `create_time`, `modify_user_id`, `modify_time`, `is_erp`, `ignore_shipment` 
-FROM yibai_order.yibai_order_ebay_detail 
+FROM yibai_order.{order_detail_table} 
 WHERE order_id IN ({in});
 
 # 订单备注
@@ -53,7 +67,7 @@ WHERE order_id IN ({in});
 SELECT `id`, `sku`, `product_category_id`, `product_linelist_id`, `product_brand_id`, `product_cost`, `last_price`, `last_provider_id`, `provider_type`, `currency`, `product_status`, `product_type`, `product_weight`, `product_length`, `product_width`, `product_height`, `product_combine_code`, `product_combine_num`, `product_bind_code`, `product_line_id`, `keywords`, `measure_info`, `product_is_attach`, `product_is_bak`, `product_bak_type`, `product_prearrival_days`, `product_bak_days`, `original_material_type_id`, `product_pack_code`, `product_package_code`, `product_package_material_code`, `product_package_max_nums`, `product_is_storage`, `product_original_package`, `product_is_new`, `product_is_multi`, `provider_level_id`, `create_user_id`, `modify_user_id`, `create_time`, `modify_time`, `product_cn_link`, `product_en_link`, `sku_mark`, `product_to_way_package`, `stock_reason`, `product_label_proces`, `pack_product_length`, `pack_product_width`, `pack_product_height`, `gross_product_weight`, `is_to_mid`, `to_mid_time`, `state_type`, `checked_time`, `uploadimgs`, `label`, `buycomp_note`, `quality_note`, `hot_rank`, `min_purchase`, `inquirer_id`, `purchase_id`, `aliases_name`, `instructions`, `quality_standard`, `quality_lable`, `quality_remark`, `image_remark`, `buy_sample_type`, `reference_price`, `use_en`, `use_cn`, `material_en`, `material_cn`, `logistics_note`, `picking_name`, `picking_ename`, `customs_code`, `declare_ename`, `declare_cname`, `declare_price`, `tariff`, `tax_rate`, `onlie_remark`, `source`, `drop_shipping`, `drop_shipping_sku`, `logistics_risk`, `customs_code2`, `declare_unit`, `export_ename`, `export_cname`, `product_model`, `specifications`, `product_principle`, `is_push`, `declare`, `product_model_out`, `is_inspection`, `finance_code`, `full_container`, `full_container_length`, `full_container_width`, `full_container_height`, `new_price`, `avg_price`, `ship_cost`, `quality_random`, `quality_level`, `package_types`, `declare_factor`, `declare_link`, `component`, `logistics_status`, `buyer`, `push_logistics`, `product_package_code_new`, `delivery_place`, `provider_status`, `photograph_auditing_remark`, `photograph_edition_remark`, `seasonal_product`, `holiday_product`, `is_ware`, `is_boutique`, `ticketed_point`, `refere`, `sale_type`, `packing_size_selection`, `sale_remark`, `discount_rate`, `product_feature`, `record_change_time`, `is_collect`
 FROM yibai_product.yibai_product 
 WHERE sku IN(
-    SELECT sku FROM yibai_order.yibai_order_ebay_detail WHERE order_id IN ({in})
+    SELECT sku FROM yibai_order.{order_detail_table} WHERE order_id IN ({in})
 );
 
 # 商品描述
@@ -63,7 +77,7 @@ WHERE product_id IN (
     SELECT `id`
     FROM yibai_product.yibai_product 
     WHERE sku IN(
-        SELECT sku FROM yibai_order.yibai_order_ebay_detail 
+        SELECT sku FROM yibai_order.{order_detail_table} 
         WHERE order_id IN ({in})
     )
 );
@@ -77,7 +91,11 @@ WHERE order_id IN ({in});
 
 EOD;
 
-        $sql = strtr($sql, ['{in}'=>$in]);
+        $sql = strtr($sql, [
+            '{in}'=>$in,
+            '{order_table}'=>$order_table,
+            '{order_detail_table}'=>$order_detail_table,
+        ]);
 
         echo '<pre>';
         echo $sql;

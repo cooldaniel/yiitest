@@ -23299,176 +23299,25 @@ http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&start
         \D::bk();
     }
 
-    public function actionConvert()
+    public function actionTestMongodb()
     {
-        $data = [];
+        // 连接
+        $config = [];
+        $config['mongo_host'] = '127.0.0.1';
+        $config['mongo_port'] = '27017';
+        $config['mongo_db'] = 'yibai_cloud';
+        $config['mongo_user'] = 'clouduser';
+        $config['mongo_pass'] = '654321';
+        $config['host_db_flag'] = true;
+        $mongo_db = new Mongo_db($config);
 
-        $user = Yii::app()->user;
-
-        if(isset($_POST['json'])) {
-
-            $json = trim($_POST['json']);
-
-            if ($json !== '')
-            {
-                $data = [
-                    'html'=>$this->converData(),
-                ];
-                $data = array_merge($data, $_POST);
-                $data['json'] = json_encode(json_decode($data['json']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
-                $user->setState('data', $data);
-                $user->setFlash('operationSucceeded', 'Operation Succeeded');
-
-                // Refresh the page to discard the post operation
-                $this->refresh();
-            }
-        }
-
-        if (Yii::app()->request->getPost('json'))
-        {
-            echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_UNICODE);
-            exit;
-        }
-
-        $this->render('convert', [
-            'data'=>$user->getState('data'),
-        ]);
-    }
-
-    public function converData()
-    {
-        $ip = Yii::app()->request->getPost('ip');
-        $port = Yii::app()->request->getPost('port', '3306');
-        $database = Yii::app()->request->getPost('database');
-        $username = Yii::app()->request->getPost('username');
-        $password = Yii::app()->request->getPost('password');
-
-        $table = Yii::app()->request->getPost('table');
-        $search_key = Yii::app()->request->getPost('search_key');
-        $search_value = Yii::app()->request->getPost('search_value');
-        $json = Yii::app()->request->getPost('json');
-
-        // 数据库连接
-//        $dsn = 'mysql:host=192.168.71.216;dbname=yb_datacenter';
-//        $username = 'root';
-//        $password = 'yibai123456';
-//
-//        $dsn = 'mysql:host=192.168.71.6:3306;dbname=wms-test';
-//        $username = 'huangbiyu';
-//        $password = 'hby.123';
-
-        $dsn = "mysql:host={$ip}:{$port};dbname={$database}";
-        $connection=new CDbConnection($dsn,$username,$password);
-        $connection->active=true;
-        $connection->emulatePrepare = true;
-        $connection->charset = 'utf8';
-        $connection->enableProfiling = true;
-
-        // sql查询
-        $sql = "SELECT * FROM `{$table}` WHERE `{$search_key}` = '{$search_value}'";
-        $res = $connection->createCommand($sql)->queryAll();
-
-        // 数据对比
-        $data = [];
-        $json_data = json_decode($json, true);
-
-        foreach ($res as $item)
-        {
-            $tmp = [];
-            foreach ($item as $key => $value)
-            {
-                // 转键名
-                $key_new = $this->convertKey($key);
-
-                // json是否存在字段
-                $json_not_found = !isset($json_data[$key_new]);
-
-                // 对比结果
-                $value_json = $json_not_found ? '<span style="color:red;">json没有字段</span>' : $json_data[$key_new];
-                $result_equal = ($value == $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-                $result_equal_strict = ($value === $value_json) ? '相等' : '<span style="color:red;">不相等</span>';
-                $result_equal_trim = (trim($value) == trim($value_json)) ? '相等' : '<span style="color:red;">不相等</span>';
-
-                // json没有字段就不对比
-                if ($json_not_found)
-                {
-                    $result_equal = '<span style="color:red;">-</span>';
-                    $result_equal_strict = '<span style="color:red;">-</span>';
-                    $result_equal_trim = '<span style="color:red;">-</span>';
-                }
-
-                $tmp[] = [
-                    'key'=>$key,
-                    'key_new'=>$key_new,
-                    'value'=>$value,
-                    'value_json'=>$value_json,
-                    'result_equal'=>$result_equal,
-                    'result_equal_strict'=>$result_equal_strict,
-                    'result_equal_trim'=>$result_equal_trim,
-                ];
-            }
-            $data[] = $tmp;
-        }
-
-//        \D::pde($data);
-
-        // 输出表格
-        $html = '';
-        $html .=  '<table>';
-        $html .=  '<thead>';
-        $html .=  '<tr>';
-        $html .=  '<th>数据库字段</th>';
-        $html .=  '<th>驼峰格式</th>';
-        $html .=  '<th>数据库值</th>';
-        $html .=  '<th>json值</th>';
-        $html .=  '<th>数值相等</th>';
-        $html .=  '<th>严格相等</th>';
-        $html .=  '<th>去空格后相等</th>';
-        $html .=  '</tr>';
-        $html .=  '</thead>';
-        $html .=  '<tbody>';
-        foreach ($data as $row)
-        {
-            foreach ($row as $index => $item)
-            {
-                $even = !(($index % 2) == 0);
-                $even_class = $even ? "even" : '';
-                $html .=  '<tr class="'.$even_class.'">';
-                $html .=  '<td>'.$item['key'].'</td>';
-                $html .=  '<td>'.$item['key_new'].'</td>';
-                $html .=  '<td>'.$item['value'].'</td>';
-                $html .=  '<td>'.$item['value_json'].'</td>';
-                $html .=  '<td>'.$item['result_equal'].'</td>';
-                $html .=  '<td>'.$item['result_equal_strict'].'</td>';
-                $html .=  '<td>'.$item['result_equal_trim'].'</td>';
-                $html .=  '</tr>';
-            }
-        }
-        $html .=  '</tbody>';
-        $html .=  '</table>';
-
-        return $html;
-    }
-
-    protected function convertKey($key)
-    {
-        if (strpos($key, '_') > 0)
-        {
-            $parts = explode('_', $key);
-
-            $key_new = '';
-            foreach ($parts as $index => $item)
-            {
-                if ($index > 0)
-                {
-                    $item = ucfirst($item);
-                }
-                $key_new .= $item;
-            }
-            return $key_new;
-        }
-        return $key;
+        // 查询
+        $where = [
+            'account_id'=>'414',
+        ];
+        $doc = 'yibai_pull_aliexpress_evaluate_task_queue';
+        $res = $mongo_db->where($where)->get($doc);
+        \D::pd($res);
     }
 }
 

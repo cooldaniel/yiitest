@@ -26,6 +26,9 @@ return array(
 		'application.vendors.*',
         'application.vendors.phpexcel.PHPExcel',
         'application.traits.*',
+        'application.models.mongodb.*',
+        'ext.YiiMongoDbSuite.*',
+        'ext.Mongo_db',
 	),
 
 	'modules'=>array(
@@ -61,6 +64,15 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
+
+        'mongodb' => array(
+            'class'            => 'EMongoDB',
+            'connectionString' => 'mongodb://localhost',
+            'dbName'           => 'ueb_crm',
+            'fsyncFlag'        => true,
+            'safeFlag'         => true,
+            'useCursor'        => false
+        ),
 		
 		/*'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
