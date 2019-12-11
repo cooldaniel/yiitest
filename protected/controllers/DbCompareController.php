@@ -248,7 +248,7 @@ class DbCompareController extends Controller
             $key_new = $this->convertKey($key);
 
             // 是否存在字段
-            $key_not_found = !isset($compare_data[$key_new]);
+            $key_not_found = !array_key_exists($key_new, $compare_data);
 
             // 对比结果
             $value_json = $key_not_found ? '<span style="color:red;">没有字段</span>' : $compare_data[$key_new];
@@ -267,8 +267,8 @@ class DbCompareController extends Controller
             $data[] = [
                 'key'=>$key,
                 'key_new'=>$key_new,
-                'value'=>$value,
-                'value_json'=>$value_json,
+                'value'=>is_null($value) ? '<i>NULL</i>' : $value,
+                'value_json'=>is_null($value) ? '<i>NULL</i>' : $value,
                 'result_equal'=>$result_equal,
                 'result_equal_strict'=>$result_equal_strict,
                 'result_equal_trim'=>$result_equal_trim,
@@ -288,7 +288,7 @@ class DbCompareController extends Controller
             $key_new = $this->convertKey($key);
 
             // 是否存在字段
-            $key_not_found = !isset($compare_data[$key]);
+            $key_not_found = !array_key_exists($key, $compare_data);
 
             // 对比结果
             $value_json = $key_not_found ? '<span style="color:red;">没有字段</span>' : $compare_data[$key];
@@ -307,8 +307,8 @@ class DbCompareController extends Controller
             $data[] = [
                 'key'=>$key,
                 'key_new'=>$key_new,
-                'value'=>$value,
-                'value_json'=>$value_json,
+                'value'=>is_null($value) ? '<i>NULL</i>' : $value,
+                'value_json'=>is_null($value) ? '<i>NULL</i>' : $value,
                 'result_equal'=>$result_equal,
                 'result_equal_strict'=>$result_equal_strict,
                 'result_equal_trim'=>$result_equal_trim,
@@ -328,7 +328,7 @@ class DbCompareController extends Controller
             $key_new = $this->convertKey($key);
 
             // 是否存在字段
-            $key_not_found = !isset($compare_data[$key]);
+            $key_not_found = !array_key_exists($key, $compare_data);
 
             // 对比结果
             $value_json = $key_not_found ? '<span style="color:red;">没有字段</span>' : $compare_data[$key];
@@ -347,8 +347,8 @@ class DbCompareController extends Controller
             $data[] = [
                 'key'=>$key,
                 'key_new'=>$key_new,
-                'value'=>$value,
-                'value_json'=>$value_json,
+                'value'=>is_null($value) ? '<i>NULL</i>' : $value,
+                'value_json'=>is_null($value) ? '<i>NULL</i>' : $value,
                 'result_equal'=>$result_equal,
                 'result_equal_strict'=>$result_equal_strict,
                 'result_equal_trim'=>$result_equal_trim,
