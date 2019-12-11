@@ -28,6 +28,9 @@ table, tr, td{
     border: 1px solid #e5e5e5;
     border-collapse:collapse;
 }
+td{
+    padding: 0.85em;
+}
 tr.even{
     background-color: #EFEFEF;
 }
