@@ -21410,7 +21410,7 @@ class SiteController extends Controller
         $data = $siteListHelper->getSiteUrlList($checkedList);
 
         // 首页只显示选中项
-        $siteListHelper->filterUncheckedList($data);
+        //$siteListHelper->filterUncheckedList($data);
 
 //        throw new \mysql_xdevapi\Exception('dd');
 //        //Yii::trace('dd');
