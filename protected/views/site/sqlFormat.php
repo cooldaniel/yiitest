@@ -33,7 +33,7 @@ textarea {
 
     <div class="row">
         <?php echo CHtml::label('Sql', 'sql'); ?>
-        <?php echo CHtml::textArea('sql', $data['sql'], array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo CHtml::textArea('sql', $data['sql'] ?? '', array('cols'=>120, 'rows'=>25)); ?>
     </div>
 
     <div class="row buttons submit-button">
@@ -41,7 +41,7 @@ textarea {
     </div>
 
     <div class="row">
-        <?php echo $data['sqlHighlight']; ?>
+        <?php echo $data['sqlHighlight'] ?? ''; ?>
     </div>
 
 <?php $this->endWidget(); ?>
