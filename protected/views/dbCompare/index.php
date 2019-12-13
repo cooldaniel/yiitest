@@ -21,7 +21,7 @@ textarea {
 }
 
 .container{
-    width: 60%;
+    width: 1440px;
 }
 
 table, tr, td{
