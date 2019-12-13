@@ -1,46 +1,73 @@
 <?php
 class DbCompareController extends Controller
 {
+    /**
+     * 数据比较入口.
+     */
 	public function actionIndex()
     {
-        $data = [];
-
+        // 初始化user变量，后面可以用它来使用session机制
         $user = Yii::app()->user;
 
-        if(isset($_POST['json'])) {
+        // 通过判断$_POST数组里面有没有表单数据来判断浏览器是否提交了表单
+        // 如果提交了表单，就进入表单处理代码块
+        if(isset($_POST['source_ip'])) {
 
-            $json = trim($_POST['json']);
+            // 用提交的表单信息获取数据，以及进行数据对比，然后返回对比结果数组
+            $html = $this->compare();
 
-            if ($json !== '')
+            // 构造一个结果数组，把对比结果放到html这个数据项里
+            $data = [
+                'html'=>$html,
+            ];
+
+            // 为了保存当前输入的表单数据，把$_POST数组合并到结果数组里
+            $data = array_merge($data, $_POST);
+
+            // 如果表单提交了json，就对json进行格式化，方便查看
+            if (!empty($data['json']))
             {
-                $html = $this->compare();
-                $data = [
-                    'html'=>$html,
-                ];
-                $data = array_merge($data, $_POST);
+                // json格式化的时候，不要转义unicode（中文不会被转义为十六进制字符串），不要转义斜杠，用美化的格式打印json字符串
                 $data['json'] = json_encode(json_decode($data['json']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
-                $user->setState('data', $data);
-
-                if (is_string($html))
-                {
-                    $user->setFlash('operationSucceeded', $html);
-                }
-                else
-                {
-                    $user->setFlash('operationSucceeded', 'Operation Succeeded');
-                }
-
-                // Refresh the page to discard the post operation
-                $this->refresh();
             }
+
+            // 然后将处理结果数组保存到session里面
+            $user->setState('data', $data);
+
+            // 如果返回的数据比较结果是字符串，表示数据获取或者数据比较的时候出现了错误，这个时候让页面提示这个错误
+            // 如果不是字符串就表示操作成功，就让页面提示操作成功.
+            if (is_string($html))
+            {
+                $user->setFlash('operationSucceeded', $html);
+            }
+            else
+            {
+                $user->setFlash('operationSucceeded', 'Operation Succeeded');
+            }
+
+            // 输出Localtion: xxx给浏览器，让浏览器重新请求当前url，避免用户在刷新页面的时候提示是否重复提交表单
+            // 这个函数会终止php脚本的执行，后面的视图渲染代码不会被执行
+            // 上面已经把处理结果存到session，当浏览器重新请求当前url的，后面渲染视图的时候可以从session里获取数据，
+            // 所以可以看到前面的表单处理结果
+            $this->refresh();
         }
 
-        $this->render('index', [
+        // 如果没有提交表单，这里代码会被执行
+        // 前面表单处理的时候会把处理结果存到session，这里从session获取数据渲染数据
+       $this->render('index', [
             'data'=>$user->getState('data'),
         ]);
     }
 
+    /**
+     * 获取数据库连接.
+     * @param $ip
+     * @param $port
+     * @param $database
+     * @param $username
+     * @param $password
+     * @return CDbConnection
+     */
     public function getDbConnection($ip, $port, $database, $username, $password)
     {
         $dsn = "mysql:host={$ip}:{$port};dbname={$database}";
@@ -52,6 +79,15 @@ class DbCompareController extends Controller
         return $connection;
     }
 
+    /**
+     * 获取mongodb连接.
+     * @param $ip
+     * @param $port
+     * @param $database
+     * @param $username
+     * @param $password
+     * @return Mongo_db
+     */
     public function getMongodbConnection($ip, $port, $database, $username, $password)
     {
         $config = [];
@@ -65,6 +101,11 @@ class DbCompareController extends Controller
         return $mongo_db;
     }
 
+    /**
+     * 从源数据库获取数据.
+     * @return array|bool|CDbDataReader|mixed
+     * @throws CException
+     */
     public function getDataFromSourceDatabase()
     {
         // 参数
@@ -77,6 +118,7 @@ class DbCompareController extends Controller
         $search_key = Yii::app()->request->getPost('source_search_key');
         $search_value = Yii::app()->request->getPost('source_search_value');
 
+        // 返回false表示出现了错误
         if (empty($ip) ||
             empty($port) ||
             empty($database) ||
@@ -97,6 +139,11 @@ class DbCompareController extends Controller
         return empty($res) ? [] : $res;
     }
 
+    /**
+     * 从对比数据库获取数据.
+     * @return array|bool|CDbDataReader|mixed
+     * @throws CException
+     */
     public function getDataFromCompareDatabase()
     {
         // 参数
@@ -109,6 +156,7 @@ class DbCompareController extends Controller
         $search_key = Yii::app()->request->getPost('compare_search_key');
         $search_value = Yii::app()->request->getPost('compare_search_value');
 
+        // 返回false表示出现了错误
         if (empty($ip) ||
             empty($port) ||
             empty($database) ||
@@ -129,6 +177,10 @@ class DbCompareController extends Controller
         return empty($res) ? [] : $res;
     }
 
+    /**
+     * 从mongodb获取数据.
+     * @return array|bool
+     */
     public function getDataFromMongodb()
     {
         // 参数
@@ -141,6 +193,7 @@ class DbCompareController extends Controller
         $search_key = Yii::app()->request->getPost('mongodb_search_key');
         $search_value = Yii::app()->request->getPost('mongodb_search_value');
 
+        // 返回false表示出现了错误
         if (empty($ip) ||
             empty($port) ||
             empty($database) ||
@@ -163,6 +216,11 @@ class DbCompareController extends Controller
         return empty($res) ? [] : (array)json_decode((json_encode($res[0])), true);
     }
 
+    /**
+     * 获取和比较数据.
+     * @return array|string
+     * @throws CException
+     */
     public function compare()
     {
                 // 数据库连接
@@ -174,6 +232,7 @@ class DbCompareController extends Controller
 //        $username = 'huangbiyu';
 //        $password = 'hby.123';
 
+        // 提交的json
         $json = Yii::app()->request->getPost('json');
 
         // 获取源数据
@@ -248,6 +307,13 @@ class DbCompareController extends Controller
         ];
     }
 
+    /**
+     * 比较数据.
+     * @param $source_data
+     * @param $compare_data
+     * @param bool $convertKey
+     * @return array
+     */
     protected function compareData($source_data, $compare_data, $convertKey=false)
     {
         $data = [];
@@ -288,6 +354,12 @@ class DbCompareController extends Controller
         return $data;
     }
 
+    /**
+     * 渲染比较结果.
+     * @param $data
+     * @param $title
+     * @return string
+     */
     protected function renderCompareResult($data, $title)
     {
         // 输出表格
@@ -325,6 +397,11 @@ class DbCompareController extends Controller
         return $html;
     }
 
+    /**
+     * 转换字段名.
+     * @param $key
+     * @return string
+     */
     protected function convertKey($key)
     {
         if (strpos($key, '_') > 0)
