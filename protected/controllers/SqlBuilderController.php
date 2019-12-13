@@ -19,11 +19,11 @@ class SqlBuilderController extends Controller
         else
         {
             $order_table = "yibai_order_{$platform}";
-            $order_detail_table = "yibai_order_detail_{$platform}";
+            $order_detail_table = "yibai_order_{$platform}_detail";
         }
 
         $id_list = '
-EB181229009105
+AL190918009159
         ';
 
         $id_list = trim($id_list);

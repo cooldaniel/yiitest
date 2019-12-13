@@ -36,12 +36,6 @@ class DbCompareController extends Controller
             }
         }
 
-        if (Yii::app()->request->getPost('json'))
-        {
-            echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_UNICODE);
-            exit;
-        }
-
         $this->render('index', [
             'data'=>$user->getState('data'),
         ]);
@@ -60,37 +54,45 @@ class DbCompareController extends Controller
 
     public function getMongodbConnection($ip, $port, $database, $username, $password)
     {
-
+        $config = [];
+        $config['mongo_host'] = $ip;
+        $config['mongo_port'] = $port;
+        $config['mongo_db'] = $database;
+        $config['mongo_user'] = $username;
+        $config['mongo_pass'] = $password;
+        $config['host_db_flag'] = true;
+        $mongo_db = new Mongo_db($config);
+        return $mongo_db;
     }
 
     public function getDataFromSourceDatabase()
     {
         // 参数
-        $source_ip = Yii::app()->request->getPost('source_ip');
-        $source_port = Yii::app()->request->getPost('source_port', '3306');
-        $source_database = Yii::app()->request->getPost('source_database');
-        $source_username = Yii::app()->request->getPost('source_username');
-        $source_password = Yii::app()->request->getPost('source_password');
-        $source_table = Yii::app()->request->getPost('source_table');
-        $source_search_key = Yii::app()->request->getPost('source_search_key');
-        $source_search_value = Yii::app()->request->getPost('source_search_value');
+        $ip = Yii::app()->request->getPost('source_ip');
+        $port = Yii::app()->request->getPost('source_port', '3306');
+        $database = Yii::app()->request->getPost('source_database');
+        $username = Yii::app()->request->getPost('source_username');
+        $password = Yii::app()->request->getPost('source_password');
+        $table = Yii::app()->request->getPost('source_table');
+        $search_key = Yii::app()->request->getPost('source_search_key');
+        $search_value = Yii::app()->request->getPost('source_search_value');
 
-        if (empty($source_ip) ||
-            empty($source_port) ||
-            empty($source_database) ||
-            empty($source_username) ||
-            empty($source_password) ||
-            empty($source_table) ||
-            empty($source_search_key) ||
-            empty($source_search_value))
+        if (empty($ip) ||
+            empty($port) ||
+            empty($database) ||
+            empty($username) ||
+            empty($password) ||
+            empty($table) ||
+            empty($search_key) ||
+            empty($search_value))
         {
             return false;
         }
 
         // sql查询
-        $source_connection = $this->getDbConnection($source_ip, $source_port, $source_database, $source_username, $source_password);
-        $sql = "SELECT * FROM `{$source_table}` WHERE `{$source_search_key}` = '{$source_search_value}'";
-        $res = $source_connection->createCommand($sql)->queryRow();
+        $connection = $this->getDbConnection($ip, $port, $database, $username, $password);
+        $sql = "SELECT * FROM `{$table}` WHERE `{$search_key}` = '{$search_value}'";
+        $res = $connection->createCommand($sql)->queryRow();
 
         return empty($res) ? [] : $res;
     }
@@ -98,31 +100,31 @@ class DbCompareController extends Controller
     public function getDataFromCompareDatabase()
     {
         // 参数
-        $compare_ip = Yii::app()->request->getPost('compare_ip');
-        $compare_port = Yii::app()->request->getPost('compare_port', '3306');
-        $compare_database = Yii::app()->request->getPost('compare_database');
-        $compare_username = Yii::app()->request->getPost('compare_username');
-        $compare_password = Yii::app()->request->getPost('compare_password');
-        $compare_table = Yii::app()->request->getPost('compare_table');
-        $compare_search_key = Yii::app()->request->getPost('compare_search_key');
-        $compare_search_value = Yii::app()->request->getPost('compare_search_value');
+        $ip = Yii::app()->request->getPost('compare_ip');
+        $port = Yii::app()->request->getPost('compare_port', '3306');
+        $database = Yii::app()->request->getPost('compare_database');
+        $username = Yii::app()->request->getPost('compare_username');
+        $password = Yii::app()->request->getPost('compare_password');
+        $table = Yii::app()->request->getPost('compare_table');
+        $search_key = Yii::app()->request->getPost('compare_search_key');
+        $search_value = Yii::app()->request->getPost('compare_search_value');
 
-        if (empty($compare_ip) ||
-            empty($compare_port) ||
-            empty($compare_database) ||
-            empty($compare_username) ||
-            empty($compare_password) ||
-            empty($compare_table) ||
-            empty($compare_search_key) ||
-            empty($compare_search_value))
+        if (empty($ip) ||
+            empty($port) ||
+            empty($database) ||
+            empty($username) ||
+            empty($password) ||
+            empty($table) ||
+            empty($search_key) ||
+            empty($search_value))
         {
             return false;
         }
 
         // sql查询
-        $compare_connection = $this->getDbConnection($compare_ip, $compare_port, $compare_database, $compare_username, $compare_password);
-        $sql = "SELECT * FROM `{$compare_table}` WHERE `{$compare_search_key}` = '{$compare_search_value}'";
-        $res = $compare_connection->createCommand($sql)->queryRow();
+        $connection = $this->getDbConnection($ip, $port, $database, $username, $password);
+        $sql = "SELECT * FROM `{$table}` WHERE `{$search_key}` = '{$search_value}'";
+        $res = $connection->createCommand($sql)->queryRow();
 
         return empty($res) ? [] : $res;
     }
@@ -130,43 +132,33 @@ class DbCompareController extends Controller
     public function getDataFromMongodb()
     {
         // 参数
-        $mongodb_ip = Yii::app()->request->getPost('mongodb_ip');
-        $mongodb_port = Yii::app()->request->getPost('mongodb_port', '27017');
-        $mongodb_database = Yii::app()->request->getPost('mongodb_database');
-        $mongodb_username = Yii::app()->request->getPost('mongodb_username');
-        $mongodb_password = Yii::app()->request->getPost('mongodb_password');
-        $mongodb_table = Yii::app()->request->getPost('mongodb_table');
-        $mongodb_search_key = Yii::app()->request->getPost('mongodb_search_key');
-        $mongodb_search_value = Yii::app()->request->getPost('mongodb_search_value');
+        $ip = Yii::app()->request->getPost('mongodb_ip');
+        $port = Yii::app()->request->getPost('mongodb_port', '27017');
+        $database = Yii::app()->request->getPost('mongodb_database');
+        $username = Yii::app()->request->getPost('mongodb_username');
+        $password = Yii::app()->request->getPost('mongodb_password');
+        $table = Yii::app()->request->getPost('mongodb_table');
+        $search_key = Yii::app()->request->getPost('mongodb_search_key');
+        $search_value = Yii::app()->request->getPost('mongodb_search_value');
 
-        if (empty($mongodb_ip) ||
-            empty($mongodb_port) ||
-            empty($mongodb_database) ||
-            empty($mongodb_username) ||
-            empty($mongodb_password) ||
-            empty($mongodb_table) ||
-            empty($mongodb_search_key) ||
-            empty($mongodb_search_value))
+        if (empty($ip) ||
+            empty($port) ||
+            empty($database) ||
+            empty($username) ||
+            empty($password) ||
+            empty($table) ||
+            empty($search_key) ||
+            empty($search_value))
         {
             return false;
         }
 
         // mongodb查询
-        // 连接
-        $config = [];
-        $config['mongo_host'] = $mongodb_ip;
-        $config['mongo_port'] = $mongodb_port;
-        $config['mongo_db'] = $mongodb_database;
-        $config['mongo_user'] = $mongodb_username;
-        $config['mongo_pass'] = $mongodb_password;
-        $config['host_db_flag'] = true;
-        $mongo_db = new Mongo_db($config);
-
-        // 查询
+        $connection = $this->getMongodbConnection($ip, $port, $database, $username, $password);
         $where = [
-            $mongodb_search_key=>$mongodb_search_value,
+            $search_key=>$search_value,
         ];
-        $res = $mongo_db->where($where)->get($mongodb_table);
+        $res = $connection->where($where)->get($table);
 
         return empty($res) ? [] : (array)json_decode((json_encode($res[0])), true);
     }
@@ -193,7 +185,11 @@ class DbCompareController extends Controller
         $json_data = json_decode($json, true);
 
         // 源数据必须存在才进行对比
-        if (empty($source_data))
+        if ($source_data === false)
+        {
+            return '源数据库连接信息不完整';
+        }
+        elseif (empty($source_data))
         {
             return '源数据记录不存在，请重新输入搜索条件';
         }
@@ -219,7 +215,7 @@ class DbCompareController extends Controller
         }
         elseif (empty($compare_data))
         {
-            $compare_html = '找不到对应的对比数据库记录';
+            $compare_html = '对比数据库连接信息不完整';
         }
         else
         {
@@ -232,7 +228,7 @@ class DbCompareController extends Controller
         $mongodb_no_data = true;
         if ($mongodb_data === false)
         {
-            $mongodb_html = '没有输入mongodb连接';
+            $mongodb_html = 'mongodb连接信息不完整';
         }
         elseif (empty($mongodb_data))
         {
