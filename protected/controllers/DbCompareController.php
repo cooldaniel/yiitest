@@ -49,7 +49,7 @@ class DbCompareController extends Controller
             // 这个函数会终止php脚本的执行，后面的视图渲染代码不会被执行
             // 上面已经把处理结果存到session，当浏览器重新请求当前url的，后面渲染视图的时候可以从session里获取数据，
             // 所以可以看到前面的表单处理结果
-            $this->refresh();
+            //$this->refresh();
         }
 
         // 如果没有提交表单，这里代码会被执行
