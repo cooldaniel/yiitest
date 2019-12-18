@@ -9,6 +9,33 @@ $yii=dirname(__FILE__).'/../framework/yii.php';
 $config=dirname(__FILE__).'/../protected/config/main.php';
 require_once(dirname(__FILE__).'/../../D/autoload.php');
 
+function get_run_env()
+{
+    if (!isset($_SERVER['RUN_ENV']))
+    {
+        return 'dev';
+    }
+
+    $run_env = trim($_SERVER['RUN_ENV']);
+
+    return strtolower($run_env);
+}
+
+function is_run_env_dev()
+{
+    return get_run_env() == 'dev';
+}
+
+function is_run_env_test()
+{
+    return get_run_env() == 'test';
+}
+
+function is_run_env_prod()
+{
+    return get_run_env() == 'prod';
+}
+
 //function get_data(){
 //    $d = [
 //        ['name'=>'dd', 'age'=>30],
