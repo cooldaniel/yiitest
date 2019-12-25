@@ -1,5 +1,6 @@
 /nbproject/
 /htdocs/assets/*
+!/htdocs/assets/.keep
 /protected/runtime/application.log
 /.idea
 /htdocs/DumperLogFile.txt
