@@ -7,26 +7,71 @@
  */
 
 /*最外层容器*/
-fieldset.cfv_shell{margin:auto 15px 15px; padding:10px 5px 5px; font-family:"Courier New", Courier, monospace;
-font-size:12px; border:1px solid #C9E0ED;} /*fieldset*/
-fieldset.cfv_shell > legend{color:#935A00; font-weight:bold; background:url(minus.gif) no-repeat 1px 3px; text-indent:1em;} /*fieldset的标题*/
-fieldset.cfv_shell > legend.plus{background-image:url(plus.gif)}
-fieldset.cfv_shell > div{display:none;}/*内容区*/
+fieldset.cfv_shell {
+    margin: auto 15px 15px;
+    padding: 10px 5px 5px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    border: 1px solid #C9E0ED;
+}
+
+/*fieldset*/
+fieldset.cfv_shell > legend {
+    color: #935A00;
+    font-weight: bold;
+    background: url(minus.gif) no-repeat 1px 3px;
+    text-indent: 1em;
+}
+
+/*fieldset的标题*/
+fieldset.cfv_shell > legend.plus {
+    background-image: url(plus.gif)
+}
+
+fieldset.cfv_shell > div {
+    display: none;
+}
+
+/*内容区*/
 
 /*内容项*/
-div.cfv_item{margin-top:0.5em;}
-div.cfv_item div, div.cfv_item code{margin:0; padding:0; line-height:inherit;}
-div.cfv_item div.cfv_item_title{font-weight:bold; text-decoration:none; color:#11772B; background:url(minus.gif) no-repeat 1px 3px; text-indent:1em;}
-div.cfv_item div.cfv_item_title.plus{background-image:url(plus.gif); text-decoration:underline;}
-div.cfv_item div.cfv_item_content{display:none; border:1px solid #C9E0ED; border-left:none; border-right:none;}
+div.cfv_item {
+    margin-top: 0.5em;
+}
+
+div.cfv_item div, div.cfv_item code {
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+}
+
+div.cfv_item div.cfv_item_title {
+    font-weight: bold;
+    text-decoration: none;
+    color: #11772B;
+    background: url(minus.gif) no-repeat 1px 3px;
+    text-indent: 1em;
+}
+
+div.cfv_item div.cfv_item_title.plus {
+    background-image: url(plus.gif);
+    text-decoration: underline;
+}
+
+div.cfv_item div.cfv_item_content {
+    display: none;
+    border: 1px solid #C9E0ED;
+    border-left: none;
+    border-right: none;
+}
 
 /*内容换行*/
 div.cfv_item div.cfv_item_content,
-div.cfv_item div.cfv_item_content pre{
-    white-space:pre; /*CSS2*/
-    white-space:-moz-pre-wrap; /*Mozilla*/
-    white-space:-o-pre-wrap; /*Opera 7*/
-    white-space:pre-wrap; /*CSS 2.1*/
-    white-space:pre-line; /*CSS 3 (and 2.1 as well, actually)*/
-    word-wrap:break-word; /*IE*/
+div.cfv_item div.cfv_item_content pre {
+    white-space: pre; /*CSS2*/
+    white-space: -moz-pre-wrap; /*Mozilla*/
+    white-space: -o-pre-wrap; /*Opera 7*/
+    white-space: pre-wrap; /*CSS 2.1*/
+    white-space: pre-line; /*CSS 3 (and 2.1 as well, actually)*/
+    word-wrap: break-word; /*IE*/
 }

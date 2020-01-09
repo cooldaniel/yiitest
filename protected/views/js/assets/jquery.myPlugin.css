@@ -1,0 +1,23 @@
+/**
+ * 可外置的专用于该HTML结构和插件的css样式定义.
+ */
+.tab-block{
+    border: 1px solid silver;
+    padding: 0 !important;
+}
+
+.tab-block ul{
+    margin:0 !important;
+    border: 1px solid silver;
+}
+
+.tab-block ul li.checked {
+    color: blue;
+}
+
+.tab-block ul li span.additional-content {
+    display: none;
+    color: #F6C;
+    margin: auto 1em;
+    position: relative;
+}

@@ -15,7 +15,7 @@ class Country extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'yii_country';
+		return 'yiitest_country';
 	}
 
 	/**

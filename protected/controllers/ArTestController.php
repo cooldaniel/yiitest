@@ -23,7 +23,7 @@ class ArTestController extends Controller
 	public function filters()
 	{
 		return array(
-			'accessControl', // perform access control for CRUD operations
+			//'accessControl', // perform access control for CRUD operations
 		);
 	}
 
@@ -180,8 +180,9 @@ class ArTestController extends Controller
 	/**
 	 * Performs the AJAX validation.
 	 * @param CModel the model to be validated
+     * @param string $id
 	 */
-	protected function performAjaxValidation($model)
+	protected function performAjaxValidation($model, $id)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax']==='ar-test-form')
 		{
@@ -209,4 +210,26 @@ class ArTestController extends Controller
 	{
 		return md5($this->_lockPrifix.serialize($identity));
 	}
+
+	public function actionArray()
+    {
+        /* ------------------ 获取数组的两种方式 --------------- */
+
+        // create command方式获取数组
+        $sql = "SELECT * FROM yiitest_country";
+        $array = Yii::app()->db->createCommand($sql)->queryAll();
+        \D::pd($array);
+
+        // ar
+        $arList = Country::model()->findAll();
+        \D::pd($arList);
+
+        // 获取ar的attributes
+        $arData = \D::yiiCollectArData($arList);
+
+        // 对比两种结果
+        \D::pdCompare($array, $arData);
+
+
+    }
 }
