@@ -1,82 +1,38 @@
 <?php
 
+require_once(dirname(__FILE__).'/../../D/autoload.php');
 //require 'D:\code\xhgui\external\header.php';
 
 require dirname(__FILE__).'/../protected/config/constans.php';
 
-// change the following paths if necessary
+/**
+ * 检查是否异步请求.
+ * @return bool
+ */
+function getIsAjaxRequest()
+{
+    return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest';
+}
+
+// 加载框架和配置
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $config=dirname(__FILE__).'/../protected/config/main.php';
-require_once(dirname(__FILE__).'/../../D/autoload.php');
 
-function get_run_env()
-{
-    if (!isset($_SERVER['RUN_ENV']))
-    {
-        return 'dev';
-    }
-
-    $run_env = trim($_SERVER['RUN_ENV']);
-
-    return strtolower($run_env);
-}
-
-function is_run_env_dev()
-{
-    return get_run_env() == 'dev';
-}
-
-function is_run_env_test()
-{
-    return get_run_env() == 'test';
-}
-
-function is_run_env_prod()
-{
-    return get_run_env() == 'prod';
-}
-
-//function get_data(){
-//    $d = [
-//        ['name'=>'dd', 'age'=>30],
-//        ['name'=>'aa', 'age'=>80],
-//        ['name'=>'bb', 'age'=>99],
-//    ];
-//    return $d;
-//}
-//
-//$d = get_data();
-//\D::pd($d);
-//
-//// get some field value
-//array_walk($d, function(&$v, $k, $code){
-//    $v = $v[$code];
-//}, 'name');
-//\D::pd($d);
-//
-//$d = get_data();
-//\D::pd($d);
-//
-//// map two field
-//array_walk($d, function(&$v, $k, $params){
-//    $v = [$v[$params[0]]=>$v[$params[1]]];
-//}, ['name', 'age']);
-//\D::pd($d);
-//
-//\D::pde($d);
-
+// 调试模式
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 //defined('YII_DEBUG') or define('YII_DEBUG',isset($_GET['debug']));
 // specify how many levels of call stack should be shown in each log message
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 
+// 禁用Yii错误处理机制
 //defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER', false);
 //defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER', false);
 
-// 要求处理所有错误
-//error_reporting(E_ALL | E_STRICT);
 // 要求处理除了 E_STRICT 之外的所有错误
+//error_reporting(E_ALL | E_STRICT);
+
+// 要求处理所有错误
 error_reporting(E_ALL);
 
 /*

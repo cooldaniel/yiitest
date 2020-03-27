@@ -91,33 +91,6 @@ return array(
 			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
 			'enableProfiling' => true,
 		),
-
-//        'db'=>array(
-//			'connectionString' => 'mysql:host=192.168.71.170;dbname=yibai_crm',
-////			'connectionString' => 'mysql:host=localhost;dbname=ismonb2b',
-////			'connectionString' => 'mysql:host=localhost;dbname=platform',
-//			'emulatePrepare' => true,
-//			'username' => 'wurongchao',
-//			'password' => 'wurC@2019',
-//			'charset' => 'utf8',
-//			// 开启Yii系统内置的数据库性能分析开关
-//			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
-//			'enableProfiling' => true,
-//		),
-
-//		'db'=>array(
-//			'connectionString' => 'mysql:host=localhost;dbname=yibai_crm',
-////			'connectionString' => 'mysql:host=localhost;dbname=ismonb2b',
-////			'connectionString' => 'mysql:host=localhost;dbname=platform',
-//			'emulatePrepare' => true,
-//			'username' => 'root',
-//			'password' => '123456',
-//			'charset' => 'utf8',
-//			// 开启Yii系统内置的数据库性能分析开关
-//			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
-//			'enableProfiling' => true,
-//            //'persistent' => true,
-//		),
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -129,34 +102,46 @@ return array(
         ),
 		'log'=>array(
 			'class'=>'CLogRouter',
-			//'enabled'=>false,
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					//'enabled'=>!YII_DEBUG,
-                    'enabled'=>!false,
-					'levels'=>'error, warning, trace,info, profile',
-                    'levels'=>'error, warning',
+                    // 总是默认打开
+					'enabled'=>true,
+                    // 调试模式记录更多调试信息，否则只记录重要错误
+                    // 实际调试的时候，可以选择性手动切换需要关注的错误类型
+                    'levels'=>YII_DEBUG ? 'error, warning, info, trace, profile' : 'error, warning',
 					// 方便查看每次请求的上下文环境
-					//'filter'=>'CLogFilter',
+//					'filter'=>'CLogFilter',
 				),
 				array(
 					'class'=>'CWebLogRoute',
-					'enabled'=>false,
-					'levels'=>'trace, error, warning, info',
+					// 调试模式而且是异步调用方式就打开
+					'enabled'=>YII_DEBUG && !getIsAjaxRequest(),
+					'levels'=>'error, warning, trace, info, profile',
 					// 方便查看每次请求的上下文环境
-					//'filter'=>'CLogFilter',
+					'filter'=>'CLogFilter',
 				),
 				array(
 					'class'=>'CProfileLogRoute',
-					'enabled'=>false,
-				),
-				array(
-					'class'=>'CProfileLogRoute',
-					'enabled'=>false,
+					// 调试模式而且是异步调用方式就打开
+                    'enabled'=>YII_DEBUG && !getIsAjaxRequest(),
 					'report'=>'callstack',
 					// filter选项对此route无效
-					//'filter'=>'CLogFilter',
+					// 'filter'=>'CLogFilter',
+				),
+                array(
+					'class'=>'CDbLogRoute',
+					// 总是默认打开
+					'enabled'=>true,
+                    // 必须手动指定数据库连接ID，否则默认使用sqlite在runtime目录下创建数据库文件
+                    'connectionID'=>'db',
+                    // 表名字必须填写完整
+                    'logTableName'=>'yiitest_log',
+                    // 默认是自动创建表
+                    'autoCreateLogTable'=>true,
+                    'levels'=>'error, warning',
+                    // filter选项对此route无效
+                    // 'filter'=>'CLogFilter',
 				),
 			),
 		),

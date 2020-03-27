@@ -73,4 +73,9 @@ class JsController extends Controller
     {
         $this->render('js_block_and_series');
     }
+
+    public function actionDd()
+    {
+        $this->render('dd');
+    }
 }

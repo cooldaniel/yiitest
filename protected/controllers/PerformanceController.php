@@ -22,7 +22,7 @@ class PerformanceController extends Controller
         {
             $key = 'redis-'.$item;
             $value = $item;
-            $redis->set($key, $value);
+            $redis->set($key, $value, 5);
         }
 
         foreach (range(0, 100) as $item)

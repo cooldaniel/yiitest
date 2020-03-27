@@ -506,4 +506,37 @@ class ArrayHelper
         $args = ArrayHelper::filterEmptyRow($args);
         return implode(',', $args);
     }
+
+    /**
+     * 获取两个日期之间的所有日期.
+     * @param $start
+     * @param $end
+     * @param $interval
+     * @return array
+     */
+    public static function getBetweenDaysInterval($start, $end, $interval=1)
+    {
+        $start_timestamp = strtotime($start);
+        $end_timestamp = strtotime($end);
+
+        if (!is_int($interval) || $interval <= 0)
+        {
+            trigger_error('参数$interval必须是正整数.');
+        }
+
+        $interval_timestamp = $interval * 60 * 60 * 24;
+        if ($start_timestamp + $interval_timestamp > $end_timestamp)
+        {
+            trigger_error('参数$start加上$interval不能超过$end参数');
+        }
+
+        $res = [];
+        while ($start_timestamp <= $end_timestamp)
+        {
+            $res[] = date('Y-m-d', $start_timestamp);
+            $start_timestamp = $start_timestamp + $interval_timestamp;
+        }
+
+        return $res;
+    }
 }
