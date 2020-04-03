@@ -49,7 +49,7 @@ class ConvertController extends Controller
             $model->choice = ConvertHelper::CHOICE_JSON;
         }
 
-		$this->render('index',array('model'=>$model));
+		$this->render('index-tab',array('model'=>$model));
 	}
 }
 
