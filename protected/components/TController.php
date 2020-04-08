@@ -22,12 +22,12 @@ class TController extends CController
 	 */
 	public $breadcrumbs=array();
 	
-	protected function performAjaxValidation($model,$id)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']===$id)
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+//	protected function performAjaxValidation($model,$id)
+//	{
+//		if(isset($_POST['ajax']) && $_POST['ajax']===$id)
+//		{
+//			echo CActiveForm::validate($model);
+//			Yii::app()->end();
+//		}
+//	}
 }
