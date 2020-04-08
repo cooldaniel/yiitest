@@ -36,7 +36,25 @@ class Controller extends TController
 		header("Content-type: text/html; charset=utf-8");
 
 		$this->changeLanguage();
+
+		// 设置左边菜单栏.
+        $this->setCommonSidebar();
 	}
+
+    /**
+     * 设置左边菜单栏.
+     * 这些菜单经常使用，避免总是到首页去搜索.
+     */
+	protected function setCommonSidebar()
+    {
+        $this->menu=array(
+            array('label'=>'Home', 'url'=>array('site/index')),
+            array('label'=>'Convert', 'url'=>array('convert/index')),
+            array('label'=>'Diff', 'url'=>array('diff/index')),
+            array('label'=>'Html', 'url'=>array('html/index')),
+            array('label'=>'DbCompare', 'url'=>array('dbcompare/index')),
+        );
+    }
 	
 	public function changeLanguage()
 	{

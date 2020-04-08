@@ -1,5 +1,8 @@
 <?php
-$this->pageTitle='数据对比-'.date('Y-m-d H:i:s').'-'.rand();
+$this->pageTitle=Yii::app()->name . ' - ' . '数据对比-'.date('Y-m-d H:i:s').'-'.rand();
+$this->breadcrumbs=array(
+    Yii::t('app', 'DbCompare'),
+);
 ?>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">

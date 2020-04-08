@@ -3,8 +3,6 @@ $this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'Html');
 $this->breadcrumbs=array(
     Yii::t('app', 'Html'),
 );
-
-$viewHtmlUrl = Yii::app()->createUrl('html/view');
 ?>
 
 <style>
