@@ -1,14 +1,10 @@
 <?php
-/* @var $this SiteController */
-/* @var $model ContactForm */
-/* @var $form CActiveForm */
-
 $this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'Html');
 $this->breadcrumbs=array(
     Yii::t('app', 'Html'),
 );
 
-$viewHtmlUrl = Yii::app()->createUrl('site/viewHtml');
+$viewHtmlUrl = Yii::app()->createUrl('html/view');
 ?>
 
 <style>
@@ -35,11 +31,11 @@ textarea {
 
     <div class="row">
         <?php echo CHtml::label('Html', 'html'); ?>
-        <?php echo CHtml::textArea('html', $html, array('cols'=>120, 'rows'=>25)); ?>
+        <?php echo CHtml::textArea('html', '', array('cols'=>120, 'rows'=>25)); ?>
     </div>
 
     <div class="row buttons submit-button">
-        <?php echo CHtml::submitButton(Yii::t('app', 'Submit')); ?>
+        <?php echo CHtml::button(Yii::t('app', 'View'), ['id'=>'viewButton']); ?>
     </div>
 
 <?php $this->endWidget(); ?>
@@ -47,11 +43,21 @@ textarea {
 </div><!-- form -->
 
 <script>
-var viewHtmlUrl = '<?php echo $viewHtmlUrl; ?>';
-var viewHtml = <?php echo (int)$viewHtml; ?>;
 $(function () {
-    if (viewHtml) {
-        window.open(viewHtmlUrl);
+
+    // 载入页面的时候从cookie读取数据到文本域
+    if ($.cookie('backup') != undefined) {
+        $('textarea[name="html"]').val($.cookie('backup'));
     }
+
+    // 输入文本框的时候保存到cookie
+    $('textarea[name="html"]').on('keyup', function () {
+        $.cookie('backup', $(this).val(), {expires: 1000});
+    });
+
+    // 点击查看的时候从cookie读取文本显示
+    $('#viewButton').on('click', function () {
+        window.open('', "_blank",'').document.write($.cookie('backup'));
+    });
 })
 </script>

@@ -1037,42 +1037,6 @@ NULL, 100, 100, 'GD-MULTIDANIEL', 'Test goods which takes GD-MULTIDANIEL as good
         echo '</pre>';
     }
 
-    public function actionHtml()
-    {
-        $user = Yii::app()->user;
-
-        if(isset($_POST['html'])) {
-
-            $html = trim($_POST['html']);
-
-            if ($html !== '')
-            {
-                // Keep the result prompt and data for the next request showing.
-                $user->setState('html', $html);
-                $user->setFlash('operationSucceeded', 'Operation Succeeded');
-
-                // Refresh the page to discard the post operation
-                $this->refresh();
-            }
-        }
-
-        $this->render('html', [
-            'html'=>$user->getState('html'),
-            'viewHtml'=>$user->hasState('html'),
-        ]);
-    }
-
-    public function actionViewHtml()
-    {
-        $user = Yii::app()->user;
-
-        $html = $user->getState('html');
-
-        $user->setState('html', null);
-
-        echo $html;
-    }
-
     public function actionSqlFormat()
     {
         $data = [];

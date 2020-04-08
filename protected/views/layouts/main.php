@@ -25,6 +25,8 @@
 		Yii::app()->clientScript->registerCoreScript('jquery');
 	}
 	?>
+
+    <script type="application/javascript" src="/js/jquery.cookie.js"></script>
 </head>
 
 <body>
