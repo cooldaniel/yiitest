@@ -15,10 +15,12 @@ class ConvertHelper
 
     const SORT_ASC = 1;
     const SORT_DESC = 2;
+    const SORT_NO = 3;
 
     public static $sortList = [
         self::SORT_ASC => 'asc',
         self::SORT_DESC => 'desc',
+        self::SORT_NO => 'no',
     ];
 
     /**
@@ -124,7 +126,7 @@ class ConvertHelper
      * @param $array
      * @param $sort
      * @param $sortByKey
-     * $param $sortByRecurse
+     * @param $sortByRecurse
      */
     public function sort(&$array, $sort, $sortByKey, $sortByRecurse)
     {

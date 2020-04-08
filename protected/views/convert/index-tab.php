@@ -57,7 +57,7 @@ $this->breadcrumbs=array(
     }
     label.main-label{
         border: none;
-        width: 200px;
+        width: 250px;
         text-align: right;
         margin-right: 1em;
     }
@@ -125,7 +125,7 @@ $this->breadcrumbs=array(
     <?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <?php echo $form->labelEx($model,'Data count: ' . $model->data_count .' '); ?>
+        <?php echo $form->labelEx($model, 'Item counts: <span style="color: #cc0000;">' . $model->data_count .'</span>'); ?>.
     </div>
 
     <div id="tabs">
