@@ -91,6 +91,19 @@ return array(
 			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
 			'enableProfiling' => true,
 		),
+        'db_laraveltest'=>array(
+            // gii创建数据库连接的时候要指定class属性
+            'class'=>'CDbConnection',
+            'connectionString' => 'mysql:host=localhost;dbname=laraveltest',
+			'emulatePrepare' => true,
+			'username' => 'root',
+			'password' => '123456',
+			'charset' => 'utf8',
+			'tablePrefix' => '',
+			// 开启Yii系统内置的数据库性能分析开关
+			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
+			'enableProfiling' => true,
+		),
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -117,6 +130,7 @@ return array(
 					'class'=>'CWebLogRoute',
 					// 调试模式而且是异步调用方式就打开
 					'enabled'=>YII_DEBUG && !getIsAjaxRequest(),
+					'enabled'=>false,
 					'levels'=>'error, warning, trace, info, profile',
 					// 方便查看每次请求的上下文环境
 					'filter'=>'CLogFilter',
@@ -125,7 +139,8 @@ return array(
 					'class'=>'CProfileLogRoute',
 					// 调试模式而且是异步调用方式就打开
                     'enabled'=>YII_DEBUG && !getIsAjaxRequest(),
-					'report'=>'callstack',
+					'enabled'=>false,
+                    'report'=>'callstack',
 					// filter选项对此route无效
 					// 'filter'=>'CLogFilter',
 				),
