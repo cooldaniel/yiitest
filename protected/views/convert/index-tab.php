@@ -157,7 +157,7 @@ $this->breadcrumbs=array(
             <?php if ($item['name'] == 'sql'): ?>
                 <?php echo CHtml::textArea(
                     $item['name'],
-                    'array(' . substr($model->array, 1, -2) . ')',
+                    '(' . substr($model->array, 1, -2) . ')',
                     array('cols'=>120, 'rows'=>30, 'readonly'=>true, 'title'=>'Array的另一个展示格式，只是改了首尾语法，方便复制做sql的IN条件，只做复制不能修改提交')
                 ); ?>
             <?php else: ?>
