@@ -130,44 +130,42 @@ $this->breadcrumbs=array(
 
     <div id="tabs">
 
+        <?php
+            $data = [
+                ['name'=>'json', 'text'=>''],
+                ['name'=>'array', 'text'=>''],
+                ['name'=>'sql', 'text'=>''],
+                ['name'=>'likearray', 'text'=>''],
+                ['name'=>'postman', 'text'=>''],
+                ['name'=>'list', 'text'=>''],
+                ['name'=>'listspace', 'text'=>''],
+            ];
+        ?>
+
+        <!-- 标签头部 -->
         <ul>
-            <li><a href="#tabs-1">Json</a></li>
-            <li><a href="#tabs-2">Array</a></li>
-            <li><a href="#tabs-3">Likearray</a></li>
-            <li><a href="#tabs-4">Postman</a></li>
-            <li><a href="#tabs-5">List</a></li>
-            <li><a href="#tabs-6">Listspace</a></li>
-          </ul>
+            <?php foreach ($data as $index => $item): ?>
+            <li><a href="#tabs-<?php echo $index; ?>"><?php echo ucfirst($item['name']); ?></a></li>
+            <?php endforeach; ?>
+        </ul>
 
-        <div id="tabs-1">
-            <?php echo $form->textArea($model,'json', array('cols'=>120, 'rows'=>30)); ?>
-            <?php echo $form->error($model,'json'); ?>
-        </div>
+        <!-- 标签内容 -->
+        <?php foreach ($data as $index => $item): ?>
+        <div id="tabs-<?php echo $index; ?>">
 
-        <div id="tabs-2">
-            <?php echo $form->textArea($model,'array', array('cols'=>120, 'rows'=>30)); ?>
-            <?php echo $form->error($model,'array'); ?>
+            <!-- 增加sql格式展示数组方式 -->
+            <?php if ($item['name'] == 'sql'): ?>
+                <?php echo CHtml::textArea(
+                    $item['name'],
+                    'array(' . substr($model->array, 1, -2) . ')',
+                    array('cols'=>120, 'rows'=>30, 'readonly'=>true, 'title'=>'Array的另一个展示格式，只是改了首尾语法，方便复制做sql的IN条件，只做复制不能修改提交')
+                ); ?>
+            <?php else: ?>
+                <?php echo $form->textArea($model,$item['name'], array('cols'=>120, 'rows'=>30)); ?>
+                <?php echo $form->error($model,$item['name']); ?>
+            <?php endif; ?>
         </div>
-
-        <div id="tabs-3">
-            <?php echo $form->textArea($model,'likearray', array('cols'=>120, 'rows'=>30)); ?>
-            <?php echo $form->error($model,'likearray'); ?>
-        </div>
-
-        <div id="tabs-4">
-            <?php echo $form->textArea($model,'postman', array('cols'=>120, 'rows'=>30)); ?>
-            <?php echo $form->error($model,'postman'); ?>
-        </div>
-
-        <div id="tabs-5">
-            <?php echo $form->textArea($model,'list', array('cols'=>120, 'rows'=>30)); ?>
-            <?php echo $form->error($model,'list'); ?>
-        </div>
-
-        <div id="tabs-6">
-            <?php echo $form->textArea($model,'listspace', array('cols'=>120, 'rows'=>30)); ?>
-            <?php echo $form->error($model,'listspace'); ?>
-        </div>
+        <?php endforeach; ?>
 
     </div>
 
