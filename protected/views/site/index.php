@@ -2,9 +2,6 @@
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'Index');
-$this->breadcrumbs=array(
-    Yii::t('app', 'Home'),
-);
 ?>
 
 <br/>
