@@ -21,6 +21,7 @@ class Controller extends TController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+	public $commonMenu = [];
 
     /**
      * 不使用Yii自带的Jquery.
@@ -47,7 +48,7 @@ class Controller extends TController
      */
 	protected function setCommonSidebar()
     {
-        $this->menu=array(
+        $this->commonMenu=array(
             array('label'=>'Home', 'url'=>array('site/index')),
             array('label'=>'Convert', 'url'=>array('convert/index')),
             array('label'=>'Diff', 'url'=>array('diff/index')),
