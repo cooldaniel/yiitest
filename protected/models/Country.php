@@ -85,7 +85,7 @@ class Country extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
             'pagination'=>[
-                'pageSize'=>2,
+                //'pageSize'=>2,
             ],
 		));
 	}
