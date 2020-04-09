@@ -43,19 +43,11 @@ textarea {
 <script>
 $(function () {
 
-    // 载入页面的时候从cookie读取数据到文本域
-    if ($.cookie('backup') != undefined) {
-        $('textarea[name="html"]').val($.cookie('backup'));
-    }
-
-    // 输入文本框的时候保存到cookie
-    $('textarea[name="html"]').on('keyup', function () {
-        $.cookie('backup', $(this).val(), {expires: 1000});
-    });
+    var obj = $('textarea[name="html"]').swapcookiedata();
 
     // 点击查看的时候从cookie读取文本显示
     $('#viewButton').on('click', function () {
-        window.open('', "_blank",'').document.write($.cookie('backup'));
+        window.open('', "_blank",'').document.write(obj.getCookieData());
     });
 })
 </script>

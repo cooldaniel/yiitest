@@ -18,9 +18,9 @@ class ConvertHelper
     const SORT_NO = 3;
 
     public static $sortList = [
-        self::SORT_ASC => 'asc',
-        self::SORT_DESC => 'desc',
-        self::SORT_NO => 'no',
+        self::SORT_ASC => 'Asc',
+        self::SORT_DESC => 'Desc',
+        self::SORT_NO => 'No',
     ];
 
     /**
@@ -32,7 +32,7 @@ class ConvertHelper
      * @return array
      * @throws Exception
      */
-    public function convert($data)
+    public function run($data)
     {
         $json = trim($data['json']);
         $array = trim($data['array']);

@@ -1,11 +1,7 @@
 <?php
-/* @var $this SiteController */
-/* @var $model ContactForm */
-/* @var $form CActiveForm */
-
-$this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'Convert');
+$this->pageTitle=Yii::app()->name . ' - ' . Yii::t('app', 'DiffArray');
 $this->breadcrumbs=array(
-    Yii::t('app', 'Convert'),
+    Yii::t('app', 'DiffArray'),
 );
 ?>
 
@@ -66,7 +62,7 @@ $this->breadcrumbs=array(
     }
 </style>
 
-<h1><?php echo Yii::t('app', 'Convert'); ?></h1>
+<h1><?php echo Yii::t('app', 'DiffArray'); ?></h1>
 
 <div class="form">
 
@@ -84,18 +80,20 @@ $this->breadcrumbs=array(
 
         <div class="row">
             <?php echo $form->labelEx($model,'choice', ['class'=>'main-label']); ?>
-            <?php echo $form->dropDownList($model,'choice',
-                [
-                    ConvertHelper::CHOICE_JSON=>$model->attributeLabels()['json'],
-                    ConvertHelper::CHOICE_ARRAY=>$model->attributeLabels()['array'],
-                    ConvertHelper::CHOICE_LIKEARRAY=>$model->attributeLabels()['likearray'],
-                    ConvertHelper::CHOICE_POSTMAN=>$model->attributeLabels()['postman'],
-                    ConvertHelper::CHOICE_LIST=>$model->attributeLabels()['list'],
-                    ConvertHelper::CHOICE_LISTSPACE=>$model->attributeLabels()['listspace'],
-                ]
-            ); ?>
+            <?php echo $form->dropDownList($model,'choice', DiffArraytHelper::$choiceList); ?>
             <?php echo CHtml::submitButton(Yii::t('app', 'Submit'), ['class'=>'submit-button']); ?>
             <?php echo $form->error($model,'choice'); ?>
+        </div>
+
+        <div class="row">
+            <?php echo $form->labelEx($model,'direct', ['class'=>'main-label']); ?>
+            <?php echo $form->radioButtonList($model,'direct',DiffArraytHelper::$directList, [
+                'separator'=>'',
+                'labelOptions'=>[
+                    'style'=>'margin-right: 1em;',
+                ]
+            ]); ?>
+            <?php echo $form->error($model,'direct'); ?>
         </div>
 
         <div class="row">
@@ -121,8 +119,10 @@ $this->breadcrumbs=array(
             <?php echo $form->error($model,'sortbyrecurse'); ?>
         </div>
 
-        <div class="row buttons">
-
+        <div class="row">
+            <?php echo $form->labelEx($model,'natsort', ['class'=>'main-label']); ?>
+            <?php echo $form->checkBox($model,'natsort'); ?>
+            <?php echo $form->error($model,'natsort'); ?>
         </div>
 
     </div>
@@ -137,13 +137,9 @@ $this->breadcrumbs=array(
 
         <?php
             $data = [
-                ['name'=>'json', 'text'=>''],
-                ['name'=>'array', 'text'=>''],
-                ['name'=>'sql', 'text'=>''],
-                ['name'=>'likearray', 'text'=>''],
-                ['name'=>'postman', 'text'=>''],
-                ['name'=>'list', 'text'=>''],
-                ['name'=>'listspace', 'text'=>''],
+                ['name'=>'array1', 'text'=>''],
+                ['name'=>'array2', 'text'=>''],
+                ['name'=>'diff', 'text'=>''],
             ];
         ?>
 
@@ -158,12 +154,12 @@ $this->breadcrumbs=array(
         <?php foreach ($data as $index => $item): ?>
         <div id="tabs-<?php echo $index; ?>">
 
-            <!-- 增加sql格式展示数组方式 -->
-            <?php if ($item['name'] == 'sql'): ?>
+            <!-- 结果 -->
+            <?php if ($item['name'] == 'diff'): ?>
                 <?php echo CHtml::textArea(
                     $item['name'],
-                    '(' . substr($model->array, 1, -2) . ')',
-                    array('cols'=>120, 'rows'=>30, 'readonly'=>true, 'title'=>'Array的另一个展示格式，只是改了首尾语法，方便复制做sql的IN条件，只做复制不能修改提交')
+                    $model->diff,
+                    array('cols'=>120, 'rows'=>30, 'readonly'=>true, 'title'=>'比较结果，只做复制不能修改提交')
                 ); ?>
             <?php else: ?>
                 <?php echo $form->textArea($model,$item['name'], array('cols'=>120, 'rows'=>30)); ?>
@@ -180,8 +176,11 @@ $this->breadcrumbs=array(
 
 <script>
 $( function() {
-$( "#tabs" ).tabs({
-  //event: "mouseover"
-});
+    $( "#tabs" ).tabs({
+      //event: "mouseover"
+    });
+
+    // $('textarea[name="DiffArrayForm[array1]"').swapcookiedata();
+    // $('textarea[name="DiffArrayForm[array2]"').swapcookiedata();
 } );
 </script>

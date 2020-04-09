@@ -5,16 +5,6 @@
  */
 class ConvertController extends Controller
 {
-    protected $convert_helper;
-
-	public function getConvertHelper()
-    {
-        if ($this->convert_helper === null) {
-            $this->convert_helper = new ConvertHelper();
-        }
-        return $this->convert_helper;
-    }
-
 	public function actionIndex()
 	{
 		$model=new ConvertForm();
@@ -32,8 +22,8 @@ class ConvertController extends Controller
             // Make sure that validating the format before using
 			if($model->validate()) {
 
-                // Convert
-                $res = $this->getConvertHelper()->convert($_POST['ConvertForm']);
+                // run
+                $res = (new ConvertHelper())->run($_POST['ConvertForm']);
 
                 // Keep the result prompt and data for the next request showing.
                 $user->setState('convertdata', $res);
@@ -44,7 +34,7 @@ class ConvertController extends Controller
 			}
 		}
 
-		// Set choice as json if null
+		// Init the choice if null
 		if (!$model->choice) {
             $model->choice = ConvertHelper::CHOICE_JSON;
         }

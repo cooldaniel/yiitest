@@ -27,6 +27,7 @@
 	?>
 
     <script type="application/javascript" src="/js/jquery.cookie.js"></script>
+    <script type="application/javascript" src="/js/jquery.cooldaniel.swapcookiedata.js"></script>
 </head>
 
 <body>

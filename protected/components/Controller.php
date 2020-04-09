@@ -51,7 +51,7 @@ class Controller extends TController
         $this->commonMenu=array(
             array('label'=>'Home', 'url'=>array('site/index')),
             array('label'=>'Convert', 'url'=>array('convert/index')),
-            array('label'=>'Diff', 'url'=>array('diff/index')),
+            array('label'=>'DiffArray', 'url'=>array('diffArray/index')),
             array('label'=>'Html', 'url'=>array('html/index')),
             array('label'=>'DbCompare', 'url'=>array('dbcompare/index')),
         );

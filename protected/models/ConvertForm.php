@@ -25,7 +25,7 @@ class ConvertForm extends CFormModel
     public $listspace;
 
     public $choice;
-    public $sort = false;
+    public $sort = ConvertHelper::SORT_NO;
     public $sortbykey;
     public $sortbyrecurse;
     public $data_count;
