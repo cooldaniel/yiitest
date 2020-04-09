@@ -66,19 +66,22 @@ class DiffArraytHelper
         }
 
         // 排序
-        if ($natsort)
+        if ($sort != ConvertHelper::SORT_NO)
         {
-            // 自然排序
-            natcasesort($arrayData1);
-            natcasesort($arrayData2);
-            natcasesort($diffData);
-        }
-        else
-        {
-            // 非自然排序
-            $convertHelper->sort($arrayData1, $sort, $sortByKey, $sortByRecurse);
-            $convertHelper->sort($arrayData2, $sort, $sortByKey, $sortByRecurse);
-            $convertHelper->sort($diffData, $sort, $sortByKey, $sortByRecurse);
+            if ($natsort)
+            {
+                // 自然排序
+                natcasesort($arrayData1);
+                natcasesort($arrayData2);
+                natcasesort($diffData);
+            }
+            else
+            {
+                // 非自然排序
+                $convertHelper->sort($arrayData1, $sort, $sortByKey, $sortByRecurse);
+                $convertHelper->sort($arrayData2, $sort, $sortByKey, $sortByRecurse);
+                $convertHelper->sort($diffData, $sort, $sortByKey, $sortByRecurse);
+            }
         }
 
         return [
