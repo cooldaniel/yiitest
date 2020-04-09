@@ -39,8 +39,6 @@ class DiffArrayController extends Controller
             $model->direct = DiffArraytHelper::DIRECT_LEFT_RIGHT;
         }
 
-//		\D::logc($model->attributes);
-
 		$this->render('index',array('model'=>$model));
 	}
 }

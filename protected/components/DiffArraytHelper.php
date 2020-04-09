@@ -44,11 +44,11 @@ class DiffArraytHelper
 
         $convertHelper = new ConvertHelper();
 
+        // 转成数组
         $arrayData1 = $convertHelper->arrayToArrayData($array1);
         $arrayData2 = $convertHelper->arrayToArrayData($array2);
 
-        \D::log($arrayData1);
-
+        // 处理
         switch ($choice)
         {
             case self::CHOICE_DIFF:
@@ -65,21 +65,21 @@ class DiffArraytHelper
                 throw new Exception('Choice is not supprted.');
         }
 
+        // 排序
         if ($natsort)
         {
+            // 自然排序
             natcasesort($arrayData1);
             natcasesort($arrayData2);
             natcasesort($diffData);
         }
         else
         {
+            // 非自然排序
             $convertHelper->sort($arrayData1, $sort, $sortByKey, $sortByRecurse);
             $convertHelper->sort($arrayData2, $sort, $sortByKey, $sortByRecurse);
             $convertHelper->sort($diffData, $sort, $sortByKey, $sortByRecurse);
         }
-
-
-        \D::log($convertHelper->arrayDataToArray($arrayData1));
 
         return [
             'array1'=>$convertHelper->arrayDataToArray($arrayData1),
