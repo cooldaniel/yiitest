@@ -34,7 +34,7 @@ textarea {
     <?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <?php echo $form->labelEx($model,'json' . '&nbsp;&nbsp;(Data count: ' . $model->data_count .' )'); ?>
+        <?php echo $form->labelEx($model,'json' . '&nbsp;&nbsp;(Data count: ' . $model->dataCount .' )'); ?>
         <?php echo $form->textArea($model,'json', array('cols'=>120, 'rows'=>25)); ?>
         <?php echo $form->error($model,'json'); ?>
     </div>
@@ -93,15 +93,15 @@ textarea {
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($model,'sortbykey'); ?>
-            <?php echo $form->checkBox($model,'sortbykey'); ?>
-            <?php echo $form->error($model,'sortbykey'); ?>
+            <?php echo $form->labelEx($model,'sortByKey'); ?>
+            <?php echo $form->checkBox($model,'sortByKey'); ?>
+            <?php echo $form->error($model,'sortByKey'); ?>
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($model,'sortbyrecurse'); ?>
-            <?php echo $form->checkBox($model,'sortbyrecurse'); ?>
-            <?php echo $form->error($model,'sortbyrecurse'); ?>
+            <?php echo $form->labelEx($model,'sortByRecurse'); ?>
+            <?php echo $form->checkBox($model,'sortByRecurse'); ?>
+            <?php echo $form->error($model,'sortByRecurse'); ?>
         </div>
 
         <div class="row buttons">

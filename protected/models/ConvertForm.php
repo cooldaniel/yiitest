@@ -7,6 +7,7 @@
  */
 class ConvertForm extends CFormModel
 {
+    public $input;
     public $json;
     public $array;
     public $likearray;
@@ -26,9 +27,10 @@ class ConvertForm extends CFormModel
 
     public $choice;
     public $sort = ConvertHelper::SORT_NO;
-    public $sortbykey;
-    public $sortbyrecurse;
-    public $data_count;
+    public $sortByAssoc;
+    public $sortByKey;
+    public $sortByRecurse;
+    public $dataCount;
 
     /**
      * Declares the validation rules.
@@ -36,6 +38,7 @@ class ConvertForm extends CFormModel
     public function rules()
     {
         return array(
+            array('input', 'safe'),
             array('json', 'validateJson'),
             array('array', 'validateArray'),
             array('likearray', 'validateLikeArray'),
@@ -44,9 +47,10 @@ class ConvertForm extends CFormModel
             array('listspace', 'validateListSpace'),
             array('choice', 'numerical'),
             array('sort', 'numerical'),
-            array('sortbykey', 'numerical'),
-            array('sortbyrecurse', 'numerical'),
-            array('data_count', 'numerical'),
+            array('sortByAssoc', 'numerical'),
+            array('sortByKey', 'numerical'),
+            array('sortByRecurse', 'numerical'),
+            array('dataCount', 'numerical'),
         );
     }
 
@@ -104,8 +108,9 @@ class ConvertForm extends CFormModel
             'listspace'=>Yii::t('code', 'List Space'),
             'choice'=>Yii::t('code', 'Choice'),
             'sort'=>Yii::t('code', 'Sort'),
-            'sortbykey'=>Yii::t('code', 'Sort By Key'),
-            'sortbyrecurse'=>Yii::t('code', 'Sort By Recurse'),
+            'sortByAssoc'=>Yii::t('code', 'Sort By Assoc'),
+            'sortByKey'=>Yii::t('code', 'Sort By Key'),
+            'sortByRecurse'=>Yii::t('code', 'Sort By Recurse'),
         );
     }
 }

@@ -38,8 +38,9 @@ class DiffArraytHelper
         $direct = (int)$data['direct'];
         $choice = (int)$data['choice'];
         $sort = (int)$data['sort'];
-        $sortByKey = (int)$data['sortbykey'];
-        $sortByRecurse = (int)$data['sortbyrecurse'];
+        $sortByAssoc = (int)$data['sortByAssoc'];
+        $sortByKey = (int)$data['sortByKey'];
+        $sortByRecurse = (int)$data['sortByRecurse'];
         $natsort = (int)$data['natsort'];
 
         $convertHelper = new ConvertHelper();
@@ -78,9 +79,9 @@ class DiffArraytHelper
             else
             {
                 // 非自然排序
-                $convertHelper->sort($arrayData1, $sort, $sortByKey, $sortByRecurse);
-                $convertHelper->sort($arrayData2, $sort, $sortByKey, $sortByRecurse);
-                $convertHelper->sort($diffData, $sort, $sortByKey, $sortByRecurse);
+                $convertHelper->sort($arrayData1, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+                $convertHelper->sort($arrayData2, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+                $convertHelper->sort($diffData, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
             }
         }
 
@@ -90,10 +91,11 @@ class DiffArraytHelper
             'diff'=>$convertHelper->arrayDataToArray($diffData),
             'choice'=>$choice,
             'direct'=>$direct,
-            'data_count'=>count($arrayData1) . ' / ' . count($arrayData2) . ' / ' . (count($arrayData1) - count($arrayData2)) . ' / ' . count($diffData),
+            'dataCount'=>count($arrayData1) . ' / ' . count($arrayData2) . ' / ' . (count($arrayData1) - count($arrayData2)) . ' / ' . count($diffData),
             'sort'=>$sort,
-            'sortbykey'=>$sortByKey,
-            'sortbyrecurse'=>$sortByRecurse,
+            'sortByAssoc'=>$sortByAssoc,
+            'sortByKey'=>$sortByKey,
+            'sortByRecurse'=>$sortByRecurse,
             'natsort'=>$natsort,
         ];
     }

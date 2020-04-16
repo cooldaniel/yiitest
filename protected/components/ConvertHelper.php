@@ -13,6 +13,9 @@ class ConvertHelper
     const CHOICE_LIST = 5;
     const CHOICE_LISTSPACE = 6;
 
+    /**
+     * 排序方向.
+     */
     const SORT_ASC = 1;
     const SORT_DESC = 2;
     const SORT_NO = 3;
@@ -34,79 +37,110 @@ class ConvertHelper
      */
     public function run($data)
     {
+        // 输入各种格式数据
         $json = trim($data['json']);
         $array = trim($data['array']);
         $likearray = trim($data['likearray']);
         $postman = trim($data['postman']);
         $list = trim($data['list']);
         $listspace = trim($data['listspace']);
-        $choice = (int)$data['choice'];
-        $sort = (int)$data['sort'];
-        $sortByKey = (int)$data['sortbykey'];
-        $sortByRecurse = (int)$data['sortbyrecurse'];
 
+        // 选用哪一个输入数据做转换
+        $choice = (int)$data['choice'];
+
+        // 排序选项
+        $sort = (int)$data['sort'];
+        $sortByAssoc = (int)$data['sortByAssoc'];
+        $sortByKey = (int)$data['sortByKey'];
+        $sortByRecurse = (int)$data['sortByRecurse'];
+
+        // 统一转成数组
         switch ($choice) {
             case self::CHOICE_JSON:
+
                 $array_data = $this->jsonToArrayData($json);
-                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
-                $json       = $this->arrayDataToJson($array_data); // 美化json数据
+                $json       = $this->arrayDataToJson($array_data); // 美化json数据，但是不改变输入排序
+                $this->sort($array_data, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+
+                $input      = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $list       = $this->arrayDataToList($array_data);
                 $listspace  = $this->arrayDataToListSpace($array_data);
+
                 break;
             case self::CHOICE_ARRAY:
+
                 $array_data = $this->arrayToArrayData($array);
-                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
+                $this->sort($array_data, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+
+                $input      = $this->arrayDataToArray($array_data);
                 $json       = $this->arrayDataToJson($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $list       = $this->arrayDataToList($array_data);
                 $listspace  = $this->arrayDataToListSpace($array_data);
+
                 break;
             case self::CHOICE_LIKEARRAY:
+
                 $array_data = $this->likearrayToArrayData($likearray);
-                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
+                $this->sort($array_data, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+
+                $input      = $this->arrayDataToLikearray($array_data);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $list       = $this->arrayDataToList($array_data);
                 $listspace  = $this->arrayDataToListSpace($array_data);
+
                 break;
             case self::CHOICE_POSTMAN:
+
                 $array_data = $this->postmanToArrayData($postman);
-                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
+                $this->sort($array_data, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+
+                $input      = $this->arrayDataToPostman($array_data);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $list       = $this->arrayDataToList($array_data);
                 $listspace  = $this->arrayDataToListSpace($array_data);
+
                 break;
             case self::CHOICE_LIST:
+
                 $array_data = $this->listToArrayData($list);
-                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
+                $this->sort($array_data, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+
+                $input      = $this->arrayDataToList($array_data);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $listspace  = $this->arrayDataToListSpace($array_data);
+
                 break;
             case self::CHOICE_LISTSPACE:
+
                 $array_data = $this->listspaceToArrayData($listspace);
-                $this->sort($array_data, $sort, $sortByKey, $sortByRecurse);
+                $this->sort($array_data, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
+
+                $input      = $this->arrayDataToListSpace($array_data);
                 $json       = $this->arrayDataToJson($array_data);
                 $array      = $this->arrayDataToArray($array_data);
                 $likearray  = $this->arrayDataToLikearray($array_data);
                 $postman    = $this->arrayDataToPostman($array_data);
                 $list       = $this->arrayDataToList($array_data);
-                $listspace  = $this->arrayDataToListSpace($array_data);
+
                 break;
             default:
                 throw new Exception('Choice is not supprted.');
         }
 
         return [
+            'input'=>$input,
             'json'=>$json,
             'array'=>$array,
             'likearray'=>$likearray,
@@ -115,9 +149,10 @@ class ConvertHelper
             'listspace'=>$listspace,
             'choice'=>$choice,
             'sort'=>$sort,
-            'sortbykey'=>$sortByKey,
-            'sortbyrecurse'=>$sortByRecurse,
-            'data_count'=>count($array_data)
+            'sortByAssoc'=>$sortByAssoc,
+            'sortByKey'=>$sortByKey,
+            'sortByRecurse'=>$sortByRecurse,
+            'dataCount'=>count($array_data),
         ];
     }
 
@@ -125,14 +160,15 @@ class ConvertHelper
      * Sort the array.
      * @param $array
      * @param $sort
+     * @param $sortByAssoc
      * @param $sortByKey
      * @param $sortByRecurse
      */
-    public function sort(&$array, $sort, $sortByKey, $sortByRecurse)
+    public function sort(&$array, $sort, $sortByAssoc, $sortByKey, $sortByRecurse)
     {
         if ($sort)
         {
-            \D::sort($array, $sort, $sortByKey, $sortByRecurse);
+            \D::sort($array, $sort, $sortByAssoc, $sortByKey, $sortByRecurse);
         }
     }
 

@@ -108,15 +108,21 @@ $this->breadcrumbs=array(
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($model,'sortbykey', ['class'=>'main-label']); ?>
-            <?php echo $form->checkBox($model,'sortbykey'); ?>
-            <?php echo $form->error($model,'sortbykey'); ?>
+            <?php echo $form->labelEx($model,'sortByAssoc', ['class'=>'main-label']); ?>
+            <?php echo $form->checkBox($model,'sortByAssoc'); ?>
+            <?php echo $form->error($model,'sortByAssoc'); ?>
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($model,'sortbyrecurse', ['class'=>'main-label']); ?>
-            <?php echo $form->checkBox($model,'sortbyrecurse'); ?>
-            <?php echo $form->error($model,'sortbyrecurse'); ?>
+            <?php echo $form->labelEx($model,'sortByKey', ['class'=>'main-label']); ?>
+            <?php echo $form->checkBox($model,'sortByKey'); ?>
+            <?php echo $form->error($model,'sortByKey'); ?>
+        </div>
+
+        <div class="row">
+            <?php echo $form->labelEx($model,'sortByRecurse', ['class'=>'main-label']); ?>
+            <?php echo $form->checkBox($model,'sortByRecurse'); ?>
+            <?php echo $form->error($model,'sortByRecurse'); ?>
         </div>
 
         <div class="row">
@@ -130,7 +136,7 @@ $this->breadcrumbs=array(
     <?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'Item counts: <span style="color: #cc0000;">' . $model->data_count .'</span>'); ?>.
+        <?php echo $form->labelEx($model, 'Item counts: <span style="color: #cc0000;">' . $model->dataCount .'</span>'); ?>.
     </div>
 
     <div id="tabs">

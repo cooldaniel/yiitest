@@ -13,10 +13,11 @@ class DiffArrayForm extends CFormModel
     public $direct;
     public $choice;
     public $sort = ConvertHelper::SORT_NO;
-    public $sortbykey;
-    public $sortbyrecurse;
+    public $sortByAssoc;
+    public $sortByKey;
+    public $sortByRecurse;
     public $natsort;
-    public $data_count;
+    public $dataCount;
 
     /**
      * Declares the validation rules.
@@ -28,11 +29,12 @@ class DiffArrayForm extends CFormModel
             array('array2', 'validateArray'),
             array('diff', 'safe'),
             array('direct', 'validateDirect'),
-            array('data_count', 'safe'),
+            array('dataCount', 'safe'),
             array('choice', 'safe'),
             array('sort', 'safe'),
-            array('sortbykey', 'safe'),
-            array('sortbyrecurse', 'safe'),
+            array('sortByAssoc', 'safe'),
+            array('sortByKey', 'safe'),
+            array('sortByRecurse', 'safe'),
             array('natsort', 'safe'),
         );
     }
@@ -65,8 +67,9 @@ class DiffArrayForm extends CFormModel
             'direct'=>Yii::t('code', 'Direct'),
             'choice'=>Yii::t('code', 'Choice'),
             'sort'=>Yii::t('code', 'Sort'),
-            'sortbykey'=>Yii::t('code', 'Sort By Key'),
-            'sortbyrecurse'=>Yii::t('code', 'Sort By Recurse'),
+            'sortByAssoc'=>Yii::t('code', 'Sort By Assoc'),
+            'sortByKey'=>Yii::t('code', 'Sort By Key'),
+            'sortByRecurse'=>Yii::t('code', 'Sort By Recurse'),
             'natsort'=>Yii::t('code', 'Nat sort'),
         );
     }
