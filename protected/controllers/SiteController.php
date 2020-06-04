@@ -103,8 +103,11 @@ class SiteController extends Controller
     {
         $data = [];
 
-        $id = ArrayHelper::getBetweenDaysInterval('2019-07-16', '2020-03-17');
-        $id = ArrayHelper::getBetweenDaysInterval('2019-07-16', '2020-03-17', 15);
+        $orderCountStartTime = '2019-07-16';
+        $orderCountStartTime = '2019-01-01';
+        $orderCountEndTime = date('Y-m-d', time());
+
+        $id = ArrayHelper::getBetweenDaysInterval($orderCountStartTime, $orderCountEndTime, 15);
         foreach ($id as $item)
         {
             $url_1 = 'http://www.erp.local/services/yunyi/yunyiproduct/wishcount?date='.$item;
@@ -112,6 +115,24 @@ class SiteController extends Controller
             $url_3 = 'http://publish.delaman168.com/services/yunyi/yunyiproduct/wishcount?date='.$item;
 
             $data['wish订单统计'][$item] = [$url_1, $url_2, $url_3];
+        }
+
+        foreach ($id as $item)
+        {
+            $url_1 = 'http://www.erp.local/services/yunyi/yunyiproduct/lazadacount?date='.$item;
+            $url_2 = 'http://192.168.71.38/services/yunyi/yunyiproduct/lazadacount?date='.$item;
+            $url_3 = 'http://publish.delaman168.com/services/yunyi/yunyiproduct/lazadacount?date='.$item;
+
+            $data['lazada订单统计'][$item] = [$url_1, $url_2, $url_3];
+        }
+
+        foreach ($id as $item)
+        {
+            $url_1 = 'http://www.erp.local/services/yunyi/yunyiproduct/amazoncount?date='.$item;
+            $url_2 = 'http://192.168.71.38/services/yunyi/yunyiproduct/amazoncount?date='.$item;
+            $url_3 = 'http://publish.delaman168.com/services/yunyi/yunyiproduct/amazoncount?date='.$item;
+
+            $data['amazon订单统计'][$item] = [$url_1, $url_2, $url_3];
         }
 
         $id = range(160, 182);

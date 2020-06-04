@@ -78,5 +78,11 @@
             $.cookie(cookieName, $(this).val(), {expires: 1000});
             console.log(cookieName + ': ' + $.cookie(cookieName));
         });
+
+        // 输入文本框的时候保存到cookie
+        $(selector).on('change', function () {
+            $.cookie(cookieName, $(this).val(), {expires: 1000});
+            console.log(cookieName + ': ' + $.cookie(cookieName));
+        });
     };
 })(jQuery);
