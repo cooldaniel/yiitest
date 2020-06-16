@@ -1,5 +1,0 @@
-2011/08/04 04:28:49 / 0.48959200
-string(106) "INSERT INTO 77frame.forall(`varchar`) VALUES('select * from 77frame.froall where varchar link \'%kkk%\';')"
-#000 E:\php\yiitest\protected\controllers\PhpMiscController.php(16): D::log()
-#{main} REQUEST_URI=/index.php/phpMisc/formSecurity
-
