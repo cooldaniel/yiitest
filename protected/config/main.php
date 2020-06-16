@@ -81,7 +81,7 @@ return array(
 		
 		'db'=>array(
 			//'connectionString' => 'mysql:host=192.168.3.54;dbname=yiitest',
-            'connectionString' => 'mysql:host=localhost;dbname=yiitest',
+            'connectionString' => 'mysql:host=172.16.238.12;dbname=yiitest',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '123456',
