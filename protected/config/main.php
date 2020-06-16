@@ -91,6 +91,7 @@ return array(
 			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
 			'enableProfiling' => true,
 		),
+        /*
         'db_laraveltest'=>array(
             // gii创建数据库连接的时候要指定class属性
             'class'=>'CDbConnection',
@@ -104,7 +105,8 @@ return array(
 			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间
 			'enableProfiling' => true,
 		),
-		
+		*/
+        
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',
@@ -144,6 +146,7 @@ return array(
 					// filter选项对此route无效
 					// 'filter'=>'CLogFilter',
 				),
+                /*
                 array(
 					'class'=>'CDbLogRoute',
 					// 总是默认打开
@@ -158,6 +161,7 @@ return array(
                     // filter选项对此route无效
                     // 'filter'=>'CLogFilter',
 				),
+                */
 			),
 		),
 //        'preLoadTest'=>array(
