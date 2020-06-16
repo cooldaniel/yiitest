@@ -1508,6 +1508,13 @@ http://47.106.127.90:81/services/amazon_pull_order/process_order?history=1&start
             echo date('Y-m-d H:i:s', $time);
         }
     }
+
+    public function actionDbConnectTest()
+    {
+        $sql = "show processlist";
+        $res = Yii::app()->db->createCommand($sql)->query();
+        \D::pd($res);
+    }
 }
 
 /**
