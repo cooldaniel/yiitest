@@ -394,8 +394,11 @@ class TestController extends Controller
 
     public function actionRedis()
     {
+        $host = Yii::app()->request->getParam('host', '127.0.0.1');
+        $port = Yii::app()->request->getParam('port', '6379');
+
         $redis = new Redis();
-        $redis->connect('127.0.0.1', '6379');
+        $redis->connect($host, $port);
         $key = 'yiitest';
         $set = $redis->set($key, 'test');
         $get = $redis->get($key);
