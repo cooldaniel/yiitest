@@ -539,4 +539,40 @@ class ArrayHelper
 
         return $res;
     }
+
+    /**
+     * 构造递归树数组.
+     * @param $list
+     * @param array $res
+     * @param int $parent_id
+     * @note 应该直接用{@see self::buildTree()}，不需要用这个方法生成递归数组.
+     */
+//    public static function buildTreeArray($list, &$res=[], $parent_id=0)
+//    {
+//        foreach ($list as $item) {
+//            if ($item['parent_id'] == $parent_id) {
+//                self::buildTreeArray($list, $item['children'], $item['id']);
+//                $item['children'] = (array)$item['children'];
+//                $res[] = $item;
+//            }
+//        }
+//    }
+
+    /**
+     * 构造递归树.
+     * @param $list array 源数据，二维数组.
+     * @param array $res 处理结果是一个具备递归树逻辑的二维数组.
+     * @param int $parent_id
+     * @param string $id_name
+     * @param string $parent_id_name
+     */
+    public static function buildTree($list, &$res=[], $parent_id=0, $id_name='id', $parent_id_name='parent_id')
+    {
+        foreach ($list as $item) {
+            if ($item[$parent_id_name] == $parent_id) {
+                $res[] = $item;
+                self::buildTree($list, $res, $item[$id_name], $id_name, $parent_id_name);
+            }
+        }
+    }
 }
