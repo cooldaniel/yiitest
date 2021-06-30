@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ContactForm class.
+ * ConvertForm class.
  * 
  * @package application.models
  */
