@@ -9,6 +9,7 @@ class ConvertForm extends CFormModel
 {
     public $input;
     public $json;
+    public $jsonencode;
     public $array;
     public $likearray;
     public $postman;
@@ -40,6 +41,7 @@ class ConvertForm extends CFormModel
         return array(
             array('input', 'safe'),
             array('json', 'validateJson'),
+            array('jsonencode', 'safe'),
             array('array', 'validateArray'),
             array('likearray', 'validateLikeArray'),
             array('postman', 'validatePostman'),
@@ -101,6 +103,7 @@ class ConvertForm extends CFormModel
     {
         return array(
             'json'=>Yii::t('code', 'Json'),
+            'jsonencode'=>Yii::t('code', 'Json Encode'),
             'array'=>Yii::t('code', 'Array'),
             'likearray'=>Yii::t('code', 'Like Array'),
             'postman'=>Yii::t('code', 'Postman'),

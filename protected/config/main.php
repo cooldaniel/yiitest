@@ -81,11 +81,11 @@ return array(
 		
 		'db'=>array(
 			//'connectionString' => 'mysql:host=192.168.3.54;dbname=yiitest',
-            'connectionString' => 'mysql:host=172.16.238.12;dbname=yiitest',
+            'connectionString' => 'mysql:host=localhost;dbname=yiitest',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '123456',
-			'charset' => 'utf8',
+			'username' => 'homestead',
+			'password' => 'secret',
+			'charset' => 'utf8mb4',
 			'tablePrefix' => 'yii_',
 			// 开启Yii系统内置的数据库性能分析开关
 			// CDbConnection::getStats()记录了执行的SQL语句数量和总时间

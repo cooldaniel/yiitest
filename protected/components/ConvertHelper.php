@@ -139,9 +139,12 @@ class ConvertHelper
                 throw new Exception('Choice is not supprted.');
         }
 
+        $jsonencode = json_encode(json_decode($json));
+
         return [
             'input'=>$input,
             'json'=>$json,
+            'jsonencode'=>$jsonencode,
             'array'=>$array,
             'likearray'=>$likearray,
             'postman'=>$postman,

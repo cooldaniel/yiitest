@@ -145,6 +145,7 @@ $this->breadcrumbs=array(
             $data = [
                 ['name'=>'input', 'text'=>''],
                 ['name'=>'json', 'text'=>''],
+                ['name'=>'jsonencode', 'text'=>''],
                 ['name'=>'array', 'text'=>''],
                 ['name'=>'sql', 'text'=>''],
                 ['name'=>'likearray', 'text'=>''],
